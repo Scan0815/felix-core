@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  width: 100%;
+  touch-action: none;
+
+  div {
+    &.drop-zone {
+      background-color: var(--ion-color-primary, #3880ff);
+      color: var(--ion-color-primary-contrast, #ffffff);
+      height: 100%;
+      padding: 100px 0;
+      width: 100%;
+      outline: 2px dashed var(--ion-color-secondary, #3dc2ff);
+      outline-offset: -10px;
+
+      ::slotted(*) {
+        display: block;
+        width: 100%;
+        text-align: center;
+      }
+
+      ::slotted(ion-icon) {
+        font-size: 50px;
+      }
+    }
+
+    &.is-dragover {
+      background-color: var(--ion-color-secondary, #3dc2ff);
+      outline-color: var(--ion-color-primary, #3880ff);
+    }
+  }
+}

@@ -1,0 +1,94 @@
+auth-login {
+
+  input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+  }
+
+  div {
+    &.form-container {
+      margin: 1em auto 0 auto;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      div {
+        &.input {
+          display: flex;
+          flex-direction: column-reverse;
+          position: relative;
+          padding: 1em 1em 0 1em;
+          margin-top: 1em;
+
+          label {
+            &.input-label {
+              color: var(--ion-color-primary);
+              position: absolute;
+              top: 1.5em;
+              transition: 0.25s ease;
+              text-transform: uppercase;
+              width: 90px;
+              text-align: left;
+            }
+          }
+
+          input {
+            &.input-field {
+              border-radius: 0;
+              border: 0;
+              z-index: 1;
+              background-color: transparent;
+              border-bottom: 1px solid #eee;
+              font: inherit;
+              font-size: 1.0em;
+              padding: 0.5em 0;
+            }
+
+            &.input-field:focus {
+              outline: 0;
+              border-bottom-color: var(--ion-color-primary);
+              border-bottom-width: 2px;
+            }
+
+            &.input-field:focus + .input-label,
+            &.input-field:valid + .input-label,
+            &.input-field:-webkit-autofill + .input-label {
+              color: var(--ion-color-primary);
+              transform: translateY(-1.7em) translateX(-0.6em) scale(0.8);
+            }
+
+          }
+
+          ion-button {
+            &.forgot-password-button {
+              position: absolute;
+              top: -10px;
+              font-size: 0.7em;
+              right: 0;
+              z-index: 2;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ion-button {
+    &.submit-button {
+      margin: 30px 10px 10px 10px;
+      @media (max-width: 360px) {
+        margin: 20px 10px 10px 10px;
+      }
+    }
+
+    ion-spinner {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      right: 0;
+    }
+
+  }
+}

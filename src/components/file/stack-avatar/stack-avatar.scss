@@ -1,0 +1,51 @@
+:host {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+
+  ion-avatar {
+    ion-img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    ion-text {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 100%;
+
+      h2 {
+        display: inline-block;
+        font-size: 1.2em;
+        margin: 0;
+      }
+    }
+  }
+
+  ::slotted(ion-spinner) {
+    font-size: 2em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+
+  ::slotted(ion-icon.right-bottom) {
+    font-size: 1em;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  ::slotted(ion-button) {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    opacity: 0.8;
+    margin-bottom: 0;
+  }
+}
