@@ -10,6 +10,8 @@ export const config: Config = {
     },
     {
       type: 'dist-custom-elements',
+      dir: 'custom-element',
+      empty: true,
     },
     {
       type: 'docs-readme',
