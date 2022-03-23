@@ -1,11 +1,11 @@
 import {newE2EPage} from '@stencil/core/testing';
 
-describe('auth-login', () => {
+describe('flx-file-upload', () => {
   it('renders', async () => {
     const page = await newE2EPage();
-    await page.setContent('<auth-login></auth-login>');
+    await page.setContent('<flx-file-upload></flx-file-upload>');
 
-    const element = await page.find('auth-login');
+    const element = await page.find('flx-file-upload');
     expect(element).toHaveClass('hydrated');
   });
 });

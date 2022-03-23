@@ -3,7 +3,7 @@ import {FileStackToPreviewUrl} from '../../../helpers/file-stack-utils';
 import {IFileStack} from '../../../interfaces/filestack';
 
 @Component({
-  tag: 'file-stack-image',
+  tag: 'flx-file-stack-image',
   styleUrl: 'stack-image.scss',
   shadow: true
 })
@@ -16,7 +16,7 @@ export class StackImage implements ComponentInterface {
   @Prop() fileStackSize: { size: string, pixelRatio: string }[] = [{size: '340xxx', pixelRatio: '1x'}];
   @Prop() placeholder: string = null;
   @Prop() ext: string = 'jpg';
-  @State() loadSrc?: string;
+  @State() loadSrc?: string = null;
   @State() loadError?: () => void;
 
   @Event() trackViewImage: EventEmitter;
@@ -72,15 +72,13 @@ export class StackImage implements ComponentInterface {
 
   render() {
     let style = null;
-    if (this.autoAspectRatio && (this.fileStack?.width > 0 && this.fileStack?.height > 0)) {
+    if (this.fileStack && this.autoAspectRatio && (this.fileStack?.width > 0 && this.fileStack?.height > 0)) {
       style = {"--aspect-ratio": (this.fileStack.width / this.fileStack.height).toString()}
     }
     return (
       <Host style={style}>
         {(this.loadSrc) &&
-          <img alt={this.fileStack?.name} src={this.loadSrc}
-               onLoad={this.onLoad}
-               onError={this.loadError}/>
+          <img alt={this.fileStack?.name} src={this.loadSrc} onLoad={this.onLoad} onError={this.loadError}/>
         }
       </Host>
     );

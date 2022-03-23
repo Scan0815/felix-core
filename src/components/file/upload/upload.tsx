@@ -1,7 +1,7 @@
 import {Component, Element, Event, EventEmitter, h, Host, Listen, Prop} from '@stencil/core';
 
 @Component({
-  tag: 'file-upload',
+  tag: 'flx-file-upload',
   styleUrl: 'upload.scss',
   shadow: true
 })

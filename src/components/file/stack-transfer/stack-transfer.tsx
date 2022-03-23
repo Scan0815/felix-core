@@ -13,7 +13,7 @@ import {TransferService} from "../../../services/transfer.service";
 import {environment} from "../../../services/environment.service";
 
 @Component({
-  tag: 'file-stack-transfer',
+  tag: 'flx-file-stack-transfer',
   styleUrl: 'stack-transfer.scss',
   shadow: true
 })

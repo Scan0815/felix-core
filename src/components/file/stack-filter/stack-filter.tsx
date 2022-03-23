@@ -1,15 +1,17 @@
-import {Component, ComponentInterface, Event, EventEmitter, h, Prop, State} from '@stencil/core';
+import {Component, ComponentInterface, Event, h, Host, Prop, State} from '@stencil/core';
 import {IFilter} from '../../../interfaces/filter';
+import {EventChangeFilter} from "../../../events/change-filter-event";
 
 @Component({
-  tag: 'file-stack-filter',
-  styleUrl: 'stack-filter.scss'
+  tag: 'flx-file-stack-filter',
+  styleUrl: 'stack-filter.scss',
+  shadow: true
 })
 export class StackFilter implements ComponentInterface {
 
-  @Prop({mutable: true}) filter: IFilter[];
-  @Event() changeFilter: EventEmitter;
-  @State() selected: IFilter;
+  @Prop({mutable: true}) filter: IFilter[] = [];
+  @Event() changeFilter: EventChangeFilter;
+  @State() selected: IFilter = null;
 
   componentWillLoad() {
     this.selected = this.filter.filter($filter => $filter.selected === true)[0];
@@ -31,22 +33,27 @@ export class StackFilter implements ComponentInterface {
   }
 
   render() {
-    return (<ion-item class="ion-no-margin ion-no-padding" lines="none">
-      <ion-segment mode="md" class="ion-no-padding" value={this.selected?.value}
-                   onIonChange={(ev) => this.segmentChanged(ev)}>
-        {(this.filter.map(filter$ => {
-          return <ion-segment-button layout="icon-start" value={filter$.value}>
-            {(filter$?.label) &&
-              <ion-label mode="md" class="ion-hide-md-down">{filter$.label}</ion-label>
-            }
-            {(filter$?.icon) &&
-              <ion-icon name={filter$.icon}>
-              </ion-icon>
-            }
-          </ion-segment-button>
-        }))}
-      </ion-segment>
-    </ion-item>);
+    return (<Host>
+      <ion-item class="ion-no-margin ion-no-padding" lines="none">
+        <ion-segment mode="md"
+                     class="ion-no-padding"
+                     value={this.selected?.value}
+                     onIonChange={(ev) => this.segmentChanged(ev)}>
+          {(this.filter.map(filter$ => {
+            return <ion-segment-button layout="icon-start" value={filter$.value}>
+              {(filter$?.label) &&
+                <ion-label mode="md" class="ion-hide-md-down">{filter$.label}</ion-label>
+              }
+              {(filter$?.icon) &&
+                <ion-icon name={filter$.icon}>
+                </ion-icon>
+              }
+            </ion-segment-button>
+          }))}
+        </ion-segment>
+      </ion-item>
+      <slot/>
+    </Host>);
   }
 
 }

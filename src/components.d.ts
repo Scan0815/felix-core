@@ -5,28 +5,35 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { IonicColor } from "./interfaces/IonicColor";
 import { IRegister, IUser } from "./interfaces/user";
 import { IAvatar } from "./interfaces/avatar";
 import { IFilter } from "./interfaces/filter";
 import { IFileStack } from "./interfaces/filestack";
 export namespace Components {
-    interface AuthLogin {
-        "i18n": { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
-        "resetErrors": number;
+    interface FlxAuthInfoItem {
+        "color": IonicColor;
+        "icon": string;
+        "infos": any;
     }
-    interface AuthResetPassword {
+    interface FlxAuthLogin {
+        "i18n": { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
+        "mode": "md" | "ios";
+        "resetErrorsHandler": () => void;
+    }
+    interface FlxAuthResetPassword {
         "confirmationCode": string;
         "i18n": { retype: { label: string; placeholder: string; errors: { required: string; minlen: string; equal: string; }; }; password: { change: string; label: string; placeholder: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
-        "resetErrors": number;
+        "resetErrorsHandler": () => void;
         "userId": string;
     }
-    interface AuthSignUp {
+    interface FlxAuthSignUp {
         "avatarUpload": false;
         "data": IRegister;
         "i18n": { signUp: string; confirm: string; name: { label: string; errors: { badword: string; required: string; minlen: string; exists: string; username: string; notvalid: string; alphaspace: string; }; }; identifier: { label: string; confirm: { message: string; button: string; }; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
-        "resetErrors": number;
+        "resetErrorsHandler": () => void;
     }
-    interface FileStackAvatar {
+    interface FlxFileStackAvatar {
         "avatar": IAvatar;
         "background": any;
         "color": any;
@@ -38,10 +45,10 @@ export namespace Components {
         "placeholder": string;
         "width": number;
     }
-    interface FileStackFilter {
+    interface FlxFileStackFilter {
         "filter": IFilter[];
     }
-    interface FileStackImage {
+    interface FlxFileStackImage {
         "autoAspectRatio": boolean;
         "ext": string;
         "fileStack": IFileStack;
@@ -50,11 +57,11 @@ export namespace Components {
         "rootElement": HTMLElement;
         "trackViewTimeout": any;
     }
-    interface FileStackTransfer {
+    interface FlxFileStackTransfer {
         "account": IUser;
         "openUploadMenu": () => Promise<any>;
     }
-    interface FileStackVideo {
+    interface FlxFileStackVideo {
         "autoAspectRatio": boolean;
         "autoPlayVideo": boolean;
         "fileStack": IFileStack;
@@ -71,117 +78,127 @@ export namespace Components {
         "trackViewTimeout": any;
         "volume": number;
     }
-    interface FileUpload {
+    interface FlxFileUpload {
         "accept": string;
         "capture": any;
         "multiple": boolean;
     }
-    interface FileUploadDraggable {
+    interface FlxFileUploadDraggable {
         "accept": string;
         "iconName": string;
     }
 }
 declare global {
-    interface HTMLAuthLoginElement extends Components.AuthLogin, HTMLStencilElement {
+    interface HTMLFlxAuthInfoItemElement extends Components.FlxAuthInfoItem, HTMLStencilElement {
     }
-    var HTMLAuthLoginElement: {
-        prototype: HTMLAuthLoginElement;
-        new (): HTMLAuthLoginElement;
+    var HTMLFlxAuthInfoItemElement: {
+        prototype: HTMLFlxAuthInfoItemElement;
+        new (): HTMLFlxAuthInfoItemElement;
     };
-    interface HTMLAuthResetPasswordElement extends Components.AuthResetPassword, HTMLStencilElement {
+    interface HTMLFlxAuthLoginElement extends Components.FlxAuthLogin, HTMLStencilElement {
     }
-    var HTMLAuthResetPasswordElement: {
-        prototype: HTMLAuthResetPasswordElement;
-        new (): HTMLAuthResetPasswordElement;
+    var HTMLFlxAuthLoginElement: {
+        prototype: HTMLFlxAuthLoginElement;
+        new (): HTMLFlxAuthLoginElement;
     };
-    interface HTMLAuthSignUpElement extends Components.AuthSignUp, HTMLStencilElement {
+    interface HTMLFlxAuthResetPasswordElement extends Components.FlxAuthResetPassword, HTMLStencilElement {
     }
-    var HTMLAuthSignUpElement: {
-        prototype: HTMLAuthSignUpElement;
-        new (): HTMLAuthSignUpElement;
+    var HTMLFlxAuthResetPasswordElement: {
+        prototype: HTMLFlxAuthResetPasswordElement;
+        new (): HTMLFlxAuthResetPasswordElement;
     };
-    interface HTMLFileStackAvatarElement extends Components.FileStackAvatar, HTMLStencilElement {
+    interface HTMLFlxAuthSignUpElement extends Components.FlxAuthSignUp, HTMLStencilElement {
     }
-    var HTMLFileStackAvatarElement: {
-        prototype: HTMLFileStackAvatarElement;
-        new (): HTMLFileStackAvatarElement;
+    var HTMLFlxAuthSignUpElement: {
+        prototype: HTMLFlxAuthSignUpElement;
+        new (): HTMLFlxAuthSignUpElement;
     };
-    interface HTMLFileStackFilterElement extends Components.FileStackFilter, HTMLStencilElement {
+    interface HTMLFlxFileStackAvatarElement extends Components.FlxFileStackAvatar, HTMLStencilElement {
     }
-    var HTMLFileStackFilterElement: {
-        prototype: HTMLFileStackFilterElement;
-        new (): HTMLFileStackFilterElement;
+    var HTMLFlxFileStackAvatarElement: {
+        prototype: HTMLFlxFileStackAvatarElement;
+        new (): HTMLFlxFileStackAvatarElement;
     };
-    interface HTMLFileStackImageElement extends Components.FileStackImage, HTMLStencilElement {
+    interface HTMLFlxFileStackFilterElement extends Components.FlxFileStackFilter, HTMLStencilElement {
     }
-    var HTMLFileStackImageElement: {
-        prototype: HTMLFileStackImageElement;
-        new (): HTMLFileStackImageElement;
+    var HTMLFlxFileStackFilterElement: {
+        prototype: HTMLFlxFileStackFilterElement;
+        new (): HTMLFlxFileStackFilterElement;
     };
-    interface HTMLFileStackTransferElement extends Components.FileStackTransfer, HTMLStencilElement {
+    interface HTMLFlxFileStackImageElement extends Components.FlxFileStackImage, HTMLStencilElement {
     }
-    var HTMLFileStackTransferElement: {
-        prototype: HTMLFileStackTransferElement;
-        new (): HTMLFileStackTransferElement;
+    var HTMLFlxFileStackImageElement: {
+        prototype: HTMLFlxFileStackImageElement;
+        new (): HTMLFlxFileStackImageElement;
     };
-    interface HTMLFileStackVideoElement extends Components.FileStackVideo, HTMLStencilElement {
+    interface HTMLFlxFileStackTransferElement extends Components.FlxFileStackTransfer, HTMLStencilElement {
     }
-    var HTMLFileStackVideoElement: {
-        prototype: HTMLFileStackVideoElement;
-        new (): HTMLFileStackVideoElement;
+    var HTMLFlxFileStackTransferElement: {
+        prototype: HTMLFlxFileStackTransferElement;
+        new (): HTMLFlxFileStackTransferElement;
     };
-    interface HTMLFileUploadElement extends Components.FileUpload, HTMLStencilElement {
+    interface HTMLFlxFileStackVideoElement extends Components.FlxFileStackVideo, HTMLStencilElement {
     }
-    var HTMLFileUploadElement: {
-        prototype: HTMLFileUploadElement;
-        new (): HTMLFileUploadElement;
+    var HTMLFlxFileStackVideoElement: {
+        prototype: HTMLFlxFileStackVideoElement;
+        new (): HTMLFlxFileStackVideoElement;
     };
-    interface HTMLFileUploadDraggableElement extends Components.FileUploadDraggable, HTMLStencilElement {
+    interface HTMLFlxFileUploadElement extends Components.FlxFileUpload, HTMLStencilElement {
     }
-    var HTMLFileUploadDraggableElement: {
-        prototype: HTMLFileUploadDraggableElement;
-        new (): HTMLFileUploadDraggableElement;
+    var HTMLFlxFileUploadElement: {
+        prototype: HTMLFlxFileUploadElement;
+        new (): HTMLFlxFileUploadElement;
+    };
+    interface HTMLFlxFileUploadDraggableElement extends Components.FlxFileUploadDraggable, HTMLStencilElement {
+    }
+    var HTMLFlxFileUploadDraggableElement: {
+        prototype: HTMLFlxFileUploadDraggableElement;
+        new (): HTMLFlxFileUploadDraggableElement;
     };
     interface HTMLElementTagNameMap {
-        "auth-login": HTMLAuthLoginElement;
-        "auth-reset-password": HTMLAuthResetPasswordElement;
-        "auth-sign-up": HTMLAuthSignUpElement;
-        "file-stack-avatar": HTMLFileStackAvatarElement;
-        "file-stack-filter": HTMLFileStackFilterElement;
-        "file-stack-image": HTMLFileStackImageElement;
-        "file-stack-transfer": HTMLFileStackTransferElement;
-        "file-stack-video": HTMLFileStackVideoElement;
-        "file-upload": HTMLFileUploadElement;
-        "file-upload-draggable": HTMLFileUploadDraggableElement;
+        "flx-auth-info-item": HTMLFlxAuthInfoItemElement;
+        "flx-auth-login": HTMLFlxAuthLoginElement;
+        "flx-auth-reset-password": HTMLFlxAuthResetPasswordElement;
+        "flx-auth-sign-up": HTMLFlxAuthSignUpElement;
+        "flx-file-stack-avatar": HTMLFlxFileStackAvatarElement;
+        "flx-file-stack-filter": HTMLFlxFileStackFilterElement;
+        "flx-file-stack-image": HTMLFlxFileStackImageElement;
+        "flx-file-stack-transfer": HTMLFlxFileStackTransferElement;
+        "flx-file-stack-video": HTMLFlxFileStackVideoElement;
+        "flx-file-upload": HTMLFlxFileUploadElement;
+        "flx-file-upload-draggable": HTMLFlxFileUploadDraggableElement;
     }
 }
 declare namespace LocalJSX {
-    interface AuthLogin {
+    interface FlxAuthInfoItem {
+        "color"?: IonicColor;
+        "icon"?: string;
+        "infos"?: any;
+    }
+    interface FlxAuthLogin {
         "i18n"?: { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
+        "mode"?: "md" | "ios";
         "onLoginProgress"?: (event: CustomEvent<any>) => void;
         "onLoginReset"?: (event: CustomEvent<any>) => void;
         "onLoginSuccess"?: (event: CustomEvent<any>) => void;
         "onSignUp"?: (event: CustomEvent<any>) => void;
-        "resetErrors"?: number;
     }
-    interface AuthResetPassword {
+    interface FlxAuthResetPassword {
         "confirmationCode"?: string;
         "i18n"?: { retype: { label: string; placeholder: string; errors: { required: string; minlen: string; equal: string; }; }; password: { change: string; label: string; placeholder: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "onResetSubmit"?: (event: CustomEvent<any>) => void;
         "onResetSuccess"?: (event: CustomEvent<any>) => void;
-        "resetErrors"?: number;
         "userId"?: string;
     }
-    interface AuthSignUp {
+    interface FlxAuthSignUp {
         "avatarUpload"?: false;
         "data"?: IRegister;
         "i18n"?: { signUp: string; confirm: string; name: { label: string; errors: { badword: string; required: string; minlen: string; exists: string; username: string; notvalid: string; alphaspace: string; }; }; identifier: { label: string; confirm: { message: string; button: string; }; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "onSignUpNotApproved"?: (event: CustomEvent<any>) => void;
         "onSignUpProgress"?: (event: CustomEvent<any>) => void;
         "onSignUpSuccess"?: (event: CustomEvent<any>) => void;
-        "resetErrors"?: number;
     }
-    interface FileStackAvatar {
+    interface FlxFileStackAvatar {
         "avatar"?: IAvatar;
         "background"?: any;
         "color"?: any;
@@ -193,11 +210,11 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         "width"?: number;
     }
-    interface FileStackFilter {
+    interface FlxFileStackFilter {
         "filter"?: IFilter[];
         "onChangeFilter"?: (event: CustomEvent<any>) => void;
     }
-    interface FileStackImage {
+    interface FlxFileStackImage {
         "autoAspectRatio"?: boolean;
         "ext"?: string;
         "fileStack"?: IFileStack;
@@ -207,11 +224,11 @@ declare namespace LocalJSX {
         "rootElement"?: HTMLElement;
         "trackViewTimeout"?: any;
     }
-    interface FileStackTransfer {
+    interface FlxFileStackTransfer {
         "account"?: IUser;
         "onUploadFinished"?: (event: CustomEvent<any>) => void;
     }
-    interface FileStackVideo {
+    interface FlxFileStackVideo {
         "autoAspectRatio"?: boolean;
         "autoPlayVideo"?: boolean;
         "fileStack"?: IFileStack;
@@ -228,45 +245,47 @@ declare namespace LocalJSX {
         "trackViewTimeout"?: any;
         "volume"?: number;
     }
-    interface FileUpload {
+    interface FlxFileUpload {
         "accept"?: string;
         "capture"?: any;
         "multiple"?: boolean;
         "onSelected"?: (event: CustomEvent<any>) => void;
     }
-    interface FileUploadDraggable {
+    interface FlxFileUploadDraggable {
         "accept"?: string;
         "iconName"?: string;
         "onErrorAccepted"?: (event: CustomEvent<any>) => void;
         "onSelected"?: (event: CustomEvent<any>) => void;
     }
     interface IntrinsicElements {
-        "auth-login": AuthLogin;
-        "auth-reset-password": AuthResetPassword;
-        "auth-sign-up": AuthSignUp;
-        "file-stack-avatar": FileStackAvatar;
-        "file-stack-filter": FileStackFilter;
-        "file-stack-image": FileStackImage;
-        "file-stack-transfer": FileStackTransfer;
-        "file-stack-video": FileStackVideo;
-        "file-upload": FileUpload;
-        "file-upload-draggable": FileUploadDraggable;
+        "flx-auth-info-item": FlxAuthInfoItem;
+        "flx-auth-login": FlxAuthLogin;
+        "flx-auth-reset-password": FlxAuthResetPassword;
+        "flx-auth-sign-up": FlxAuthSignUp;
+        "flx-file-stack-avatar": FlxFileStackAvatar;
+        "flx-file-stack-filter": FlxFileStackFilter;
+        "flx-file-stack-image": FlxFileStackImage;
+        "flx-file-stack-transfer": FlxFileStackTransfer;
+        "flx-file-stack-video": FlxFileStackVideo;
+        "flx-file-upload": FlxFileUpload;
+        "flx-file-upload-draggable": FlxFileUploadDraggable;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "auth-login": LocalJSX.AuthLogin & JSXBase.HTMLAttributes<HTMLAuthLoginElement>;
-            "auth-reset-password": LocalJSX.AuthResetPassword & JSXBase.HTMLAttributes<HTMLAuthResetPasswordElement>;
-            "auth-sign-up": LocalJSX.AuthSignUp & JSXBase.HTMLAttributes<HTMLAuthSignUpElement>;
-            "file-stack-avatar": LocalJSX.FileStackAvatar & JSXBase.HTMLAttributes<HTMLFileStackAvatarElement>;
-            "file-stack-filter": LocalJSX.FileStackFilter & JSXBase.HTMLAttributes<HTMLFileStackFilterElement>;
-            "file-stack-image": LocalJSX.FileStackImage & JSXBase.HTMLAttributes<HTMLFileStackImageElement>;
-            "file-stack-transfer": LocalJSX.FileStackTransfer & JSXBase.HTMLAttributes<HTMLFileStackTransferElement>;
-            "file-stack-video": LocalJSX.FileStackVideo & JSXBase.HTMLAttributes<HTMLFileStackVideoElement>;
-            "file-upload": LocalJSX.FileUpload & JSXBase.HTMLAttributes<HTMLFileUploadElement>;
-            "file-upload-draggable": LocalJSX.FileUploadDraggable & JSXBase.HTMLAttributes<HTMLFileUploadDraggableElement>;
+            "flx-auth-info-item": LocalJSX.FlxAuthInfoItem & JSXBase.HTMLAttributes<HTMLFlxAuthInfoItemElement>;
+            "flx-auth-login": LocalJSX.FlxAuthLogin & JSXBase.HTMLAttributes<HTMLFlxAuthLoginElement>;
+            "flx-auth-reset-password": LocalJSX.FlxAuthResetPassword & JSXBase.HTMLAttributes<HTMLFlxAuthResetPasswordElement>;
+            "flx-auth-sign-up": LocalJSX.FlxAuthSignUp & JSXBase.HTMLAttributes<HTMLFlxAuthSignUpElement>;
+            "flx-file-stack-avatar": LocalJSX.FlxFileStackAvatar & JSXBase.HTMLAttributes<HTMLFlxFileStackAvatarElement>;
+            "flx-file-stack-filter": LocalJSX.FlxFileStackFilter & JSXBase.HTMLAttributes<HTMLFlxFileStackFilterElement>;
+            "flx-file-stack-image": LocalJSX.FlxFileStackImage & JSXBase.HTMLAttributes<HTMLFlxFileStackImageElement>;
+            "flx-file-stack-transfer": LocalJSX.FlxFileStackTransfer & JSXBase.HTMLAttributes<HTMLFlxFileStackTransferElement>;
+            "flx-file-stack-video": LocalJSX.FlxFileStackVideo & JSXBase.HTMLAttributes<HTMLFlxFileStackVideoElement>;
+            "flx-file-upload": LocalJSX.FlxFileUpload & JSXBase.HTMLAttributes<HTMLFlxFileUploadElement>;
+            "flx-file-upload-draggable": LocalJSX.FlxFileUploadDraggable & JSXBase.HTMLAttributes<HTMLFlxFileUploadDraggableElement>;
         }
     }
 }

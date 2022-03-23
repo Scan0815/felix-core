@@ -4,6 +4,11 @@ import {Avatar, IAvatar} from './avatar';
 
 export type UserStatus = 'free' | 'confirmation' | 'bounce' | 'deleted';
 
+export interface ILogin {
+  identifier: string,
+  password: string
+}
+
 export interface IRegister {
   name: string,
   identifier: string,

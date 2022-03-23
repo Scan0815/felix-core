@@ -1,22 +1,22 @@
-import {Component, ComponentInterface, Event, EventEmitter, h, Prop, State, Watch} from '@stencil/core';
+import {Component, ComponentInterface, Event, h, Method, Prop, State} from '@stencil/core';
 import {AuthService} from '../../../services/auth.service';
 import {ConvertServerError} from '../../../helpers/string-utils';
-import {Subscription} from "rxjs";
+import {first} from "rxjs/operators";
 import i18n from "./i18n.json";
-
-interface ILogin {
-  identifier: string,
-  password: string
-}
+import {EventLoginSuccess} from "../../../events/login-success-event";
+import {EventLoginReset} from "../../../events/login-reset-event";
+import {EventLoginSignUp} from "../../../events/login-sign-up-event";
+import {EventLoginProgress} from "../../../events/login-progress-event";
+import {ILogin} from "../../../interfaces/user";
 
 @Component({
-  tag: 'auth-login',
+  tag: 'flx-auth-login',
   styleUrl: 'login.scss'
 })
 
 export class Login implements ComponentInterface {
-  @Prop() resetErrors: number;
   @Prop() i18n = i18n;
+  @Prop() mode: "md" | "ios" = "md";
   @State() errors: any = {};
   @State() loadingByIndicator: string[] = [];
   @State() data: ILogin = {
@@ -24,23 +24,14 @@ export class Login implements ComponentInterface {
     password: ''
   };
 
-  @Event() loginSuccess: EventEmitter;
-  @Event() loginReset: EventEmitter;
-  @Event() signUp: EventEmitter;
-  @Event() loginProgress: EventEmitter;
+  @Event() loginSuccess: EventLoginSuccess;
+  @Event() loginReset: EventLoginReset;
+  @Event() signUp: EventLoginSignUp;
+  @Event() loginProgress: EventLoginProgress;
 
-  private subscriptions: Subscription[] = [];
-
-  @Watch('resetErrors')
-  watchHandler() {
+  @Method('resetErrors')
+  resetErrorsHandler() {
     this.errors = {};
-  }
-
-  disconnectedCallback() {
-    this.subscriptions.forEach((subscription: Subscription, index) => {
-      subscription.unsubscribe();
-      this.subscriptions.splice(index, 1);
-    })
   }
 
   setLoginByType(type: string) {
@@ -52,10 +43,10 @@ export class Login implements ComponentInterface {
     this.loginProgress.emit(true);
     this.setLoginByType('login');
     event.preventDefault();
-    this.subscriptions.push(AuthService.login(
+    AuthService.login(
       this.data.identifier?.trim(),
       this.data.password?.trim()
-    ).subscribe({
+    ).pipe(first()).subscribe({
       next: () => {
         setTimeout(() => {
           this.loginSuccess.emit(true);
@@ -78,15 +69,15 @@ export class Login implements ComponentInterface {
           }, this.data));
         }
       }
-    }));
+    });
   }
 
   resetPassword() {
     this.loginProgress.emit(true);
     this.setLoginByType('resetPassword');
-    this.subscriptions.push(AuthService.resetPassword(
+    AuthService.resetPassword(
       this.data.identifier?.trim()
-    ).subscribe({
+    ).pipe(first()).subscribe({
       next: () => {
         this.loginReset.emit(true);
         this.loginProgress.emit(false);
@@ -97,7 +88,7 @@ export class Login implements ComponentInterface {
         this.errors = error?.errors;
         this.loadingByIndicator = [];
       }
-    }));
+    });
   }
 
   clickLostPassword() {
@@ -114,50 +105,43 @@ export class Login implements ComponentInterface {
   }
 
   render() {
-    return [<form onSubmit={(event) => this.login(event)} novalidate>
-
+    return [<form onSubmit={event => this.login(event)} novalidate>
       <div class="form-container">
         <div class="input">
-          <input name="email" onInput={(event) => this.handleInput(event)} autocomplete="on" type="text"
+          <input type="text" name="email" onInput={event => this.handleInput(event)} autocomplete="on"
                  class="input-field" required/>
           <label class="input-label">{this.i18n.identifier.label}</label>
         </div>
-        <form-info-item icon="information-circle-outline" color="danger"
-                        infos={ConvertServerError(this.errors?.identifier,this.i18n.identifier.errors)}>
-        </form-info-item>
+        <flx-auth-info-item icon="information-circle-outline" color="danger"
+                            infos={ConvertServerError(this.errors?.identifier, this.i18n.identifier.errors)}/>
         <div class="input">
-          <input name="password" onInput={(event) => this.handleInput(event)} autocomplete="on" type="password"
+          <input type="password" name="password" onInput={(event) => this.handleInput(event)} autocomplete="on"
                  class="input-field" required/>
           <label class="input-label">{this.i18n.password}</label>
           <ion-button color="medium"
                       disabled={(this.loadingByIndicator.indexOf('resetPassword') !== -1)}
                       fill="clear"
                       slot="end"
-                      mode="md"
+                      mode={this.mode}
                       size="small"
                       type="button"
                       onClick={() => this.clickLostPassword()}
-                      class="forgot-password-button ion-text-uppercase">
-            {this.i18n.password.forgot}
-          </ion-button>
+                      class="forgot-password-button ion-text-uppercase">{this.i18n.password.forgot}</ion-button>
         </div>
-        <form-info-item icon="information-circle-outline" color="danger"
-                        infos={ConvertServerError(this.errors?.password, this.i18n.password.errors)}>
-        </form-info-item>
+        <flx-auth-info-item icon="information-circle-outline" color="danger"
+                            infos={ConvertServerError(this.errors?.password, this.i18n.password.errors)}/>
         <ion-button disabled={(this.loadingByIndicator.indexOf('login') !== -1)}
                     color="secondary"
-                    mode="md"
+                    mode={this.mode}
                     class="submit-button"
                     type="submit"
                     expand="block">
-          <ion-label mode="md">{this.i18n.login}</ion-label>
-          {(this.loadingByIndicator.indexOf('login') !== -1) &&
-            <ion-spinner name="crescent" slot="end">
-            </ion-spinner>
+          <ion-label mode={this.mode}>{this.i18n.login}</ion-label>
+          {this.loadingByIndicator.indexOf('login') !== -1 &&
+            <ion-spinner name="crescent" slot="end"/>
           }
         </ion-button>
-        <input type="submit" value="Login" style={{display: 'none'}}>
-        </input>
+        <input type="submit" value={this.i18n.login} style={{display: 'none'}}/>
       </div>
     </form>];
   }

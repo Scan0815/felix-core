@@ -1,6 +1,6 @@
-import {Login} from './login';
+import {Login} from '../login';
 
-describe('auth-login', () => {
+describe('flx-auth-login', () => {
   it('builds', () => {
     expect(new Login()).toBeTruthy();
   });

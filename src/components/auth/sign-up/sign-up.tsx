@@ -1,4 +1,14 @@
-import {Component, ComponentInterface, Element, Event, EventEmitter, h, Prop, State, Watch} from '@stencil/core';
+import {
+  Component,
+  ComponentInterface,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Method,
+  Prop,
+  State
+} from '@stencil/core';
 import {FileStackCropper} from '../../../helpers/file-stack-utils';
 import {AuthService} from '../../../services/auth.service';
 import {OverlayEventDetail} from '@ionic/core';
@@ -14,13 +24,13 @@ import {ConvertServerError} from '../../../helpers/string-utils';
 import {Subscription} from "rxjs";
 import {environment} from "../../../services/environment.service";
 import i18n from "./i18n.json";
+import {first} from "rxjs/operators";
 
 @Component({
-  tag: 'auth-sign-up',
+  tag: 'flx-auth-sign-up',
   styleUrl: 'sign-up.scss'
 })
 export class SignUp implements ComponentInterface {
-  @Prop() resetErrors: number;
   @Prop() avatarUpload: false;
   @Prop() i18n = i18n
   @State() errors: any = {};
@@ -43,8 +53,8 @@ export class SignUp implements ComponentInterface {
   private subscriptions: Subscription[] = [];
   private passwordEl: HTMLInputElement;
 
-  @Watch('resetErrors')
-  watchHandler() {
+  @Method('resetErrors')
+  resetErrorsHandler() {
     this.errors = {};
   }
 
@@ -60,23 +70,23 @@ export class SignUp implements ComponentInterface {
     this.loadingByIndicator = [...this.loadingByIndicator];
   }
 
-  selected(event) {
+  async selected(event) {
     const file = event.detail[0];
     this.spinner = true;
-      Compress(file, null, 1024).then((avatarFile) => {
-        FileStackCropper(avatarFile).then((data: OverlayEventDetail) => {
-          if (data) {
-            this.placeholder = URL.createObjectURL(data.data.blob);
-            this.files.add(new Transfer().deserialize({
-              file: avatarFile,
-              exIf: {
-                categories: ['avatar']
-              }
-            }));
-          }
-          this.spinner = false;
-        });
-    });
+
+    const avatarFile = await Compress(file, null, 1024);
+    const data: OverlayEventDetail = await FileStackCropper(avatarFile);
+    if (data) {
+      this.placeholder = URL.createObjectURL(data.data.blob);
+      this.files.add(new Transfer().deserialize({
+        file: avatarFile,
+        exIf: {
+          crop: data.data.cropperPosition,
+          categories: ['avatar']
+        }
+      }));
+    }
+    this.spinner = false;
   }
 
   register(event) {
@@ -89,7 +99,7 @@ export class SignUp implements ComponentInterface {
       null,
       this.data.name?.trim(),
       StorageService.get("ext_id")
-    ).subscribe({
+    ).pipe(first()).subscribe({
       next: async (authResponse) => {
         setTimeout(async () => {
           this.signUpSuccess.emit(true);
@@ -142,14 +152,12 @@ export class SignUp implements ComponentInterface {
   }
 
   render() {
-    return [<form onSubmit={(event) => this.register(event)} novalidate>
+    return [<form onSubmit={(event) => this.register(event)} novalidate={true}>
       <ion-list>
         {(this.avatarUpload) &&
           <ion-item lines="none" class="ion-no-margin ion-no-padding">
-            <file-upload accept="image/*" onSelected={(event) => {
-              this.selected(event)
-            }}>
-              <file-stack-avatar placeholder={this.placeholder} width={150} height={150}>
+            <flx-file-upload accept="image/*" onSelected={event => this.selected(event)}>
+              <flx-file-stack-avatar placeholder={this.placeholder} width={150} height={150}>
                 {(this.spinner)
                   ? <ion-button mode="md" color="secondary">
                     <ion-spinner>
@@ -160,31 +168,30 @@ export class SignUp implements ComponentInterface {
                     </ion-icon>
                   </ion-button>
                 }
-              </file-stack-avatar>
-            </file-upload>
+              </flx-file-stack-avatar>
+            </flx-file-upload>
           </ion-item>
         }
         <div class="form-container">
           <div class="input">
-            <input onInput={(event) => this.handleInput(event)} value={this.data.name} name="name" type="text"
+            <input onInput={(event) => this.handleInput(event)} type="text" value={this.data.name} name="name"
                    class="input-field" required/>
             <label class="input-label">{this.i18n.name.label}</label>
           </div>
-          <form-info-item icon="information-circle-outline" color="danger"
-                          infos={ConvertServerError(this.errors?.name, this.i18n.name.errors)}>
-          </form-info-item>
+          <flx-form-info-item icon="information-circle-outline" color="danger"
+                          infos={ConvertServerError(this.errors?.name, this.i18n.name.errors)}/>
           <div class="input">
-            <input name="email" onInput={(event) => this.handleInput(event)} value={this.data.identifier} type="email"
+            <input name="email" onInput={(event) => this.handleInput(event)} type="email" value={this.data.identifier}
                    class="input-field" required/>
             <label class="input-label">{this.i18n.identifier.label}</label>
           </div>
-          <form-info-item icon="information-circle-outline" color="danger"
-                          infos={ConvertServerError(this.errors?.identifier, this.i18n.identifier.errors)}>
-          </form-info-item>
+          <flx-form-info-item icon="information-circle-outline" color="danger"
+                          infos={ConvertServerError(this.errors?.identifier, this.i18n.identifier.errors)}/>
           <div class="input">
             <input name="password" ref={ref => this.passwordEl = ref} onInput={(event) => this.handleInput(event)}
+                   type="password"
                    value={this.data.password}
-                   type="password" class="input-field password" required/>
+                   class="input-field password" required/>
             <label class="input-label">{this.i18n.password.label}</label>
             <ion-buttons class="password-eye" slot="end">
               <ion-button mode="md" slot="icon-only" onClick={(event) => {
@@ -204,9 +211,8 @@ export class SignUp implements ComponentInterface {
               </ion-button>
             </ion-buttons>
           </div>
-          <form-info-item icon="information-circle-outline" color="danger"
-                          infos={ConvertServerError(this.errors?.password, this.i18n.password.errors)}>
-          </form-info-item>
+          <flx-form-info-item icon="information-circle-outline" color="danger"
+                          infos={ConvertServerError(this.errors?.password, this.i18n.password.errors)}/>
         </div>
       </ion-list>
       <ion-item lines="none" class="terms">

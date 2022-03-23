@@ -1,6 +1,6 @@
-import {Upload} from './upload';
+import {Upload} from '../upload';
 
-describe('file-upload', () => {
+describe('flx-file-upload', () => {
   it('builds', () => {
     expect(new Upload()).toBeTruthy();
   });

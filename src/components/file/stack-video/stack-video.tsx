@@ -3,7 +3,7 @@ import {FileStackToPreviewUrl, FileStackToVideoUrl} from '../../../helpers/file-
 import {IFileStack} from '../../../interfaces/filestack';
 
 @Component({
-  tag: 'file-stack-video',
+  tag: 'flx-file-stack-video',
   styleUrl: 'stack-video.scss',
   shadow: true
 })
@@ -38,8 +38,10 @@ export class StackVideo {
   private isPaused = true;
 
   addSrc(fileStack: IFileStack, srcVideo: string) {
-    this.videoEl.setAttribute('src', srcVideo ? srcVideo : FileStackToVideoUrl(fileStack));
-    this.videoEl.load();
+    if(fileStack || srcVideo) {
+      this.videoEl.setAttribute('src', srcVideo ? srcVideo : FileStackToVideoUrl(fileStack));
+      this.videoEl.load();
+    }
   }
 
   removeSrc() {
@@ -296,18 +298,15 @@ export class StackVideo {
     }
     return (
       <Host style={style}>
-
         {(this.isPaused && this.addPlayButton) &&
           <ion-fab vertical="center" horizontal="center" slot="fixed">
             <ion-fab-button onClick={() => {
               this.clickPlay()
             }}>
-              <ion-icon class="play" name="play">
-              </ion-icon>
+              <ion-icon class="play" name="play"/>
             </ion-fab-button>
           </ion-fab>
         }
-
         {(this.loading) &&
           <ion-fab vertical="center" horizontal="center" slot="fixed">
             <ion-fab-button>
@@ -316,22 +315,18 @@ export class StackVideo {
             </ion-fab-button>
           </ion-fab>
         }
-
         <ion-buttons>
           {(this.muteButton) &&
             <ion-button mode="md" class="mute-button" ref={ref => this.muteButtonEl = ref}>
-              <ion-icon slot="icon-only" name={(this.mutedVideo ? 'volume-mute-outline' : 'volume-high-outline')}>
-              </ion-icon>
+              <ion-icon slot="icon-only" name={(this.mutedVideo ? 'volume-mute-outline' : 'volume-high-outline')}/>
             </ion-button>
           }
           {(!this.isPaused && this.fullScreenButton) &&
             <ion-button mode="md" class="full-screen-button" onClick={event => this.switchFullScreen(event)}>
-              <ion-icon slot="icon-only" name="expand-outline">
-              </ion-icon>
+              <ion-icon slot="icon-only" name="expand-outline"/>
             </ion-button>
           }
         </ion-buttons>
-
 
         <video ref={ref => this.videoEl = ref} width={this.fileStack?.width} height={this.fileStack?.height}
                onClick={(event) => this.switchMute(event)}
@@ -350,8 +345,7 @@ export class StackVideo {
 
         {(this.fileStack && this.fileStack.hasOwnProperty("duration")) &&
           <div class="video-progress">
-            <ion-progress-bar ref={ref => this.progressBarEl = ref} class="progress-bar" value={this.progressBarValue}>
-            </ion-progress-bar>
+            <ion-progress-bar ref={ref => this.progressBarEl = ref} class="progress-bar" value={this.progressBarValue}/>
             <input type="range" ref={ref => this.seekBarEl = ref} class="seek" onInput={() => {
               this.skipAhead()
             }} min="0" max="1" step="0.01" value="0"/>

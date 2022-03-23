@@ -1,16 +1,18 @@
-import {Component, ComponentInterface, Event, EventEmitter, h, Prop, State, Watch} from '@stencil/core';
+import {Component, ComponentInterface, Event, h, Method, Prop, State} from '@stencil/core';
 import {AuthService} from '../../../services/auth.service';
 import {ConvertServerError} from '../../../helpers/string-utils';
 import {IAuthReset} from '../../../interfaces/auth';
 import {SuccessToast} from "../../../helpers/default-toasts";
 import i18n from "./i18n.json";
+import {EventResetSuccess} from "../../../events/reset-success-event";
+import {EventResetSubmit} from "../../../events/reset-submit-event";
+import {first} from "rxjs/operators";
 
 @Component({
-  tag: 'auth-reset-password',
+  tag: 'flx-auth-reset-password',
   styleUrl: 'reset-password.scss'
 })
 export class ResetPassword implements ComponentInterface {
-  @Prop() resetErrors: number;
   @Prop() confirmationCode: string;
   @Prop() userId: string;
   @Prop() i18n = i18n;
@@ -20,11 +22,11 @@ export class ResetPassword implements ComponentInterface {
     password: '',
     retype: ''
   };
-  @Event() resetSuccess: EventEmitter;
-  @Event() resetSubmit: EventEmitter;
+  @Event() resetSuccess: EventResetSuccess;
+  @Event() resetSubmit: EventResetSubmit;
 
-  @Watch('resetErrors')
-  watchHandler() {
+  @Method('resetErrors')
+  resetErrorsHandler() {
     this.errors = {};
   }
 
@@ -35,7 +37,7 @@ export class ResetPassword implements ComponentInterface {
       this.data,
       this.confirmationCode,
       this.userId,
-    ).subscribe({
+    ).pipe(first()).subscribe({
       next: async () => {
         await SuccessToast('We changed your password!');
         this.resetSuccess.emit(true);
@@ -61,22 +63,18 @@ export class ResetPassword implements ComponentInterface {
             <ion-label mode="md" class="sizeMedium ion-text-uppercase"
                        position="floating">{this.i18n.password.label}</ion-label>
             <ion-input onInput={(event) => this.handleInput(event)} name="password" type="password"
-                       placeholder={this.i18n.password.placeholder} required={true}>
-            </ion-input>
+                       placeholder={this.i18n.password.placeholder} required={true}/>
           </ion-item>
-          <form-info-item icon="information-circle-outline" color="danger"
-                          infos={ConvertServerError(this.errors?.password, this.i18n.password.errors)}>
-          </form-info-item>
+          <flx-auth-info-item icon="information-circle-outline" color="danger"
+                              infos={ConvertServerError(this.errors?.password, this.i18n.password.errors)}/>
           <ion-item>
             <ion-label mode="md" class="sizeMedium ion-text-uppercase"
                        position="floating">{this.i18n.retype.label}</ion-label>
             <ion-input onInput={(event) => this.handleInput(event)} name="retype" type="password"
-                       placeholder={this.i18n.retype.placeholder} required={true}>
-            </ion-input>
+                       placeholder={this.i18n.retype.placeholder} required={true}/>
           </ion-item>
-          <form-info-item icon="information-circle-outline" color="danger"
-                          infos={ConvertServerError(this.errors?.retype, this.i18n.retype.errors)}>
-          </form-info-item>
+          <flx-auth-info-item icon="information-circle-outline" color="danger"
+                              infos={ConvertServerError(this.errors?.retype, this.i18n.retype.errors)}/>
         </ion-list>
         <ion-button mode="md" color="secondary" type="submit" expand="block">
           {this.i18n.password.change}

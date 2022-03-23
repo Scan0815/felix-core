@@ -4,7 +4,7 @@ import {FirstLetter} from '../../../helpers/string-utils';
 import {CssRgb} from '../../../helpers/css-utils';
 
 @Component({
-  tag: 'file-stack-avatar',
+  tag: 'flx-file-stack-avatar',
   styleUrl: 'stack-avatar.scss',
   shadow: true
 })

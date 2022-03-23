@@ -1,4 +1,4 @@
-file-stack-filter {
+:host {
   display: block;
 
   ion-item {
@@ -24,31 +24,4 @@ file-stack-filter {
     }
   }
 
-}
-
-.ion-color-content-animation {
-  --ion-color-base: var(--ion-color-content-animation);
-  --ion-color-base-rgb: var(--ion-color-content-animation-rgb);
-  --ion-color-contrast: var(--ion-color-content-animation-contrast);
-  --ion-color-contrast-rgb: var(--ion-color-content-animation-contrast-rgb);
-  --ion-color-shade: var(--ion-color-content-animation-shade);
-  --ion-color-tint: var(--ion-color-content-animation-tint);
-}
-
-.ion-color-content-video {
-  --ion-color-base: var(--ion-color-content-video);
-  --ion-color-base-rgb: var(--ion-color-content-video-rgb);
-  --ion-color-contrast: var(--ion-color-content-video-contrast);
-  --ion-color-contrast-rgb: var(--ion-color-content-video-contrast-rgb);
-  --ion-color-shade: var(--ion-color-content-video-shade);
-  --ion-color-tint: var(--ion-color-content-video-tint);
-}
-
-.ion-color-content-image {
-  --ion-color-base: var(--ion-color-content-image);
-  --ion-color-base-rgb: var(--ion-color-content-image-rgb);
-  --ion-color-contrast: var(--ion-color-content-image-contrast);
-  --ion-color-contrast-rgb: var(--ion-color-content-image-contrast-rgb);
-  --ion-color-shade: var(--ion-color-content-image-shade);
-  --ion-color-tint: var(--ion-color-content-image-tint);
 }
