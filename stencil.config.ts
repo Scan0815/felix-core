@@ -1,5 +1,6 @@
 import { Config } from '@stencil/core';
 import {sass} from "@stencil/sass";
+import builtins from 'rollup-plugin-node-builtins';
 
 export const config: Config = {
   namespace: 'felix-core',
@@ -25,7 +26,8 @@ export const config: Config = {
   },
   buildEs5: 'prod',
   plugins: [
-    sass()
+    sass(),
+    builtins()
   ],
   outputTargets: [
     {
