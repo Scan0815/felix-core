@@ -11,20 +11,20 @@ import { IFilter } from "./interfaces/filter";
 import { IFileStack } from "./interfaces/filestack";
 export namespace Components {
     interface AuthLogin {
+        "i18n": { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "resetErrors": number;
-        "text": { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
     }
     interface AuthResetPassword {
         "confirmationCode": string;
+        "i18n": { retype: { label: string; placeholder: string; errors: { required: string; minlen: string; equal: string; }; }; password: { change: string; label: string; placeholder: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "resetErrors": number;
-        "text": { retype: { label: string; placeholder: string; errors: { required: string; minlen: string; equal: string; }; }; password: { change: string; label: string; placeholder: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "userId": string;
     }
     interface AuthSignUp {
         "avatarUpload": false;
         "data": IRegister;
+        "i18n": { signUp: string; confirm: string; name: { label: string; errors: { badword: string; required: string; minlen: string; exists: string; username: string; notvalid: string; alphaspace: string; }; }; identifier: { label: string; confirm: { message: string; button: string; }; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "resetErrors": number;
-        "text": { signUp: string; confirm: string; name: { label: string; errors: { badword: string; required: string; minlen: string; exists: string; username: string; notvalid: string; alphaspace: string; }; }; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
     }
     interface FileStackAvatar {
         "avatar": IAvatar;
@@ -157,29 +157,29 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AuthLogin {
+        "i18n"?: { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "onLoginProgress"?: (event: CustomEvent<any>) => void;
         "onLoginReset"?: (event: CustomEvent<any>) => void;
         "onLoginSuccess"?: (event: CustomEvent<any>) => void;
         "onSignUp"?: (event: CustomEvent<any>) => void;
         "resetErrors"?: number;
-        "text"?: { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
     }
     interface AuthResetPassword {
         "confirmationCode"?: string;
+        "i18n"?: { retype: { label: string; placeholder: string; errors: { required: string; minlen: string; equal: string; }; }; password: { change: string; label: string; placeholder: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "onResetSubmit"?: (event: CustomEvent<any>) => void;
         "onResetSuccess"?: (event: CustomEvent<any>) => void;
         "resetErrors"?: number;
-        "text"?: { retype: { label: string; placeholder: string; errors: { required: string; minlen: string; equal: string; }; }; password: { change: string; label: string; placeholder: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "userId"?: string;
     }
     interface AuthSignUp {
         "avatarUpload"?: false;
         "data"?: IRegister;
+        "i18n"?: { signUp: string; confirm: string; name: { label: string; errors: { badword: string; required: string; minlen: string; exists: string; username: string; notvalid: string; alphaspace: string; }; }; identifier: { label: string; confirm: { message: string; button: string; }; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "onSignUpNotApproved"?: (event: CustomEvent<any>) => void;
         "onSignUpProgress"?: (event: CustomEvent<any>) => void;
         "onSignUpSuccess"?: (event: CustomEvent<any>) => void;
         "resetErrors"?: number;
-        "text"?: { signUp: string; confirm: string; name: { label: string; errors: { badword: string; required: string; minlen: string; exists: string; username: string; notvalid: string; alphaspace: string; }; }; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
     }
     interface FileStackAvatar {
         "avatar"?: IAvatar;
