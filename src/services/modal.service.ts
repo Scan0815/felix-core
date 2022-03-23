@@ -2,7 +2,7 @@ import {AnimationBuilder, modalController} from "@ionic/core";
 import {PageProcessService} from './pageProcess.service';
 import {UniqueID} from '../helpers/string-utils';
 
-export class ModalServiceController {
+class ModalServiceController {
 
   async openModal(component,
                   componentProps?,
