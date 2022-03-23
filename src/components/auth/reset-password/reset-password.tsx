@@ -3,10 +3,35 @@ import {AuthService} from '../../../services/auth.service';
 import {ConvertServerError} from '../../../helpers/string-utils';
 import {IAuthReset} from '../../../interfaces/auth';
 import {SuccessToast} from "../../../helpers/default-toasts";
-import i18n from "./i18n.json";
 import {EventResetSuccess} from "../../../events/reset-success-event";
 import {EventResetSubmit} from "../../../events/reset-submit-event";
 import {first} from "rxjs/operators";
+
+const i18n = {
+  "retype": {
+    "label": "repeat Password",
+    "placeholder": "Re-enter your password",
+    "errors": {
+      "required": "Password is required.",
+      "minlen": "Password must be at least 8 characters long.",
+      "equal": "Password not identical."
+    }
+  },
+  "password": {
+    "change": "Change password",
+    "label": "Password",
+    "placeholder": "Your Password",
+    "errors": {
+      "required": "E-mail is required",
+      "minlen": "E-Mail must be at least 4 characters long",
+      "email": "Email is invalid.",
+      "exists": "E-Mail already exists.",
+      "identical": "You cannot add the same e-mail.",
+      "noaccountfound": "No account found with this email.",
+      "notvalid": "Invalid account. Check the input for invalid characters."
+    }
+  }
+};
 
 @Component({
   tag: 'flx-auth-reset-password',
@@ -25,8 +50,8 @@ export class ResetPassword implements ComponentInterface {
   @Event() resetSuccess: EventResetSuccess;
   @Event() resetSubmit: EventResetSubmit;
 
-  @Method('resetErrors')
-  resetErrorsHandler() {
+  @Method()
+  async resetErrors() {
     this.errors = {};
   }
 

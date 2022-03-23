@@ -25,24 +25,22 @@
 
 ### Used by
 
- - [auth-sign-up](../../auth/sign-up)
+ - [flx-auth-sign-up](../../auth/sign-up)
 
 ### Depends on
 
 - ion-avatar
 - ion-text
-- [file-stack-image](../stack-image)
 - ion-router-link
 
 ### Graph
 ```mermaid
 graph TD;
-  file-stack-avatar --> ion-avatar
-  file-stack-avatar --> ion-text
-  file-stack-avatar --> file-stack-image
-  file-stack-avatar --> ion-router-link
-  auth-sign-up --> file-stack-avatar
-  style file-stack-avatar fill:#f9f,stroke:#333,stroke-width:4px
+  flx-file-stack-avatar --> ion-avatar
+  flx-file-stack-avatar --> ion-text
+  flx-file-stack-avatar --> ion-router-link
+  flx-auth-sign-up --> flx-file-stack-avatar
+  style flx-file-stack-avatar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

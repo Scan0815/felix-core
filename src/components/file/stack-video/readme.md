@@ -60,17 +60,17 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  file-stack-video --> ion-fab
-  file-stack-video --> ion-fab-button
-  file-stack-video --> ion-icon
-  file-stack-video --> ion-spinner
-  file-stack-video --> ion-buttons
-  file-stack-video --> ion-button
-  file-stack-video --> ion-progress-bar
+  flx-file-stack-video --> ion-fab
+  flx-file-stack-video --> ion-fab-button
+  flx-file-stack-video --> ion-icon
+  flx-file-stack-video --> ion-spinner
+  flx-file-stack-video --> ion-buttons
+  flx-file-stack-video --> ion-button
+  flx-file-stack-video --> ion-progress-bar
   ion-fab-button --> ion-icon
   ion-fab-button --> ion-ripple-effect
   ion-button --> ion-ripple-effect
-  style file-stack-video fill:#f9f,stroke:#333,stroke-width:4px
+  style flx-file-stack-video fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

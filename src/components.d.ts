@@ -19,19 +19,19 @@ export namespace Components {
     interface FlxAuthLogin {
         "i18n": { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "mode": "md" | "ios";
-        "resetErrorsHandler": () => void;
+        "resetErrors": () => Promise<void>;
     }
     interface FlxAuthResetPassword {
         "confirmationCode": string;
         "i18n": { retype: { label: string; placeholder: string; errors: { required: string; minlen: string; equal: string; }; }; password: { change: string; label: string; placeholder: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
-        "resetErrorsHandler": () => void;
+        "resetErrors": () => Promise<void>;
         "userId": string;
     }
     interface FlxAuthSignUp {
         "avatarUpload": false;
         "data": IRegister;
         "i18n": { signUp: string; confirm: string; name: { label: string; errors: { badword: string; required: string; minlen: string; exists: string; username: string; notvalid: string; alphaspace: string; }; }; identifier: { label: string; confirm: { message: string; button: string; }; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
-        "resetErrorsHandler": () => void;
+        "resetErrors": () => Promise<void>;
     }
     interface FlxFileStackAvatar {
         "avatar": IAvatar;

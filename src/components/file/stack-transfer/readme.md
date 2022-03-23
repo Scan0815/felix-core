@@ -47,19 +47,19 @@ Type: `Promise<any>`
 ### Graph
 ```mermaid
 graph TD;
-  file-stack-transfer --> ion-item
-  file-stack-transfer --> ion-avatar
-  file-stack-transfer --> ion-img
-  file-stack-transfer --> ion-icon
-  file-stack-transfer --> ion-progress-bar
-  file-stack-transfer --> ion-label
-  file-stack-transfer --> ion-alert
+  flx-file-stack-transfer --> ion-item
+  flx-file-stack-transfer --> ion-avatar
+  flx-file-stack-transfer --> ion-img
+  flx-file-stack-transfer --> ion-icon
+  flx-file-stack-transfer --> ion-progress-bar
+  flx-file-stack-transfer --> ion-label
+  flx-file-stack-transfer --> ion-alert
   ion-item --> ion-icon
   ion-item --> ion-ripple-effect
   ion-item --> ion-note
   ion-alert --> ion-ripple-effect
   ion-alert --> ion-backdrop
-  style file-stack-transfer fill:#f9f,stroke:#333,stroke-width:4px
+  style flx-file-stack-transfer fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

@@ -2,12 +2,40 @@ import {Component, ComponentInterface, Event, h, Method, Prop, State} from '@ste
 import {AuthService} from '../../../services/auth.service';
 import {ConvertServerError} from '../../../helpers/string-utils';
 import {first} from "rxjs/operators";
-import i18n from "./i18n.json";
 import {EventLoginSuccess} from "../../../events/login-success-event";
 import {EventLoginReset} from "../../../events/login-reset-event";
 import {EventLoginSignUp} from "../../../events/login-sign-up-event";
 import {EventLoginProgress} from "../../../events/login-progress-event";
 import {ILogin} from "../../../interfaces/user";
+
+const i18n = {
+  "login": "Login",
+  "identifier": {
+    "label": "EMail",
+    "errors": {
+      "required": "E-mail is required",
+      "minlen": "E-Mail must be at least 4 characters long",
+      "email": "Email is invalid.",
+      "exists": "E-Mail already exists.",
+      "identical": "You cannot add the same e-mail.",
+      "noaccountfound": "No account found with this email.",
+      "notvalid": "Invalid account. Check the input for invalid characters."
+    }
+  },
+  "password": {
+    "label": "Password",
+    "forgot": "Forgot your password?",
+    "errors": {
+      "required": "E-mail is required",
+      "minlen": "E-Mail must be at least 4 characters long",
+      "email": "Email is invalid.",
+      "exists": "E-Mail already exists.",
+      "identical": "You cannot add the same e-mail.",
+      "noaccountfound": "No account found with this email.",
+      "notvalid": "Invalid account. Check the input for invalid characters."
+    }
+  }
+};
 
 @Component({
   tag: 'flx-auth-login',
@@ -29,8 +57,8 @@ export class Login implements ComponentInterface {
   @Event() signUp: EventLoginSignUp;
   @Event() loginProgress: EventLoginProgress;
 
-  @Method('resetErrors')
-  resetErrorsHandler() {
+  @Method()
+  async resetErrors() {
     this.errors = {};
   }
 

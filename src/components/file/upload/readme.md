@@ -25,13 +25,13 @@
 
 ### Used by
 
- - [auth-sign-up](../../auth/sign-up)
+ - [flx-auth-sign-up](../../auth/sign-up)
 
 ### Graph
 ```mermaid
 graph TD;
-  auth-sign-up --> file-upload
-  style file-upload fill:#f9f,stroke:#333,stroke-width:4px
+  flx-auth-sign-up --> flx-file-upload
+  style flx-file-upload fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

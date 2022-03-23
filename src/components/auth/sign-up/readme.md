@@ -12,7 +12,6 @@
 | `avatarUpload` | `avatar-upload` |             | `boolean`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | `undefined`                                                |
 | `data`         | --              |             | `IRegister`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | `{     name: '',     identifier: '',     password: ''   }` |
 | `i18n`         | --              |             | `{ signUp: string; confirm: string; name: { label: string; errors: { badword: string; required: string; minlen: string; exists: string; username: string; notvalid: string; alphaspace: string; }; }; identifier: { label: string; confirm: { message: string; button: string; }; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; }` | `i18n`                                                     |
-| `resetErrors`  | `reset-errors`  |             | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | `undefined`                                                |
 
 
 ## Events
@@ -24,14 +23,27 @@
 | `signUpSuccess`     |             | `CustomEvent<any>` |
 
 
+## Methods
+
+### `resetErrors() => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+
 ## Dependencies
 
 ### Depends on
 
 - ion-list
 - ion-item
-- [file-upload](../../file/upload)
-- [file-stack-avatar](../../file/stack-avatar)
+- [flx-file-upload](../../file/upload)
+- [flx-file-stack-avatar](../../file/stack-avatar)
 - ion-button
 - ion-spinner
 - ion-icon
@@ -43,28 +55,27 @@
 ### Graph
 ```mermaid
 graph TD;
-  auth-sign-up --> ion-list
-  auth-sign-up --> ion-item
-  auth-sign-up --> file-upload
-  auth-sign-up --> file-stack-avatar
-  auth-sign-up --> ion-button
-  auth-sign-up --> ion-spinner
-  auth-sign-up --> ion-icon
-  auth-sign-up --> ion-buttons
-  auth-sign-up --> ion-toggle
-  auth-sign-up --> ion-label
-  auth-sign-up --> ion-alert
+  flx-auth-sign-up --> ion-list
+  flx-auth-sign-up --> ion-item
+  flx-auth-sign-up --> flx-file-upload
+  flx-auth-sign-up --> flx-file-stack-avatar
+  flx-auth-sign-up --> ion-button
+  flx-auth-sign-up --> ion-spinner
+  flx-auth-sign-up --> ion-icon
+  flx-auth-sign-up --> ion-buttons
+  flx-auth-sign-up --> ion-toggle
+  flx-auth-sign-up --> ion-label
+  flx-auth-sign-up --> ion-alert
   ion-item --> ion-icon
   ion-item --> ion-ripple-effect
   ion-item --> ion-note
-  file-stack-avatar --> ion-avatar
-  file-stack-avatar --> ion-text
-  file-stack-avatar --> file-stack-image
-  file-stack-avatar --> ion-router-link
+  flx-file-stack-avatar --> ion-avatar
+  flx-file-stack-avatar --> ion-text
+  flx-file-stack-avatar --> ion-router-link
   ion-button --> ion-ripple-effect
   ion-alert --> ion-ripple-effect
   ion-alert --> ion-backdrop
-  style auth-sign-up fill:#f9f,stroke:#333,stroke-width:4px
+  style flx-auth-sign-up fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

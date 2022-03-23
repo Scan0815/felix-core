@@ -25,19 +25,6 @@
 | `trackViewImage` |             | `CustomEvent<any>` |
 
 
-## Dependencies
-
-### Used by
-
- - [file-stack-avatar](../stack-avatar)
-
-### Graph
-```mermaid
-graph TD;
-  file-stack-avatar --> file-stack-image
-  style file-stack-image fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

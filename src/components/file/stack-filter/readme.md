@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type        | Default     |
-| -------- | --------- | ----------- | ----------- | ----------- |
-| `filter` | --        |             | `IFilter[]` | `undefined` |
+| Property | Attribute | Description | Type        | Default |
+| -------- | --------- | ----------- | ----------- | ------- |
+| `filter` | --        |             | `IFilter[]` | `[]`    |
 
 
 ## Events
@@ -32,16 +32,16 @@
 ### Graph
 ```mermaid
 graph TD;
-  file-stack-filter --> ion-item
-  file-stack-filter --> ion-segment
-  file-stack-filter --> ion-segment-button
-  file-stack-filter --> ion-label
-  file-stack-filter --> ion-icon
+  flx-file-stack-filter --> ion-item
+  flx-file-stack-filter --> ion-segment
+  flx-file-stack-filter --> ion-segment-button
+  flx-file-stack-filter --> ion-label
+  flx-file-stack-filter --> ion-icon
   ion-item --> ion-icon
   ion-item --> ion-ripple-effect
   ion-item --> ion-note
   ion-segment-button --> ion-ripple-effect
-  style file-stack-filter fill:#f9f,stroke:#333,stroke-width:4px
+  style flx-file-stack-filter fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

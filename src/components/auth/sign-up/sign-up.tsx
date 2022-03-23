@@ -23,8 +23,53 @@ import {Compress} from '../../../helpers/image-utils';
 import {ConvertServerError} from '../../../helpers/string-utils';
 import {Subscription} from "rxjs";
 import {environment} from "../../../services/environment.service";
-import i18n from "./i18n.json";
 import {first} from "rxjs/operators";
+
+const i18n = {
+  "signUp": "Create account",
+  "confirm": "You confirm that you are agree the T&Cs and the Privacy Policy.",
+  "name": {
+    "label": "Name",
+    "errors": {
+      "badword": "This name contains invalid terms",
+      "required": "Name is required.",
+      "minlen": "The name must be at least 3 characters long.",
+      "exists": "This name already exists.",
+      "username": "The name may contain only a-z, A-Z, 0-9, -, _",
+      "notvalid": "Invalid name. Check the input for invalid characters",
+      "alphaspace": "Your name may only contain letters and spaces."
+    }
+  },
+  "identifier": {
+    "label": "EMail",
+    "confirm": {
+      "message": "Please check your e-mail and confirm your account!",
+      "button": "okay"
+    },
+    "errors": {
+      "required": "E-mail is required",
+      "minlen": "E-Mail must be at least 4 characters long",
+      "email": "Email is invalid.",
+      "exists": "E-Mail already exists.",
+      "identical": "You cannot add the same e-mail.",
+      "noaccountfound": "No account found with this email.",
+      "notvalid": "Invalid account. Check the input for invalid characters."
+    }
+  },
+  "password": {
+    "label": "Password",
+    "forgot": "Forgot your password?",
+    "errors": {
+      "required": "E-mail is required",
+      "minlen": "E-Mail must be at least 4 characters long",
+      "email": "Email is invalid.",
+      "exists": "E-Mail already exists.",
+      "identical": "You cannot add the same e-mail.",
+      "noaccountfound": "No account found with this email.",
+      "notvalid": "Invalid account. Check the input for invalid characters."
+    }
+  }
+};
 
 @Component({
   tag: 'flx-auth-sign-up',
@@ -53,8 +98,8 @@ export class SignUp implements ComponentInterface {
   private subscriptions: Subscription[] = [];
   private passwordEl: HTMLInputElement;
 
-  @Method('resetErrors')
-  resetErrorsHandler() {
+  @Method()
+  async resetErrors() {
     this.errors = {};
   }
 
