@@ -145,7 +145,7 @@ export class Login implements ComponentInterface {
         <div class="input">
           <input type="password" name="password" onInput={(event) => this.handleInput(event)} autocomplete="on"
                  class="input-field" required/>
-          <label class="input-label">{this.i18n.password}</label>
+          <label class="input-label">{this.i18n.password.label}</label>
           <ion-button color="medium"
                       disabled={(this.loadingByIndicator.indexOf('resetPassword') !== -1)}
                       fill="clear"
