@@ -1,5 +1,3 @@
-import '@ionic/core';
-
 //Interfaces
 export {IUser,IRegister,UserStatus,User} from './interfaces/user';
 export {IAvatar,Avatar} from './interfaces/avatar';
