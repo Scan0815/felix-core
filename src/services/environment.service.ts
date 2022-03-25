@@ -1,35 +1,43 @@
 import {IEnv} from "../interfaces/env";
 
-class SetupServiceController implements IEnv{
-  production: boolean = false;
-  externalDebug: boolean = false;
-  FILE_SERVER: string|null = null;
-  FILE_SERVER_PURCHASED: string|null = null;
-  SOCKET_SERVER: string|null = null;
-  REST_API: string|null = null;
+class SetupServiceController{
+
+  private env: IEnv = {
+    production:  false,
+    externalDebug: false,
+    FILE_SERVER: null,
+    FILE_SERVER_PURCHASED: null,
+    SOCKET_SERVER:  null,
+    REST_API: null
+  }
 
   public init(env: IEnv){
-    Object.assign(this, env);
+    this.env = Object.assign(this.env, env);
   }
 
   public set(key:string,value:string){
-    Object.assign(this, {[key] : value});
+    this.env = Object.assign(this.env, {[key] : value});
+  }
+
+
+  get environment(){
+    return this.env;
   }
 
   get restApi(){
-    return this.REST_API;
+    return this.env.REST_API;
   }
 
   get fileServer(){
-    return this.FILE_SERVER;
+    return this.env.FILE_SERVER;
   }
 
   get fileServerPurchased(){
-    return this.FILE_SERVER_PURCHASED;
+    return this.env.FILE_SERVER_PURCHASED;
   }
 
   get socketServer(){
-    return this.SOCKET_SERVER;
+    return this.env.SOCKET_SERVER;
   }
 
 }
