@@ -18,7 +18,7 @@ import {InitChunkUpload} from '../../../helpers/upload-utils';
 import {Compress} from '../../../helpers/image-utils';
 import {ConvertServerError} from '../../../helpers/string-utils';
 import {Subscription} from "rxjs";
-import {environment} from "../../../services/environment.service";
+import {SetupService} from "../../../services/environment.service";
 import {first} from "rxjs/operators";
 import {AuthService} from "../../../services/auth.service";
 import {StorageService} from "../../../services/storage.service";
@@ -167,7 +167,7 @@ export class SignUp implements ComponentInterface {
         }, 1000);
         if (this.files.size > 0) {
           await InitChunkUpload(
-            `${environment.REST_API}/user/${authResponse.user._id}/avatar`,
+            `${SetupService.restApi}/user/${authResponse.user._id}/avatar`,
             new Credentials().deserialize(StorageService.get('credentials')),
             Array.from(this.files),
             (response:any) => {

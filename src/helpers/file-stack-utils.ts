@@ -3,7 +3,7 @@ import {ModalService} from '../services/modal.service';
 import {IFileStack} from '../interfaces/filestack';
 import {IAvatar} from '../interfaces/avatar';
 import {ObjectToUrlParamString} from './object-utils';
-import {environment} from "../services/environment.service";
+import {SetupService} from "../services/environment.service";
 
 export const GetThumbnailFromVideo = (videoSrc:string) => {
   const observer = new Observable<any>((observer) => {
@@ -152,7 +152,7 @@ export const FileStackBlobToFile = (theBlob: Blob, name: string): File => {
 };
 
 export const FileStackServer = (fileStack: IFileStack) => {
-  return (fileStack.price && fileStack.price > 0) ? environment.FILE_SERVER_PURCHASED : environment.FILE_SERVER;
+  return (fileStack.price && fileStack.price > 0) ? SetupService.fileServerPurchased : SetupService.fileServer;
 };
 
 export const FileStackCropper = async (file: Blob, orientation: number|null = null): Promise<any> => {
