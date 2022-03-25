@@ -1,5 +1,5 @@
 //Helpers
-export {setupConfig} from './config/config';
+export {setupFelixCore} from './config/config';
 export {SuccessToast,ErrorToast,LoggedOutToast} from './helpers/default-toasts';
 export {NotLoggedInAlert} from './helpers/default-alerts';
 export {IsLoggedInGuard,RouterNavigate,RouterCanNavGoBackThenGo,RouterErrorHandling,RouterGetUriParam} from './helpers/router-utils';
