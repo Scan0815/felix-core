@@ -12,7 +12,7 @@ class SetupServiceController{
   }
 
   public init(env: IEnv){
-    this.env = Object.assign(this.env, env);
+    this.env = env;
   }
 
   public set(key:string,value:string){
@@ -20,7 +20,7 @@ class SetupServiceController{
   }
 
 
-  get environment(){
+  get environment(): IEnv{
     return this.env;
   }
 
