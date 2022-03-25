@@ -1,23 +1,26 @@
 import {IEnv} from "../interfaces/env";
 
-class EnvironmentServiceController implements IEnv{
-  production: boolean = false;
-  externalDebug: boolean = false;
-  FILE_SERVER: string|null = null;
-  FILE_SERVER_PURCHASED: string|null = null;
-  SOCKET_SERVER: string|null = null;
-  REST_API: string|null = null;
+export const environment: IEnv = {
+  production:  false,
+  externalDebug:  false,
+  FILE_SERVER: null,
+  FILE_SERVER_PURCHASED: null,
+  SOCKET_SERVER: null,
+  REST_API: null
+};
+
+class SetupServiceController {
 
   public init(env: IEnv){
-    Object.assign(this, env);
+    Object.assign(environment, env);
   }
 
   public set(key:string,value:string){
-    Object.assign(this, {[key] : value});
+    Object.assign(environment, {[key] : value});
   }
 
 }
 
-export const environment = new EnvironmentServiceController();
+export const SetupService = new SetupServiceController();
 
 
