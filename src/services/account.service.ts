@@ -20,6 +20,7 @@ class AccountServiceController extends RestService {
 
   constructor() {
     super();
+    console.log('environment',environment)
     if(environment.REST_API) {
       this.setApi(environment.REST_API);
     }
