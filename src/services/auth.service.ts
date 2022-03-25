@@ -21,6 +21,7 @@ class AuthServiceController extends RestService {
   constructor() {
     super();
     const credentials = new Credentials().deserialize(StorageService.get('credentials'));
+    console.log('auth environment',environment,environment.REST_API)
     if(environment.REST_API) {
       this.setApi(environment.REST_API);
     }
