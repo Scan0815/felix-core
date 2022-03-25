@@ -2,14 +2,14 @@ import {RestService} from './rest.service';
 import {lastValueFrom, Observable} from 'rxjs';
 import {IUser} from '../interfaces/user';
 import {ITransfer} from "../interfaces/transfer";
-import {environment} from "./environment.service";
+import {SetupService} from "./environment.service";
 
 class TransferServiceController extends RestService {
 
   constructor() {
     super();
-    if(environment.REST_API) {
-      this.setApi(environment.REST_API);
+    if(SetupService.restApi) {
+      this.setApi(SetupService.restApi);
     }
   }
 

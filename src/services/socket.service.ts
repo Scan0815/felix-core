@@ -1,7 +1,7 @@
 import {io, Socket} from 'socket.io-client';
 import {Subject} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
-import {environment} from "./environment.service";
+import {SetupService} from "./environment.service";
 
 class SocketServiceController {
 
@@ -11,9 +11,9 @@ class SocketServiceController {
   public messages = this.messages$.asObservable();
 
   connect() {
-    if(environment.SOCKET_SERVER) {
+    if(SetupService.socketServer) {
       if (!this.socket) {
-        this.socket = io(environment.SOCKET_SERVER, {
+        this.socket = io(SetupService.socketServer, {
           forceNew: true,
           withCredentials: true,
           transports: ['websocket']

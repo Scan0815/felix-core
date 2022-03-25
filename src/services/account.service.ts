@@ -9,7 +9,7 @@ import {AlertConfirm} from '../helpers/alert-utils';
 import {ObjectCompare} from '../helpers/object-utils';
 import {getCurrentLocale, i18n} from './i18n.service';
 import {LogoutErrorHandling} from '../helpers/router-utils';
-import {environment} from "./environment.service";
+import {SetupService} from "./environment.service";
 
 class AccountServiceController extends RestService {
   public modalOpened = false;
@@ -20,9 +20,9 @@ class AccountServiceController extends RestService {
 
   constructor() {
     super();
-    console.log('environment',environment)
-    if(environment.REST_API) {
-      this.setApi(environment.REST_API);
+    console.log('environment',SetupService.restApi);
+    if(SetupService.restApi) {
+      this.setApi(SetupService.restApi);
     }
     let account = StorageService.get('account');
     account = (account) ? new User().deserialize(account) : null;
