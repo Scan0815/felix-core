@@ -1,6 +1,8 @@
 import {IEnv} from "../interfaces/env";
 import {StorageService} from "./storage.service";
 
+const PERSISTENT_KEY = "felix_persistent_config";
+
 class SetupServiceController{
 
   private env: IEnv = {
@@ -47,5 +49,3 @@ class SetupServiceController{
 }
 
 export const SetupService = new SetupServiceController();
-
-const PERSISTENT_KEY = "felix_persistent_config";
