@@ -19,6 +19,10 @@ class SetupServiceController {
     Object.assign(environment, {[key] : value});
   }
 
+  get restApi(){
+    return environment.REST_API;
+  }
+
 }
 
 export const SetupService = new SetupServiceController();
