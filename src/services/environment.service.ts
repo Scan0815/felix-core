@@ -1,4 +1,5 @@
 import {IEnv} from "../interfaces/env";
+import {StorageService} from "./storage.service";
 
 class SetupServiceController{
 
@@ -11,14 +12,17 @@ class SetupServiceController{
     REST_API: null
   }
 
+  constructor() {
+    const _env = StorageService.get(PERSISTENT_KEY);
+    if(_env){
+      this.env = _env;
+    }
+  }
+
   public init(env: IEnv){
     this.env = env;
+    StorageService.set(PERSISTENT_KEY,this.env);
   }
-
-  public set(key:string,value:string){
-    this.env = Object.assign(this.env, {[key] : value});
-  }
-
 
   get environment(): IEnv{
     return this.env;
@@ -44,4 +48,4 @@ class SetupServiceController{
 
 export const SetupService = new SetupServiceController();
 
-
+const PERSISTENT_KEY = "felix_persistent_config";
