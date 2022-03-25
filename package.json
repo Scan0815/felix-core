@@ -6,16 +6,19 @@
   "module": "dist/index.js",
   "es2015": "dist/esm/index.mjs",
   "es2017": "dist/esm/index.mjs",
-  "types": "dist/types/components.d.ts",
+  "types": "dist/types/interface.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/felix-auth/felix-auth.esm.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/stencil-component-starter.git"
+    "url": "git+https://github.com/Scan0815/felix-core.git"
   },
   "files": [
+    "components/",
+    "css/",
     "dist/",
+    "hydrate/",
     "loader/"
   ],
   "scripts": {
