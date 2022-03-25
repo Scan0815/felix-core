@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type    | Default     |
-| --------- | --------- | ----------- | ------- | ----------- |
-| `account` | --        |             | `IUser` | `undefined` |
+| Property  | Attribute | Description | Type                 | Default     |
+| --------- | --------- | ----------- | -------------------- | ----------- |
+| `account` | --        |             | `IUser \| undefined` | `undefined` |
 
 
 ## Events

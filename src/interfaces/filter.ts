@@ -8,18 +8,18 @@ export interface IFilter {
   selected: boolean;
   label: string;
   value: string;
-  icon?: string;
-  iconSrc?: string;
+  icon: string|null;
+  iconSrc: string|null;
   color: FilterColor;
 }
 
 export class Filter implements IFilter, Deserializable {
-  selected: boolean;
-  label: string;
-  value: string;
-  icon?: string;
-  iconSrc?: string;
-  color: FilterColor;
+  selected: boolean = false;
+  label: string = '';
+  value: string = '';
+  icon: string|null = null;
+  iconSrc: string|null = null;
+  color: FilterColor = "primary";
 
   deserialize(input: IFilter) {
     if (input) {

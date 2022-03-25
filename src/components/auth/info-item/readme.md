@@ -7,11 +7,11 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type                                                                                                            | Default     |
-| -------- | --------- | ----------- | --------------------------------------------------------------------------------------------------------------- | ----------- |
-| `color`  | `color`   |             | `"danger" \| "dark" \| "light" \| "medium" \| "primary" \| "secondary" \| "success" \| "tertiary" \| "warning"` | `undefined` |
-| `icon`   | `icon`    |             | `string`                                                                                                        | `undefined` |
-| `infos`  | `infos`   |             | `any`                                                                                                           | `[]`        |
+| Property | Attribute | Description | Type                                                                                                                         | Default     |
+| -------- | --------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `color`  | `color`   |             | `"danger" \| "dark" \| "light" \| "medium" \| "primary" \| "secondary" \| "success" \| "tertiary" \| "warning" \| undefined` | `undefined` |
+| `icon`   | `icon`    |             | `string \| undefined`                                                                                                        | `undefined` |
+| `infos`  | --        |             | `string[]`                                                                                                                   | `[]`        |
 
 
 ## Dependencies

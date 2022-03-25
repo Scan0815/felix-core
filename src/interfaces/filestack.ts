@@ -1,5 +1,4 @@
 import {Deserializable} from './deserialize';
-import {ExIf, IExIf} from './exIf';
 import {IUser, User} from './user';
 import {ICrop} from './crop';
 import {IComment} from './comment';
@@ -67,27 +66,19 @@ export interface IFileStackSearchCriteria {
   height_lt?: number,
 }
 
-export interface IFileStackUpdate {
-  name?: string;
-  description?: string;
-  location?: string;
-  tag?: string[];
-  price?: number;
-}
-
-export interface IFileStack extends IExIf {
-  _id: string;
-  code: string;
-  type: string;
+export interface IFileStack {
+  _id?: string;
+  code?: string;
+  type?: string;
   complete?: boolean
-  updated_at: string;
-  created_at: string;
+  updated_at?: string;
+  created_at?: string;
   transferId?: string;
   name?: string;
   width: number;
   height: number;
-  extension: string;
-  user?: IUser;
+  extension?: string;
+  user: IUser|null;
   crop?: ICrop;
   size?: number;
   base_price?: number;
@@ -105,7 +96,7 @@ export interface IFileStack extends IExIf {
   user_paid?: string[];
   token?: { [key: string]: string };
   price?: number;
-  dominantColor: number[];
+  dominantColor?: number[];
   like_user_ids?: string[];
   purchased?: boolean;
   duration?: number;
@@ -113,20 +104,20 @@ export interface IFileStack extends IExIf {
   own?: boolean;
 }
 
-export class FileStack extends ExIf implements Deserializable, IFileStack {
-  _id: string;
-  code: string;
-  type: string;
-  updated_at: string;
-  created_at: string;
+export class FileStack implements Deserializable, IFileStack {
+  _id?: string;
+  code?: string;
+  type?: string;
+  updated_at?: string;
+  created_at?: string;
   complete?: boolean;
   transferId?: string;
-  name: string;
-  width: number;
-  height: number;
-  extension: string;
-  crop: ICrop;
-  user?: IUser;
+  name?: string;
+  width: number = 0;
+  height: number = 0;
+  extension?: string;
+  crop?: ICrop;
+  user: IUser|null = null;
   price?: number;
   size?: number;
   status?: TFileStackStatus;
@@ -142,7 +133,7 @@ export class FileStack extends ExIf implements Deserializable, IFileStack {
   likes_count?: number;
   user_paid?: string[];
   tripSelected?: boolean;
-  dominantColor: number[];
+  dominantColor?: number[];
   like_user_ids?: string[];
   token?: { [key: string]: string };
   purchased?: boolean;
@@ -159,17 +150,9 @@ export class FileStack extends ExIf implements Deserializable, IFileStack {
     if (input) {
       Object.assign(this, input);
     }
-    if (input) {
-      Object.assign(this, super.deserialize(input));
-    }
+
     if (input.hasOwnProperty('user')) {
       this.user = new User().deserialize(input.user);
-    }
-
-    if (input.hasOwnProperty('purchased')) {
-      this.purchased = (input.purchased);
-    } else {
-      this.purchased = false;
     }
 
     if (!this.views_count) {
@@ -185,22 +168,11 @@ export class FileStack extends ExIf implements Deserializable, IFileStack {
       this.collectionId = input.collection_id;
     }
 
-    if (input.collection?.length > 0) {
+    if (input.collection && input.collection?.length > 0) {
       this.collection = input.collection.map((item) => {
         item.collectionId = this._id;
         return new FileStack().deserialize(item);
       });
-    }
-
-    if (!this.crop && this.orientation
-      && (4 < this.orientation
-        && this.orientation < 9
-        && this.width > this.height)
-    ) {
-      const size = this.height;
-      const h = this.width;
-      this.width = size;
-      this.height = h;
     }
 
     return this;

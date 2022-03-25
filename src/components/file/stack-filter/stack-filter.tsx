@@ -10,25 +10,26 @@ import {EventChangeFilter} from "../../../events/change-filter-event";
 export class StackFilter implements ComponentInterface {
 
   @Prop({mutable: true}) filter: IFilter[] = [];
-  @Event() changeFilter: EventChangeFilter;
-  @State() selected: IFilter = null;
+  @Event() changeFilter: EventChangeFilter | undefined;
+  @State() selected: IFilter | null = null;
 
   componentWillLoad() {
-    this.selected = this.filter.filter($filter => $filter.selected === true)[0];
+    this.selected = this.filter.filter($filter => $filter.selected)[0];
   }
 
-  clickFilter(filter) {
-    if (filter && filter.value !== this.selected.value) {
+  clickFilter(filter: IFilter) {
+
+    if (this.selected && filter && filter.value !== this.selected.value) {
       this.filter.map($filter => $filter.selected = false);
       filter.selected = !filter.selected;
       this.filter = [...this.filter];
       this.selected = filter;
-      this.changeFilter.emit(this.filter);
+      this.changeFilter?.emit(this.filter);
     }
   }
 
 
-  segmentChanged(ev) {
+  segmentChanged(ev: CustomEvent) {
     this.clickFilter(this.filter.filter($filter => $filter.value === ev.detail.value)[0]);
   }
 

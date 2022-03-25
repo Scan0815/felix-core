@@ -12,9 +12,9 @@ import { IFilter } from "./interfaces/filter";
 import { IFileStack } from "./interfaces/filestack";
 export namespace Components {
     interface FlxAuthInfoItem {
-        "color": IonicColor;
-        "icon": string;
-        "infos": any;
+        "color": IonicColor| undefined;
+        "icon": string| undefined;
+        "infos": string[];
     }
     interface FlxAuthLogin {
         "i18n": { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
@@ -28,21 +28,21 @@ export namespace Components {
         "userId": string;
     }
     interface FlxAuthSignUp {
-        "avatarUpload": false;
+        "avatarUpload": boolean;
         "data": IRegister;
         "i18n": { signUp: string; confirm: string; name: { label: string; errors: { badword: string; required: string; minlen: string; exists: string; username: string; notvalid: string; alphaspace: string; }; }; identifier: { label: string; confirm: { message: string; button: string; }; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "resetErrors": () => Promise<void>;
     }
     interface FlxFileStackAvatar {
-        "avatar": IAvatar;
+        "avatar": IAvatar|null;
         "background": any;
         "color": any;
         "ext": string;
         "height": number;
         "imgTitle": string;
-        "link": string;
+        "link": string|undefined;
         "name": string;
-        "placeholder": string;
+        "placeholder": string|null;
         "width": number;
     }
     interface FlxFileStackFilter {
@@ -51,41 +51,41 @@ export namespace Components {
     interface FlxFileStackImage {
         "autoAspectRatio": boolean;
         "ext": string;
-        "fileStack": IFileStack;
+        "fileStack": IFileStack | undefined;
         "fileStackSize": { size: string, pixelRatio: string }[];
-        "placeholder": string;
-        "rootElement": HTMLElement;
-        "trackViewTimeout": any;
+        "placeholder": string|undefined;
+        "rootElement": HTMLElement | undefined;
+        "trackViewTimeout": null;
     }
     interface FlxFileStackTransfer {
-        "account": IUser;
+        "account": IUser|undefined;
         "openUploadMenu": () => Promise<any>;
     }
     interface FlxFileStackVideo {
         "autoAspectRatio": boolean;
         "autoPlayVideo": boolean;
-        "fileStack": IFileStack;
+        "fileStack": IFileStack|undefined;
         "fullScreenButton": boolean;
         "loopVideo": boolean;
         "muteButton": boolean;
         "mutedVideo": boolean;
         "onlyPreview": boolean;
         "preload": string;
-        "rootElement": HTMLElement;
+        "rootElement": HTMLElement|undefined;
         "showControls": boolean;
-        "srcVideo": string;
+        "srcVideo": string|undefined;
         "switchMuteState": () => Promise<void>;
-        "trackViewTimeout": any;
+        "trackViewTimeout": null;
         "volume": number;
     }
     interface FlxFileUpload {
         "accept": string;
-        "capture": any;
+        "capture": null;
         "multiple": boolean;
     }
     interface FlxFileUploadDraggable {
         "accept": string;
-        "iconName": string;
+        "iconName"?: string;
     }
 }
 declare global {
@@ -171,9 +171,9 @@ declare global {
 }
 declare namespace LocalJSX {
     interface FlxAuthInfoItem {
-        "color"?: IonicColor;
-        "icon"?: string;
-        "infos"?: any;
+        "color"?: IonicColor| undefined;
+        "icon"?: string| undefined;
+        "infos"?: string[];
     }
     interface FlxAuthLogin {
         "i18n"?: { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
@@ -191,7 +191,7 @@ declare namespace LocalJSX {
         "userId"?: string;
     }
     interface FlxAuthSignUp {
-        "avatarUpload"?: false;
+        "avatarUpload"?: boolean;
         "data"?: IRegister;
         "i18n"?: { signUp: string; confirm: string; name: { label: string; errors: { badword: string; required: string; minlen: string; exists: string; username: string; notvalid: string; alphaspace: string; }; }; identifier: { label: string; confirm: { message: string; button: string; }; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "onSignUpNotApproved"?: (event: CustomEvent<any>) => void;
@@ -199,15 +199,15 @@ declare namespace LocalJSX {
         "onSignUpSuccess"?: (event: CustomEvent<any>) => void;
     }
     interface FlxFileStackAvatar {
-        "avatar"?: IAvatar;
+        "avatar"?: IAvatar|null;
         "background"?: any;
         "color"?: any;
         "ext"?: string;
         "height"?: number;
         "imgTitle"?: string;
-        "link"?: string;
+        "link"?: string|undefined;
         "name"?: string;
-        "placeholder"?: string;
+        "placeholder"?: string|null;
         "width"?: number;
     }
     interface FlxFileStackFilter {
@@ -217,21 +217,21 @@ declare namespace LocalJSX {
     interface FlxFileStackImage {
         "autoAspectRatio"?: boolean;
         "ext"?: string;
-        "fileStack"?: IFileStack;
+        "fileStack"?: IFileStack | undefined;
         "fileStackSize"?: { size: string, pixelRatio: string }[];
         "onTrackViewImage"?: (event: CustomEvent<any>) => void;
-        "placeholder"?: string;
-        "rootElement"?: HTMLElement;
-        "trackViewTimeout"?: any;
+        "placeholder"?: string|undefined;
+        "rootElement"?: HTMLElement | undefined;
+        "trackViewTimeout"?: null;
     }
     interface FlxFileStackTransfer {
-        "account"?: IUser;
+        "account"?: IUser|undefined;
         "onUploadFinished"?: (event: CustomEvent<any>) => void;
     }
     interface FlxFileStackVideo {
         "autoAspectRatio"?: boolean;
         "autoPlayVideo"?: boolean;
-        "fileStack"?: IFileStack;
+        "fileStack"?: IFileStack|undefined;
         "fullScreenButton"?: boolean;
         "loopVideo"?: boolean;
         "muteButton"?: boolean;
@@ -239,15 +239,15 @@ declare namespace LocalJSX {
         "onTrackViewVideo"?: (event: CustomEvent<any>) => void;
         "onlyPreview"?: boolean;
         "preload"?: string;
-        "rootElement"?: HTMLElement;
+        "rootElement"?: HTMLElement|undefined;
         "showControls"?: boolean;
-        "srcVideo"?: string;
-        "trackViewTimeout"?: any;
+        "srcVideo"?: string|undefined;
+        "trackViewTimeout"?: null;
         "volume"?: number;
     }
     interface FlxFileUpload {
         "accept"?: string;
-        "capture"?: any;
+        "capture"?: null;
         "multiple"?: boolean;
         "onSelected"?: (event: CustomEvent<any>) => void;
     }

@@ -7,11 +7,11 @@ import {Component, Element, Event, EventEmitter, h, Host, Listen, Prop} from '@s
 })
 export class UploadDraggable {
 
-  @Prop() iconName: string;
+  @Prop() iconName?: string;
   @Prop() accept: string = "image\/jpg|image\/jpeg|image\/png|video.*";
   @Element() el!: HTMLElement;
-  @Event() selected: EventEmitter;
-  @Event() errorAccepted: EventEmitter;
+  @Event() selected: EventEmitter | undefined;
+  @Event() errorAccepted: EventEmitter | undefined;
 
   @Listen('drag', {passive: false})
   @Listen('dragstart', {passive: false})
@@ -20,7 +20,7 @@ export class UploadDraggable {
   @Listen('dragenter', {passive: false})
   @Listen('dragleave', {passive: false})
   @Listen('drop', {passive: false})
-  dragDefault(ev) {
+  dragDefault(ev:Event) {
     ev.preventDefault();
     ev.stopPropagation();
   }
@@ -28,35 +28,38 @@ export class UploadDraggable {
   @Listen('dragover')
   @Listen('dragenter')
   dragOver() {
-    this.el?.shadowRoot.querySelector('.drop-zone')?.classList.add('is-dragover');
+    this.el?.shadowRoot?.querySelector('.drop-zone')?.classList.add('is-dragover');
   }
 
   @Listen('dragend')
   @Listen('dragleave')
   @Listen('drop')
   dragLeave() {
-    this.el?.shadowRoot.querySelector('.drop-zone')?.classList.remove('is-dragover');
+    this.el?.shadowRoot?.querySelector('.drop-zone')?.classList.remove('is-dragover');
   }
 
   @Listen('drop')
-  drop(ev) {
+  drop(ev:DragEvent) {
     this.change(ev);
   }
 
 
-  change(event) {
-    let files: FileList = event.dataTransfer.files;
+  change(event:DragEvent) {
+    let files: FileList | undefined = event?.dataTransfer?.files;
     let result: File[] = [];
-    for (let i = 0; i < files.length; i++) {
-      if (files.item(i).type.match(this.accept)) {
-        result.push(files.item(i));
-      } else {
-        this.errorAccepted.emit(files.item(i).name);
-        return;
+    if(files) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files?.item(i);
+        if (file && file.type.match(this.accept)) {
+          result.push(file);
+        } else {
+          this.errorAccepted?.emit(file?.name);
+          return;
+        }
       }
     }
 
-    this.selected.emit(result);
+    this.selected?.emit(result);
   }
 
   render() {

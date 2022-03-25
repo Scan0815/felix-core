@@ -12,12 +12,12 @@ export interface IComment {
 
 
 export class Comment implements Deserializable, IComment {
-  _id: string;
-  text: string;
-  user: IUser;
-  file_stack_id: string;
-  updated_at: string;
-  created_at: string;
+  _id: string = '';
+  text: string = '';
+  user?: IUser;
+  file_stack_id: string = '';
+  updated_at: string = '';
+  created_at: string = '';
 
   deserialize(input: any) {
     if (input) {

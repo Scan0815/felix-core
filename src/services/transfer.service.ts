@@ -8,7 +8,9 @@ class TransferServiceController extends RestService {
 
   constructor() {
     super();
-    this.setApi(environment.REST_API);
+    if(environment.REST_API) {
+      this.setApi(environment.REST_API);
+    }
   }
 
   public async createTransfer(transfer: ITransfer[]) {
@@ -23,7 +25,7 @@ class TransferServiceController extends RestService {
   }
 
 
-  public create(data?): Observable<IUser> {
+  public create(data?:any): Observable<IUser> {
     return super.create(`/transfer`, data);
   }
 

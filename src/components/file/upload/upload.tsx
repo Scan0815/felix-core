@@ -6,33 +6,36 @@ import {Component, Element, Event, EventEmitter, h, Host, Listen, Prop} from '@s
   shadow: true
 })
 export class Upload {
-  @Event() selected: EventEmitter;
-  @Prop() accept: string;
+  @Prop() accept: string = "image/*";
   @Prop() multiple = false;
   @Prop() capture = null;
-  @Element() private element: HTMLElement;
-  private uploadElement;
+
+  @Event() selected: EventEmitter | undefined;
+  @Element() el?: HTMLElement | undefined;
+  private uploadElement: HTMLInputElement | undefined | null;
 
   @Listen('click', {passive: false})
-  click(ev) {
+  click(ev:Event) {
     ev.stopPropagation();
   }
 
   componentDidLoad() {
-    this.uploadElement = this.element.shadowRoot.querySelector('input');
+    this.uploadElement = this.el?.shadowRoot?.querySelector('input');
     if (this.multiple) {
-      this.uploadElement.setAttribute('multiple', '');
+      this.uploadElement?.setAttribute('multiple', '');
     }
     if (this.capture !== null) {
-      this.uploadElement.setAttribute('capture', this.capture);
+      this.uploadElement?.setAttribute('capture', this.capture);
     }
   }
 
-  change(event) {
+  change(event:any) {
     let files: FileList = event.target.files;
-    this.selected.emit([...Array.from(files)]);
+    this.selected?.emit([...Array.from(files)]);
     setTimeout(() => {
-      this.uploadElement.value = '';
+      if(this.uploadElement){
+        this.uploadElement.value = '';
+      }
     }, 200);
   }
 

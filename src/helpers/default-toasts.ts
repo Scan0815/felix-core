@@ -1,4 +1,4 @@
-import {ToastService} from '../services/toast.service';
+import {ToastService} from "../services/toast.service";
 
 
 export const LoggedOutToast = (message = 'You have been logged out because your session is no longer valid!') => {
@@ -9,7 +9,7 @@ export const LoggedOutToast = (message = 'You have been logged out because your 
     'danger');
 }
 
-export const SuccessToast = (message, duration = null) => {
+export const SuccessToast = (message:string, duration:number|null = null) => {
   return ToastService.presentToast(
     message,
     "Okay",
@@ -18,10 +18,10 @@ export const SuccessToast = (message, duration = null) => {
   );
 }
 
-export const ErrorToast = (message, duration = null) => {
+export const ErrorToast = (message:string, duration:number|null = null) => {
   return ToastService.presentToast(
     message,
-    "Okay",
+    'Okay',
     duration,
     'danger'
   );

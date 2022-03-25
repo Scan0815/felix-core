@@ -9,8 +9,8 @@
 
 | Property   | Attribute  | Description | Type      | Default     |
 | ---------- | ---------- | ----------- | --------- | ----------- |
-| `accept`   | `accept`   |             | `string`  | `undefined` |
-| `capture`  | `capture`  |             | `any`     | `null`      |
+| `accept`   | `accept`   |             | `string`  | `"image/*"` |
+| `capture`  | --         |             | `null`    | `null`      |
 | `multiple` | `multiple` |             | `boolean` | `false`     |
 
 

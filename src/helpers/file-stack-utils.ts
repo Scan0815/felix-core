@@ -5,7 +5,7 @@ import {IAvatar} from '../interfaces/avatar';
 import {ObjectToUrlParamString} from './object-utils';
 import {environment} from "../services/environment.service";
 
-export const GetThumbnailFromVideo = (videoSrc) => {
+export const GetThumbnailFromVideo = (videoSrc:string) => {
   const observer = new Observable<any>((observer) => {
     const video: any = document.createElement('video');
     const canvas = document.createElement('canvas');
@@ -24,7 +24,11 @@ export const GetThumbnailFromVideo = (videoSrc) => {
     // extract video thumbnail once seeking is complete
     video.addEventListener('seeked', () => {
       // define a canvas to have the same dimension as the video
-      canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+      const ctx = canvas.getContext('2d')
+      if(ctx) {
+        ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+      }
+
       canvas.toBlob((blob) => {
         if (blob) {
           observer.next({
@@ -46,16 +50,19 @@ export const GetThumbnailFromVideo = (videoSrc) => {
   return lastValueFrom(observer);
 };
 
-export const FileStackToPreviewUrl = (fileStack: IFileStack | IAvatar, size: string = '200x200', ext: string = 'jpg', placeholder: string = null) => {
+export const FileStackToPreviewUrl = (fileStack: IFileStack | IAvatar, size: string = '200x200', ext: string = 'jpg', placeholder: string = '') => {
   if (fileStack && typeof fileStack !== 'undefined') {
-    const params = [];
+    const params:any = [];
     if (fileStack.hasOwnProperty('purchased') && fileStack.purchased) {
       params['p'] = 1;
     }
     if (fileStack.hasOwnProperty('own') && fileStack.own) {
       params['o'] = 1;
     }
-    if (fileStack.hasOwnProperty('token') && fileStack.token.hasOwnProperty(size)) {
+    if (fileStack
+      && fileStack.token
+      && fileStack.hasOwnProperty('token')
+      && fileStack.token.hasOwnProperty(size)) {
       params['token'] = fileStack.token[size];
     }
     if (fileStack.hasOwnProperty('collectionId')) {
@@ -68,22 +75,11 @@ export const FileStackToPreviewUrl = (fileStack: IFileStack | IAvatar, size: str
   }
 };
 
-export const FileStackOwn = (fileStack: IFileStack) => {
-  return (fileStack?.price > 0 && fileStack?.own);
-};
-
-export const FileStackNotOwn = (fileStack: IFileStack) => {
-  return (!fileStack?.own);
-};
-
-export const FileStackNotPurchased = (fileStack: IFileStack) => {
-  return (fileStack?.price > 0 && !fileStack?.purchased);
-};
-
 export const FileStackToUrl = (fileStack: IFileStack | IAvatar, ext: string = 'jpg') => {
   if (fileStack && typeof fileStack !== 'undefined') {
     return FileStackServer(fileStack) + '/file/' + fileStack.code + '/' + fileStack._id + '.' + ext;
   }
+  return null;
 };
 
 export const FileStackToVideoUrl = (fileStack: IFileStack, ext: string = 'mp4') => {
@@ -92,13 +88,15 @@ export const FileStackToVideoUrl = (fileStack: IFileStack, ext: string = 'mp4') 
       return FileStackServer(fileStack) + '/video/' + fileStack.collectionId + '/' + fileStack.code + '/' + fileStack._id + '.' + ext;
     } else {
       return FileStackServer(fileStack) + '/video/' + fileStack.code + '/' + fileStack._id + '.' + ext;
+
     }
   }
+  return null;
 };
 
-export const BlobToImageDimension = (file): Observable<any> => {
+export const BlobToImageDimension = (file: File): Observable<any> => {
   const _url = (URL || webkitURL);
-  let src = null;
+  let src:string|null = null;
   if (file) {
     const blob = new Blob([file], {type: file.type});
     src = _url.createObjectURL(blob);
@@ -109,7 +107,9 @@ export const BlobToImageDimension = (file): Observable<any> => {
       const img = new Image();
       img.src = src;
       img.onload = function () {
-        _url.revokeObjectURL(src);
+        if(src) {
+          _url.revokeObjectURL(src);
+        }
         observer.next({width: img.width, height: img.height});
         observer.complete();
       }
@@ -120,7 +120,7 @@ export const BlobToImageDimension = (file): Observable<any> => {
   })
 }
 
-export const BlobToBase64 = (blob): Observable<string> => {
+export const BlobToBase64 = (blob:Blob): Observable<string> => {
   return new Observable((observer) => {
     const reader = new FileReader();
     reader.readAsDataURL(blob);
@@ -131,7 +131,7 @@ export const BlobToBase64 = (blob): Observable<string> => {
   });
 };
 
-export const FileStackBlobToArrayBuffer = (blob): Observable<ArrayBuffer> => {
+export const FileStackBlobToArrayBuffer = (blob:Blob): Observable<ArrayBuffer> => {
   return new Observable((observer) => {
     const reader = new FileReader();
     reader.onload = (event: any) => {
@@ -152,17 +152,17 @@ export const FileStackBlobToFile = (theBlob: Blob, name: string): File => {
 };
 
 export const FileStackServer = (fileStack: IFileStack) => {
-  return (fileStack.price > 0) ? environment.FILE_SERVER_PURCHASED : environment.FILE_SERVER;
+  return (fileStack.price && fileStack.price > 0) ? environment.FILE_SERVER_PURCHASED : environment.FILE_SERVER;
 };
 
-export const FileStackCropper = async (file: Blob, orientation: number = null): Promise<any> => {
+export const FileStackCropper = async (file: Blob, orientation: number|null = null): Promise<any> => {
   return ModalService.openModal('image-cropper', {
     file,
     orientation
   });
 };
 
-export const Base64UrlToBlob = async (url) => {
+export const Base64UrlToBlob = async (url:string) => {
   return new Promise<Blob>((resolve) => {
     fetch(url)
       .then(res => res.blob())
@@ -170,7 +170,7 @@ export const Base64UrlToBlob = async (url) => {
   });
 }
 
-export const FileStackGenerateFileFromExternalUrl = async (url) => {
+export const FileStackGenerateFileFromExternalUrl = async (url:string) => {
   const myHeaders = new Headers();
   const response = await fetch(new Request(url, {
     method: 'GET',
@@ -180,7 +180,7 @@ export const FileStackGenerateFileFromExternalUrl = async (url) => {
     referrerPolicy: 'no-referrer'
   }));
   const mimeType = response.headers.get("Content-Type");
-  if (response.status === 200 && mimeType.match('video.*') || mimeType.match('image.*')) {
+  if (mimeType && response.status === 200 && (mimeType.match('video.*') || mimeType.match('image.*'))) {
     const filename = url.substring(url.lastIndexOf('/') + 1);
     const data = await response.blob();
     const metadata = {

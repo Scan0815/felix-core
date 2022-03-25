@@ -6,8 +6,8 @@ export interface ICoordinate {
 }
 
 export class Coordinates implements ICoordinate, Deserializable {
-  type: string;
-  coordinates: number[];
+  type: string = '';
+  coordinates: number[] = [];
 
   deserialize(input: any) {
     if (input) {

@@ -1,11 +1,11 @@
 import {Component, ComponentInterface, Event, h, Method, Prop, State} from '@stencil/core';
-import {AuthService} from '../../../services/auth.service';
 import {ConvertServerError} from '../../../helpers/string-utils';
-import {IAuthReset} from '../../../interfaces/auth';
 import {SuccessToast} from "../../../helpers/default-toasts";
 import {EventResetSuccess} from "../../../events/reset-success-event";
 import {EventResetSubmit} from "../../../events/reset-submit-event";
 import {first} from "rxjs/operators";
+import {IReset, UserResetAllowedKeys} from "../../../interfaces/user";
+import {AuthService} from "../../../services/auth.service";
 
 const i18n = {
   "retype": {
@@ -38,26 +38,28 @@ const i18n = {
   styleUrl: 'reset-password.scss'
 })
 export class ResetPassword implements ComponentInterface {
-  @Prop() confirmationCode: string;
-  @Prop() userId: string;
+  @Prop() confirmationCode: string = '';
+  @Prop() userId: string = '';
   @Prop() i18n = i18n;
   @State() errors: any = {};
   @State() spinner = false;
-  @State() data: IAuthReset = {
+  @State() data: IReset = {
     password: '',
     retype: ''
   };
-  @Event() resetSuccess: EventResetSuccess;
-  @Event() resetSubmit: EventResetSubmit;
+  @Event() resetSuccess: EventResetSuccess|undefined;
+  @Event() resetSubmit: EventResetSubmit|undefined;
 
   @Method()
   async resetErrors() {
     this.errors = {};
   }
 
-  reset(event) {
+  reset(event: Event) {
     event.preventDefault();
-    this.resetSubmit.emit(true);
+    if(this.resetSubmit) {
+      this.resetSubmit.emit(true);
+    }
     AuthService.changePassword(
       this.data,
       this.confirmationCode,
@@ -65,19 +67,30 @@ export class ResetPassword implements ComponentInterface {
     ).pipe(first()).subscribe({
       next: async () => {
         await SuccessToast('We changed your password!');
-        this.resetSuccess.emit(true);
-        this.resetSubmit.emit(false);
+        if(this.resetSuccess) {
+          this.resetSuccess.emit(true);
+        }
+        if(this.resetSubmit) {
+          this.resetSubmit.emit(false);
+        }
       }, error: (error) => {
         this.errors = error.errors;
-        this.resetSuccess.emit(false);
-        this.resetSubmit.emit(false);
+        if(this.resetSuccess) {
+          this.resetSuccess.emit(false);
+        }
+        if(this.resetSubmit) {
+          this.resetSubmit.emit(false);
+        }
       }
     });
   }
 
-  handleInput(event) {
+  handleInput(event:any) {
     this.errors = {};
-    this.data[event.target.name] = event.target.value;
+    if(event.target) {
+      const key: UserResetAllowedKeys = event.target.name;
+      this.data[key] = event.target.value;
+    }
   }
 
   render() {

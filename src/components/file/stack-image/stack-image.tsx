@@ -11,23 +11,23 @@ export class StackImage implements ComponentInterface {
 
   @Prop() trackViewTimeout = null;
   @Prop() autoAspectRatio = true;
-  @Prop() fileStack: IFileStack;
-  @Prop() rootElement: HTMLElement;
+  @Prop() fileStack: IFileStack | undefined;
+  @Prop() rootElement: HTMLElement | undefined;
   @Prop() fileStackSize: { size: string, pixelRatio: string }[] = [{size: '340xxx', pixelRatio: '1x'}];
-  @Prop() placeholder: string = null;
+  @Prop() placeholder: string|undefined;
   @Prop() ext: string = 'jpg';
-  @State() loadSrc?: string = null;
+  @State() loadSrc?: string|null = null;
   @State() loadError?: () => void;
 
-  @Event() trackViewImage: EventEmitter;
+  @Event() trackViewImage: EventEmitter | undefined;
 
   @Element() el!: HTMLElement;
   private io?: IntersectionObserver;
-  private img: HTMLImageElement;
-  private timeOutId = null;
+  private img: HTMLImageElement | null | undefined = null;
+  private timeOutId?:number;
 
   @Watch('fileStack')
-  fileStackChange(newFileStack, oldFileStack) {
+  fileStackChange(newFileStack: IFileStack, oldFileStack: IFileStack) {
     this.removeTrackView();
     this.addIO();
     if (newFileStack._id !== oldFileStack._id) {
@@ -47,7 +47,7 @@ export class StackImage implements ComponentInterface {
   }
 
   componentDidLoad(): void {
-    this.img = this.el?.shadowRoot.querySelector('img');
+    this.img = this.el?.shadowRoot?.querySelector('img');
     this.addIO();
   }
 
@@ -64,14 +64,14 @@ export class StackImage implements ComponentInterface {
   createTrackView() {
     if (this.trackViewTimeout) {
       this.removeTrackView();
-      this.timeOutId = setTimeout(() => {
-        this.trackViewImage.emit(this.fileStack);
+      this.timeOutId = window.setTimeout(() => {
+        this.trackViewImage?.emit(this.fileStack);
       }, this.trackViewTimeout);
     }
   }
 
   render() {
-    let style = null;
+    let style;
     if (this.fileStack && this.autoAspectRatio && (this.fileStack?.width > 0 && this.fileStack?.height > 0)) {
       style = {"--aspect-ratio": (this.fileStack.width / this.fileStack.height).toString()}
     }

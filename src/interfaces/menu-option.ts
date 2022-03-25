@@ -2,7 +2,7 @@ import {Deserializable} from './deserialize';
 import {IonicColor} from './IonicColor';
 
 export interface IMenuOption {
-  title: string;
+  title: string|null;
   titleClass?: string;
   role?: string;
   data?: any;
@@ -15,7 +15,7 @@ export interface IMenuOption {
 }
 
 export class MenuOption implements IMenuOption, Deserializable {
-  title: string;
+  title: string|null = null;
   titleClass?: string;
   icon?: string;
   iconSrc?: string;

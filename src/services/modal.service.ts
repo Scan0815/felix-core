@@ -4,14 +4,14 @@ import {UniqueID} from '../helpers/string-utils';
 
 class ModalServiceController {
 
-  async openModal(component,
-                  componentProps?,
-                  cssClass?,
+  async openModal(component:string,
+                  componentProps?:any,
+                  cssClass?:string,
                   backdropDismiss = true,
                   showBackdrop = true,
                   keyboardClose = true,
-                  enterAnimation: AnimationBuilder = null,
-                  leaveAnimation: AnimationBuilder = null): Promise<any> {
+                  enterAnimation?: AnimationBuilder,
+                  leaveAnimation?: AnimationBuilder): Promise<any> {
 
     return new Promise<any>(async (resolve) => {
 
@@ -19,15 +19,15 @@ class ModalServiceController {
 
       const id = UniqueID();
 
-      window.history.pushState({component: component, modal: true}, null);
-
+      window.history.pushState({component: component, modal: true}, '');
+      let _nav:HTMLIonNavElement|null = document.querySelector('ion-nav');
       const modal = await modalController.create({
         component,
         cssClass,
         backdropDismiss,
         showBackdrop,
         id,
-        presentingElement: document.querySelector('ion-nav'),
+        presentingElement: (_nav) ? _nav : undefined,
         enterAnimation,
         leaveAnimation,
         keyboardClose,
@@ -56,7 +56,7 @@ class ModalServiceController {
     });
   }
 
-  async closeModal(data?, role?) {
+  async closeModal(data?:any, role?:string) {
     const modals = document.querySelectorAll('ion-modal.show-modal:not(.dirty)');
     const index = (modals.length - 1);
     const modal: any = modals.item(index);

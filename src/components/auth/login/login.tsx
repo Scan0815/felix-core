@@ -1,12 +1,12 @@
 import {Component, ComponentInterface, Event, h, Method, Prop, State} from '@stencil/core';
-import {AuthService} from '../../../services/auth.service';
 import {ConvertServerError} from '../../../helpers/string-utils';
 import {first} from "rxjs/operators";
 import {EventLoginSuccess} from "../../../events/login-success-event";
 import {EventLoginReset} from "../../../events/login-reset-event";
 import {EventLoginSignUp} from "../../../events/login-sign-up-event";
 import {EventLoginProgress} from "../../../events/login-progress-event";
-import {ILogin} from "../../../interfaces/user";
+import {ILogin, UserLoginAllowedKeys} from "../../../interfaces/user";
+import {AuthService} from "../../../services/auth.service";
 
 const i18n = {
   "login": "Login",
@@ -52,10 +52,10 @@ export class Login implements ComponentInterface {
     password: ''
   };
 
-  @Event() loginSuccess: EventLoginSuccess;
-  @Event() loginReset: EventLoginReset;
-  @Event() signUp: EventLoginSignUp;
-  @Event() loginProgress: EventLoginProgress;
+  @Event() loginSuccess: EventLoginSuccess | undefined;
+  @Event() loginReset: EventLoginReset | undefined;
+  @Event() signUp: EventLoginSignUp | undefined;
+  @Event() loginProgress: EventLoginProgress | undefined;
 
   @Method()
   async resetErrors() {
@@ -67,8 +67,10 @@ export class Login implements ComponentInterface {
     this.loadingByIndicator = [...this.loadingByIndicator];
   }
 
-  login(event) {
-    this.loginProgress.emit(true);
+  login(event: Event) {
+    if(this.loginProgress) {
+      this.loginProgress.emit(true);
+    }
     this.setLoginByType('login');
     event.preventDefault();
     AuthService.login(
@@ -77,42 +79,62 @@ export class Login implements ComponentInterface {
     ).pipe(first()).subscribe({
       next: () => {
         setTimeout(() => {
-          this.loginSuccess.emit(true);
-          this.loginProgress.emit(false);
+          if(this.loginSuccess) {
+            this.loginSuccess.emit(true);
+          }
+          if(this.loginProgress) {
+            this.loginProgress.emit(false);
+          }
         }, 200);
         setTimeout(() => {
           this.loadingByIndicator = [];
         }, 1000);
       },
       error: (error) => {
-        this.loginSuccess.emit(false);
-        this.loginProgress.emit(false);
+        if(this.loginSuccess) {
+          this.loginSuccess.emit(false);
+        }
+        if(this.loginProgress) {
+          this.loginProgress.emit(false);
+        }
         this.loadingByIndicator = [];
         this.errors = error.errors;
         if (this.errors?.identifier?.noaccountfound) {
-          this.signUp.emit(Object.assign({
-            name: '',
-            identifier: '',
-            password: ''
-          }, this.data));
+          if (this.signUp) {
+            this.signUp.emit(Object.assign({
+              name: '',
+              identifier: '',
+              password: ''
+            }, this.data));
+          }
         }
       }
     });
   }
 
   resetPassword() {
-    this.loginProgress.emit(true);
+    if(this.loginProgress) {
+      this.loginProgress.emit(true);
+    }
     this.setLoginByType('resetPassword');
     AuthService.resetPassword(
       this.data.identifier?.trim()
     ).pipe(first()).subscribe({
       next: () => {
-        this.loginReset.emit(true);
-        this.loginProgress.emit(false);
+        if(this.loginReset) {
+          this.loginReset.emit(true);
+        }
+        if(this.loginProgress) {
+          this.loginProgress.emit(false);
+        }
         this.loadingByIndicator = [];
       }, error: (error) => {
-        this.loginReset.emit(false);
-        this.loginProgress.emit(false);
+        if(this.loginReset) {
+          this.loginReset.emit(false);
+        }
+        if(this.loginProgress) {
+          this.loginProgress.emit(false);
+        }
         this.errors = error?.errors;
         this.loadingByIndicator = [];
       }
@@ -123,12 +145,15 @@ export class Login implements ComponentInterface {
     this.resetPassword();
   }
 
-  handleInput(event) {
+  handleInput(event:any) {
     this.errors = {};
-    if (event.target.name === "email") {
-      this.data["identifier"] = event.target.value;
-    } else {
-      this.data[event.target.name] = event.target.value;
+    if (event && event.target) {
+      if (event.target.name === "email") {
+        this.data.identifier = event.target.value;
+      } else {
+        const key:UserLoginAllowedKeys = event.target.name;
+        this.data[key] = event.target.value;
+      }
     }
   }
 

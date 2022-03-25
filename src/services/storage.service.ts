@@ -1,5 +1,5 @@
-export class StorageServiceController {
-  private myStorage = window.localStorage;
+class StorageServiceController {
+  private myStorage:Storage = window.localStorage;
 
   constructor() {
   }
@@ -9,7 +9,11 @@ export class StorageServiceController {
   }
 
   public get(name: string) {
-    return JSON.parse(this.myStorage.getItem(name));
+    const find = this.myStorage.getItem(name)
+    if(find)
+    {
+      return JSON.parse(find);
+    }
   }
 
   public remove(name: string) {

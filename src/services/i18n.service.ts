@@ -1,21 +1,21 @@
 import {StorageService} from './storage.service';
+import {ReplaceAll} from "../helpers/string-utils";
 
 let allowedLanguage = ['en'];
 let currentLocale = StorageService.get('locale');
 
 class I18n {
-  translation = {};
-  result: string;
-  d = (text) => {
+  translation:any= {};
+  d = (text:string) => {
     this.translation[allowedLanguage[0]] = text;
     return this;
   }
-  t = (lang, text) => {
+  t = (lang:string, text:string) => {
     this.translation[lang] = text;
     return this;
   }
-  get = (key = null, replace?) => {
-    let result;
+  get = (key = null, replace?:{[key:string]:string}) => {
+    let result: string;
     if (key) {
       result = this.translation[currentLocale][key]
     } else {
@@ -24,7 +24,7 @@ class I18n {
     if (replace) {
       for (const [key, value] of Object.entries(replace)) {
         if (result) {
-          result = result.replaceAll(key, value);
+          result = ReplaceAll(result, key, value);
         }
       }
     }
@@ -43,12 +43,12 @@ const checkIfLocaleAllowed = () => {
   return new RegExp('^(' + allowedLanguage.join('|') + ')$', 'i');
 }
 
-export const Locale = (lang, overwrite = false) => {
+export const Locale = (lang:string, overwrite = false) => {
   currentLocale = StorageService.get('locale');
   if (!currentLocale || overwrite ||
     !checkIfLocaleAllowed().test(currentLocale)) {
-    if (lang && checkIfLocaleAllowed().test(lang.substr(0, 2))) {
-      currentLocale = lang.substr(0, 2);
+    if (lang && checkIfLocaleAllowed().test(lang.substring(0, 2))) {
+      currentLocale = lang.substring(0, 2);
     } else {
       currentLocale = allowedLanguage[0]
     }
@@ -64,6 +64,6 @@ export const getCurrentLocale = () => {
   return currentLocale;
 }
 
-export const i18n = (d) => {
+export const i18n = (d:string) => {
   return new I18n().d(d);
 }

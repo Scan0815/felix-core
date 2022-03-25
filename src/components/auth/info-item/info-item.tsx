@@ -7,9 +7,9 @@ import {IonicColor} from '../../../interfaces/IonicColor';
 })
 export class InfoItem {
 
-  @Prop() color: IonicColor;
-  @Prop() icon: string;
-  @Prop() infos: any = [];
+  @Prop() color: IonicColor| undefined;
+  @Prop() icon: string| undefined;
+  @Prop() infos: string[] = [];
 
   render() {
     return (

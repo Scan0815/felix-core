@@ -1,17 +1,10 @@
 import {IonicColor} from '../interfaces/IonicColor';
 
-export const CssRgb = (values) => {
-  if (values && values.length > 0) {
+export const CssRgb = (values:string[]|number[]) => {
     return 'rgb(' + values.join(', ') + ')';
-  }
 };
 
-export const StyleObjectToStyle = (el, style: {}) => {
-  for (const property in style)
-    el.style[property] = style[property];
-}
-
-export const CssInjectStyle = (styleID, className, styleString: string) => {
+export const CssInjectStyle = (styleID:string, className:string, styleString: string) => {
   if (!document.getElementById('style_' + styleID)) {
     const style = document.createElement('style');
     style.id = 'style_' + styleID;
@@ -25,9 +18,9 @@ export const createIonColorClasses = (color: IonicColor | undefined | null): str
   return `ion-color-${color}`;
 };
 
-export const StringToColour = (str) => {
+export const StringToColour = (str:string) => {
   let char = str.charAt(0).toLowerCase();
-  let color = {
+  let color:any = {
     a: [128, 191, 255],
     b: [179, 219, 255],
     c: [0, 73, 102],
@@ -55,7 +48,7 @@ export const StringToColour = (str) => {
     y: [102, 48, 0],
     z: [128, 6, 0]
   };
-  let background = {
+  let background:any = {
     a: [0, 31, 63],
     b: [0, 116, 217],
     c: [127, 219, 255],

@@ -1,5 +1,5 @@
 {
-  "name": "felix-core",
+  "name": "@felix/core",
   "version": "1.0.0",
   "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",
@@ -18,15 +18,6 @@
     "dist/",
     "loader/"
   ],
-  "exports": {
-    "./services": {
-      "types": "./dist/types/services/index.d.ts",
-      "node": "./dist/cjs/services/index.js",
-      "require": "./dist/cjs/services/index.js",
-      "es2015": "./dist/esm/services/index.js",
-      "default": "./dist/esm5/services/index.js"
-    }
-  },
   "scripts": {
     "prepare": "npm run build",
     "build": "stencil build --docs",

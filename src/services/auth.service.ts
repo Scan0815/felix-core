@@ -21,7 +21,9 @@ class AuthServiceController extends RestService {
   constructor() {
     super();
     const credentials = new Credentials().deserialize(StorageService.get('credentials'));
-    this.setApi(environment.REST_API);
+    if(environment.REST_API) {
+      this.setApi(environment.REST_API);
+    }
     this.credentials$.next(credentials);
     if (credentials
       && credentials.hasOwnProperty('token')
@@ -45,7 +47,7 @@ class AuthServiceController extends RestService {
     );
   }
 
-  public register(identifier: string, password: string, retype: string, name: string, ext_id: string = null): Observable<AuthResponse> {
+  public register(identifier: string, password: string, retype: string|null , name: string, ext_id: string|null = null): Observable<AuthResponse> {
     return this.create('/auth/register', {
       identifier,
       password,

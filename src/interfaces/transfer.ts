@@ -1,12 +1,11 @@
 import {Deserializable} from './deserialize';
-import {IExIf} from './exIf';
 import {UniqueID} from '../helpers/string-utils';
 
 export interface ITransfer {
   guid?: string;
   id?: string;
   transferId?: string;
-  file?: File | Blob;
+  file?: File;
   name?: string;
   description?: string;
   width?: number;
@@ -15,23 +14,23 @@ export interface ITransfer {
   path?: string;
   thumbnail?: string;
   collection?: string;
-  exIf?: IExIf;
+  exIf?: any;
 }
 
 export class Transfer implements ITransfer, Deserializable {
-  guid: string;
-  id: string;
+  guid?: string;
+  id?: string;
   transferId?: string;
-  file?: File | Blob;
-  path: string;
-  thumbnail: string;
-  name: string;
+  file?: File;
+  path?: string;
+  thumbnail?: string;
+  name?: string;
   width?: number;
   height?: number;
   description?: string;
   tag?: string[];
   collection?: string;
-  exIf: IExIf;
+  exIf?: any;
 
   deserialize(input: ITransfer) {
     if (!input.guid) {

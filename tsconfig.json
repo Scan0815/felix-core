@@ -1,29 +1,33 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
+    "strict": true,
+    "alwaysStrict": true,
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
-    "declaration": false,
+    "declaration": true,
     "experimentalDecorators": true,
-    "resolveJsonModule": true,
-    "lib": [
-      "dom",
-      "es2017",
-      "es2020"
-    ],
-    "moduleResolution": "node",
-    "module": "esnext",
-    "target": "es2017",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "assumeChangesOnlyAffectDirectDependencies": true,
     "jsx": "react",
     "jsxFactory": "h",
-    "paths": {
-      "services": ["./src/services/index"]
-    }
+    "lib": [
+      "dom",
+      "es2017"
+    ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": ".tmp",
+    "pretty": true,
+    "removeComments": false,
+    "target": "es2017",
+    "baseUrl": "."
   },
   "include": [
-    "src"
+    "src",
   ],
   "exclude": [
     "node_modules"

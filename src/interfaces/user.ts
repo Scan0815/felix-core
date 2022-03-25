@@ -3,6 +3,14 @@ import {Deserializable} from './deserialize';
 import {Avatar, IAvatar} from './avatar';
 
 export type UserStatus = 'free' | 'confirmation' | 'bounce' | 'deleted';
+export type UserLoginAllowedKeys= 'identifier' | 'password';
+export type UserRegisterAllowedKeys= 'identifier' | 'password' | 'name';
+export type UserResetAllowedKeys= 'password' | 'retype';
+
+export interface IReset {
+  password: string,
+  retype: string
+}
 
 export interface ILogin {
   identifier: string,
@@ -16,31 +24,31 @@ export interface IRegister {
 }
 
 export interface IUser {
-  _id: string;
-  name: string;
+  _id?: string;
+  name?: string;
   identifier?: string;
-  roles: IRole[];
-  avatar: IAvatar;
-  status: UserStatus;
+  roles?: IRole[];
+  avatar:  IAvatar|null;
+  status?: UserStatus;
   updated_at?: string;
   created_at?: string;
 }
 
 export class User implements IUser, Deserializable {
-  _id: string;
-  name: string;
+  _id?: string;
+  name?: string;
   identifier?: string;
-  roles: IRole[];
-  avatar: IAvatar;
-  status: UserStatus;
+  roles?: IRole[];
+  avatar: IAvatar|null = null;
+  status?: UserStatus;
   updated_at?: string;
   created_at?: string;
 
-  deserialize(input: IUser) {
+  deserialize(input: IUser|null) {
     if (input) {
       Object.assign(this, input);
       if (input.roles) {
-        this.roles = input.roles.map((role: Role) => new Role().deserialize(role));
+        this.roles = input.roles.map((role: IRole) => new Role().deserialize(role));
       }
       if (input.avatar) {
         this.avatar = new Avatar().deserialize(input.avatar);

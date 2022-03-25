@@ -8,8 +8,8 @@ import {IFileStack} from '../../../interfaces/filestack';
   shadow: true
 })
 export class StackVideo {
-  @Prop() fileStack: IFileStack = null;
-  @Prop() srcVideo: string = null;
+  @Prop() fileStack: IFileStack|undefined;
+  @Prop() srcVideo: string|undefined;
   @Prop() loopVideo: boolean = true;
   @Prop() autoPlayVideo: boolean = true;
   @Prop() onlyPreview: boolean = false;
@@ -20,33 +20,33 @@ export class StackVideo {
   @Prop() fullScreenButton = true;
   @Prop() autoAspectRatio = true;
   @Prop() volume = 0.7;
-  @Prop() rootElement: HTMLElement;
+  @Prop() rootElement: HTMLElement|undefined;
   @Prop({mutable: true}) preload = 'metadata';
   @State() progressBarValue = 0;
   @State() addPlayButton = false;
   @State() loading = false;
   @Element() el!: HTMLElement;
-  @Event() trackViewVideo: EventEmitter;
+  @Event() trackViewVideo: EventEmitter|undefined;
 
-  private muteButtonEl: HTMLIonButtonElement;
-  private videoEl: HTMLVideoElement;
-  private progressBarEl: HTMLIonProgressBarElement;
-  private seekBarEl: HTMLInputElement;
-  private posterEl: HTMLImageElement;
-  private timeOutId = null;
-  private animationTimeOutId = null;
+  private muteButtonEl: HTMLIonButtonElement|undefined;
+  private videoEl: HTMLVideoElement|undefined;
+  private progressBarEl: HTMLIonProgressBarElement|undefined;
+  private seekBarEl: HTMLInputElement|undefined;
+  private posterEl: HTMLImageElement|undefined;
+  private timeOutId: number|undefined;
+  private animationTimeOutId: number|undefined;
   private isPaused = true;
 
-  addSrc(fileStack: IFileStack, srcVideo: string) {
+  addSrc(fileStack: IFileStack|undefined, srcVideo: any) {
     if(fileStack || srcVideo) {
-      this.videoEl.setAttribute('src', srcVideo ? srcVideo : FileStackToVideoUrl(fileStack));
-      this.videoEl.load();
+      this.videoEl?.setAttribute('src', srcVideo ? srcVideo : fileStack && FileStackToVideoUrl(fileStack));
+      this.videoEl?.load();
     }
   }
 
   removeSrc() {
-    this.videoEl.removeAttribute('src');
-    this.videoEl.load();
+      this.videoEl?.removeAttribute('src');
+    this.videoEl?.load();
   }
 
   @Method()
@@ -96,7 +96,7 @@ export class StackVideo {
     }
     this.removeTrackView();
     if (!!navigator.platform.match(/iPhone|iPod|iPad/)) {
-      this.seekBarEl.removeEventListener("touchend", (e) => {
+      this.seekBarEl?.removeEventListener("touchend", (e) => {
         this.iosPolyfill(e)
       }, true);
     }
@@ -119,7 +119,7 @@ export class StackVideo {
   }
 
   play() {
-    this.videoEl.play().then(() => {
+    this.videoEl?.play().then(() => {
       this.videoEl?.classList.remove('pause');
       this.hidePoster();
       this.preload = "metadata";
@@ -164,9 +164,9 @@ export class StackVideo {
     }
   }
 
-  handleIntersect(entries) {
+  handleIntersect(entries: IntersectionObserverEntry[]) {
     entries.forEach(entry => {
-      if (entry.intersectionRatio <= 0.5 && !this.videoEl.paused) {
+      if (entry.intersectionRatio <= 0.5 && !this.videoEl?.paused) {
         this.pause();
         this.removeTrackView();
         if (!this.autoPlayVideo) {
@@ -206,26 +206,28 @@ export class StackVideo {
   createTrackView() {
     if (this.trackViewTimeout) {
       this.removeTrackView();
-      this.timeOutId = setTimeout(() => {
-        this.trackViewVideo.emit(this.fileStack);
+      this.timeOutId = window.setTimeout(() => {
+        this.trackViewVideo?.emit(this.fileStack);
       }, this.trackViewTimeout);
     }
   }
 
-  async switchFullScreen(event?) {
+  async switchFullScreen(event?:Event) {
     if (event) {
       event.preventDefault();
       event.stopImmediatePropagation();
       event.stopPropagation();
     }
-    if (this.videoEl["webkitEnterFullscreen"]) {
+    // @ts-ignore
+    if (this.videoEl && this.videoEl["webkitEnterFullscreen"]) {
+      // @ts-ignore
       await this.videoEl["webkitEnterFullscreen"]();
-    } else if (this.videoEl.requestFullscreen) {
-      await this.videoEl.requestFullscreen();
+    } else if (this.videoEl?.requestFullscreen) {
+      await this.videoEl?.requestFullscreen();
     }
   }
 
-  switchMute(event?) {
+  switchMute(event?:Event) {
 
     if (event) {
       event.preventDefault();
@@ -244,7 +246,7 @@ export class StackVideo {
       clearTimeout(this.animationTimeOutId);
     }
 
-    this.animationTimeOutId = setTimeout(() => {
+    this.animationTimeOutId = window.setTimeout(() => {
       this.muteButtonEl?.classList.add('fadeInAndOut');
     }, 100);
 
@@ -257,13 +259,16 @@ export class StackVideo {
       if (isNaN(this.progressBarValue)) {
         this.progressBarValue = 0.0
       }
-      this.seekBarEl.value = this.progressBarValue.toString();
+      if(this.seekBarEl) {
+        this.seekBarEl.value = this.progressBarValue.toString();
+      }
     }
   }
 
   skipAhead() {
     if (this.progressBarEl && this.videoEl) {
-      let currentTime = parseFloat((this.videoEl?.duration * (parseFloat(this.seekBarEl.value) * 100) / 100).toString());
+      const seekBarValue = this.seekBarEl?.value || "0";
+      let currentTime = parseFloat((this.videoEl?.duration * (parseFloat(seekBarValue) * 100) / 100).toString());
       if (isNaN(currentTime)) {
         currentTime = 0.0
       }
@@ -272,14 +277,25 @@ export class StackVideo {
       if (isNaN(this.progressBarValue)) {
         this.progressBarValue = 0.0
       }
-      this.seekBarEl.value = this.progressBarValue.toString();
+      if(this.seekBarEl) {
+        this.seekBarEl.value = this.progressBarValue.toString();
+      }
     }
   }
 
-  iosPolyfill(e) {
-    const val = (e.pageX - this.seekBarEl.getBoundingClientRect().left)
-      / (this.seekBarEl.getBoundingClientRect().right - this.seekBarEl.getBoundingClientRect().left);
-    let max = parseInt(this.seekBarEl.getAttribute("max"));
+  iosPolyfill(e:any) {
+
+   const boundingClientRect = this.seekBarEl?.getBoundingClientRect();
+   let val = 0;
+   let max = 0;
+   if(boundingClientRect){
+     val = (e.pageX - boundingClientRect.left) / (boundingClientRect.right - boundingClientRect.left);
+   }
+    const maxAttribute = this.seekBarEl?.getAttribute("max");
+    if(maxAttribute){
+      max = parseInt(maxAttribute);
+    }
+
     const segment = 1 / (max - 1);
     let segmentArr = [];
     max++;
@@ -288,12 +304,16 @@ export class StackVideo {
     }
     let segCopy = JSON.parse(JSON.stringify(segmentArr)),
       ind = segmentArr.sort((a, b) => Math.abs(val - a) - Math.abs(val - b))[0];
-    this.seekBarEl.value = segCopy.indexOf(ind) + 1;
+
+    if(this.seekBarEl) {
+      this.seekBarEl.value =  segCopy.indexOf(ind) + 1;
+    }
+
   }
 
   render() {
-    let style = null;
-    if (this.autoAspectRatio && this.fileStack?.width > 0 && this.fileStack?.height > 0) {
+    let style;
+    if (this.fileStack && this.autoAspectRatio && this.fileStack.width > 0 && this.fileStack.height > 0) {
       style = {"--aspect-ratio": (this.fileStack.width / this.fileStack.height).toString()}
     }
     return (
@@ -340,7 +360,7 @@ export class StackVideo {
 
         {(this.fileStack) &&
           <img alt={this.fileStack?.name} ref={ref => this.posterEl = ref} class="poster"
-               src={FileStackToPreviewUrl(this.fileStack, '900xxx', 'jpg',)}/>
+               src={FileStackToPreviewUrl(this.fileStack, '900xxx', 'jpg')}/>
         }
 
         {(this.fileStack && this.fileStack.hasOwnProperty("duration")) &&

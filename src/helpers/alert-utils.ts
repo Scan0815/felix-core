@@ -9,12 +9,12 @@ export const AlertConfirm = (title: string, message: string, okay: Function = ()
       text: cancelText,
       role: cancelRole,
       cssClass: 'secondary',
-      handler: (event) => {
+      handler: (event:any) => {
         cancel(event)
       }
     }, {
       text: okayText,
-      handler: (event) => {
+      handler: (event:any) => {
         okay(event)
       }
     }

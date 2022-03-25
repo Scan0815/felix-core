@@ -13,21 +13,23 @@ export abstract class RestService {
     'Accept': 'application/json'
   });
 
-  private api: string;
+  private api: string| null = null;
 
-  public setApi(api) {
+  public setApi(api:string) {
     this.api = api;
   }
 
-  public SetOwnHeaders(ownHeaders?:{name : string, value:any}[]){
+  public setHeaders(ownHeaders:{name:string, value:any}[]){
     this.ownHeaders = ownHeaders;
   }
 
   public setAuthHeader(credentials: ICredentials, ownHeaders?:{name : string, value:any}[]) {
     if (credentials) {
       if (credentials.hasOwnProperty('token') && credentials.token != null) {
-        this.setHeader('x-auth-resource', credentials.resource);
-        this.setHeader('x-auth-token', credentials.token);
+        this.setHeaders([
+          {name: 'x-auth-resource', value: credentials.resource},
+          {name: 'x-auth-token', value: credentials.token}
+        ]);
       } else {
         if (credentials.hasOwnProperty('resource') && credentials.resource != null) {
           this.setHeader('x-auth-resource', credentials.resource);
@@ -42,39 +44,39 @@ export abstract class RestService {
     }
   }
 
-  public appendHeader(name, value) {
+  public appendHeader(name:string, value:any) {
     this.headers.append(name, value);
   }
 
-  public setHeader(name, value) {
+  public setHeader(name:string, value:any) {
     this.headers.set(name, value);
   }
 
-  public deleteHeader(name) {
+  public deleteHeader(name:string) {
     this.headers.delete(name);
   }
 
-  public read(url, data?, cache?: RestCache): Observable<any> {
+  public read(url:string, data?:any, cache?: RestCache): Observable<any> {
     return this.fetch(this.request(url, 'GET', data, cache));
   }
 
-  public create(url, data?): Observable<any> {
+  public create(url:string, data?:any): Observable<any> {
     return this.fetch(this.request(url, 'POST', data));
   }
 
-  public update(url, data?): Observable<any> {
+  public update(url:string, data?:any): Observable<any> {
     return this.fetch(this.request(url, 'PUT', data));
   }
 
-  public add(url, data?): Observable<any> {
+  public add(url:string, data?:any): Observable<any> {
     return this.fetch(this.request(url, 'PATCH', data));
   }
 
-  public delete(url, data?): Observable<any> {
+  public delete(url:string, data?:any): Observable<any> {
     return this.fetch(this.request(url, 'DELETE', data));
   }
 
-  public createGetBlob(url, data?): Observable<any> {
+  public createGetBlob(url:string, data?:any): Observable<any> {
     return this.fetchBlob(this.request(url, 'POST', data));
   }
 
@@ -90,15 +92,14 @@ export abstract class RestService {
     const credentials = new Credentials().deserialize(StorageService.get('credentials'));
     this.setAuthHeader(credentials, this.ownHeaders);
     let api = this.api + endPoint;
-    let init = {
+    let init:{[key:string]:any} = {
       method,
-      body: null,
       headers: this.headers,
       cache,
       credentials: requestCredentials
     };
     if (data && method !== 'GET') {
-      init.body = JSON.stringify(data);
+      init['body'] = JSON.stringify(data);
     }
     if (data && method === 'GET') {
       const queryString = Object.keys(data).map(key => key + '=' + data[key]).join('&');
@@ -108,7 +109,7 @@ export abstract class RestService {
     return new Request(api, init)
   }
 
-  private fetch(request) {
+  private fetch(request:any) {
     return new Observable(observable => {
       fetch(request).then(response => {
         response.text().then(text => {
@@ -133,7 +134,7 @@ export abstract class RestService {
     })
   }
 
-  private fetchBlob(request) {
+  private fetchBlob(request:any) {
     const response$ = new Subject();
     fetch(request).then(response => {
       response.blob().then(blob => {

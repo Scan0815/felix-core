@@ -23,7 +23,7 @@ class ModalMenuServiceController {
     );
   }
 
-  async closeMenu(data?, role?) {
+  async closeMenu(data?:any, role?:string)  {
     return ModalService.closeModal(data, role);
   }
 

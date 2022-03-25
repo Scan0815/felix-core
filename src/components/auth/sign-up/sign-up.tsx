@@ -10,20 +10,20 @@ import {
   State
 } from '@stencil/core';
 import {FileStackCropper} from '../../../helpers/file-stack-utils';
-import {AuthService} from '../../../services/auth.service';
 import {OverlayEventDetail} from '@ionic/core';
-import {ToastService} from '../../../services/toast.service';
 import {ITransfer, Transfer} from '../../../interfaces/transfer';
-import {IRegister, User} from '../../../interfaces/user';
-import {AccountService} from '../../../services/account.service';
+import {IRegister, User, UserRegisterAllowedKeys} from '../../../interfaces/user';
 import {Credentials} from '../../../interfaces/credentials';
-import {StorageService} from '../../../services/storage.service';
 import {InitChunkUpload} from '../../../helpers/upload-utils';
 import {Compress} from '../../../helpers/image-utils';
 import {ConvertServerError} from '../../../helpers/string-utils';
 import {Subscription} from "rxjs";
 import {environment} from "../../../services/environment.service";
 import {first} from "rxjs/operators";
+import {AuthService} from "../../../services/auth.service";
+import {StorageService} from "../../../services/storage.service";
+import {ToastService} from "../../../services/toast.service";
+import {AccountService} from "../../../services/account.service";
 
 const i18n = {
   "signUp": "Create account",
@@ -76,8 +76,8 @@ const i18n = {
   styleUrl: 'sign-up.scss'
 })
 export class SignUp implements ComponentInterface {
-  @Prop() avatarUpload: false;
-  @Prop() i18n = i18n
+  @Prop() avatarUpload: boolean =  false;
+  @Prop() i18n = i18n;
   @State() errors: any = {};
   @State() spinner = false;
   @Prop({mutable: true}) data: IRegister = {
@@ -86,17 +86,17 @@ export class SignUp implements ComponentInterface {
     password: ''
   };
   @State() passwordVisible = false;
-  @State() placeholder: string;
+  @State() placeholder: string|undefined;
   @State() acceptTerms = false;
   @State() loadingByIndicator: string[] = [];
-  @Event() signUpSuccess: EventEmitter;
-  @Event() signUpProgress: EventEmitter;
-  @Event() signUpNotApproved: EventEmitter;
+  @Event() signUpSuccess: EventEmitter|undefined;
+  @Event() signUpProgress: EventEmitter|undefined;
+  @Event() signUpNotApproved: EventEmitter|undefined;
 
   @Element() el!: HTMLElement;
   files: Set<ITransfer> = new Set();
   private subscriptions: Subscription[] = [];
-  private passwordEl: HTMLInputElement;
+  private passwordEl: HTMLInputElement|undefined;
 
   @Method()
   async resetErrors() {
@@ -115,28 +115,31 @@ export class SignUp implements ComponentInterface {
     this.loadingByIndicator = [...this.loadingByIndicator];
   }
 
-  async selected(event) {
+  async selected(event:CustomEvent) {
     const file = event.detail[0];
     this.spinner = true;
-
     const avatarFile = await Compress(file, null, 1024);
-    const data: OverlayEventDetail = await FileStackCropper(avatarFile);
-    if (data) {
-      this.placeholder = URL.createObjectURL(data.data.blob);
-      this.files.add(new Transfer().deserialize({
-        file: avatarFile,
-        exIf: {
-          crop: data.data.cropperPosition,
-          categories: ['avatar']
-        }
-      }));
+    if(avatarFile) {
+      const data: OverlayEventDetail = await FileStackCropper(avatarFile);
+      if (data) {
+        this.placeholder = URL.createObjectURL(data.data.blob);
+        this.files.add(new Transfer().deserialize({
+          file: avatarFile,
+          exIf: {
+            crop: data.data.cropperPosition,
+            categories: ['avatar']
+          }
+        }));
+      }
     }
     this.spinner = false;
   }
 
-  register(event) {
+  register(event: Event) {
     event.preventDefault();
-    this.signUpProgress.emit(true);
+    if(this.signUpProgress) {
+      this.signUpProgress.emit(true);
+    }
     this.setSignUpByType('signUp');
     this.subscriptions.push(AuthService.register(
       this.data.identifier?.trim(),
@@ -147,8 +150,12 @@ export class SignUp implements ComponentInterface {
     ).pipe(first()).subscribe({
       next: async (authResponse) => {
         setTimeout(async () => {
-          this.signUpSuccess.emit(true);
-          this.signUpProgress.emit(false);
+          if(this.signUpSuccess) {
+            this.signUpSuccess.emit(true);
+          }
+          if(this.signUpProgress) {
+            this.signUpProgress.emit(false);
+          }
           await ToastService.presentToast(
             this.i18n.identifier.confirm.message,
             this.i18n.identifier.confirm.button,
@@ -163,7 +170,7 @@ export class SignUp implements ComponentInterface {
             `${environment.REST_API}/user/${authResponse.user._id}/avatar`,
             new Credentials().deserialize(StorageService.get('credentials')),
             Array.from(this.files),
-            (response) => {
+            (response:any) => {
               if (response.complete) {
                 const accountWithAvatar = new User().deserialize(
                   Object.assign(authResponse.user, {
@@ -175,24 +182,29 @@ export class SignUp implements ComponentInterface {
             });
         }
       }, error: (error) => {
-        this.signUpSuccess.emit(false);
-        this.signUpProgress.emit(false);
+        if(this.signUpSuccess) {
+          this.signUpSuccess.emit(false);
+        }
+        if(this.signUpProgress) {
+          this.signUpProgress.emit(false);
+        }
         this.loadingByIndicator = [];
         this.errors = error?.errors;
       }
     }));
   }
 
-  handleInput(event) {
+  handleInput(event:any) {
     this.errors = {};
     if (event.target.name === "email") {
       this.data["identifier"] = event.target.value;
     } else {
-      this.data[event.target.name] = event.target.value;
+      const key: UserRegisterAllowedKeys = event.target.name;
+      this.data[key] = event.target.value;
     }
   }
 
-  accept(event) {
+  accept(event:CustomEvent) {
     this.acceptTerms = event.detail.checked;
   }
 
@@ -241,12 +253,14 @@ export class SignUp implements ComponentInterface {
             <ion-buttons class="password-eye" slot="end">
               <ion-button mode="md" slot="icon-only" onClick={(event) => {
                 event.preventDefault();
-                if (this.passwordEl?.type === "password") {
-                  this.passwordEl.type = 'input';
-                  this.passwordVisible = true;
-                } else {
-                  this.passwordEl.type = 'password';
-                  this.passwordVisible = false;
+                if(this.passwordEl) {
+                  if (this.passwordEl?.type === "password") {
+                    this.passwordEl.type = 'input';
+                    this.passwordVisible = true;
+                  } else {
+                    this.passwordEl.type = 'password';
+                    this.passwordVisible = false;
+                  }
                 }
               }}>
                 <ion-icon

@@ -7,10 +7,10 @@
 
 ## Properties
 
-| Property   | Attribute   | Description | Type     | Default                                          |
-| ---------- | ----------- | ----------- | -------- | ------------------------------------------------ |
-| `accept`   | `accept`    |             | `string` | `"image\/jpg\|image\/jpeg\|image\/png\|video.*"` |
-| `iconName` | `icon-name` |             | `string` | `undefined`                                      |
+| Property   | Attribute   | Description | Type                  | Default                                          |
+| ---------- | ----------- | ----------- | --------------------- | ------------------------------------------------ |
+| `accept`   | `accept`    |             | `string`              | `"image\/jpg\|image\/jpeg\|image\/png\|video.*"` |
+| `iconName` | `icon-name` |             | `string \| undefined` | `undefined`                                      |
 
 
 ## Events

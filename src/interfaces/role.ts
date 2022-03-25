@@ -5,9 +5,9 @@ export interface IRole {
 }
 
 export class Role implements IRole, Deserializable {
-  name: string;
+  name: string = '';
 
-  deserialize(input: any) {
+  deserialize(input: IRole) {
     Object.assign(this, input);
     return this;
   }

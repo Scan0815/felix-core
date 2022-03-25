@@ -13,14 +13,16 @@ import {environment} from "./environment.service";
 
 class AccountServiceController extends RestService {
   public modalOpened = false;
-  private account$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
+  private account$: BehaviorSubject<IUser|null> = new BehaviorSubject<IUser|null>(null);
   public account = this.account$.asObservable();
   private payedSubscribed$: Subject<string> = new Subject<string>();
   public payedSubscribed = this.payedSubscribed$.asObservable();
 
   constructor() {
     super();
-    this.setApi(environment.REST_API);
+    if(environment.REST_API) {
+      this.setApi(environment.REST_API);
+    }
     let account = StorageService.get('account');
     account = (account) ? new User().deserialize(account) : null;
     this.account$.next(account);
@@ -43,7 +45,7 @@ class AccountServiceController extends RestService {
 
   public hasRole(role: string) {
     const account = this.account$.getValue();
-    if (account) {
+    if (account && account.roles) {
       return (typeof account.roles.find((r) => (r.name === role)) === 'object');
     } else {
       return false;
@@ -77,13 +79,16 @@ class AccountServiceController extends RestService {
   public sync() {
     const id = this.id();
     if (id) {
-      this.read(`/user/${id}`)
+      return this.read(`/user/${id}`)
         .pipe(first())
         .subscribe({
           next: (user) => {
-            this.set(new User().deserialize(user));
-          }, error: (e) => {
-            LogoutErrorHandling(e);
+            const _user = new User().deserialize(user);
+            this.set(_user);
+            return _user;
+          }, error: async (e) => {
+            await LogoutErrorHandling(e);
+            return null;
           }
         });
     } else {

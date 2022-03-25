@@ -1,9 +1,8 @@
 import {RouterDirection} from '@ionic/core';
-import {ToastService} from '../services/toast.service';
-import {AuthService} from '../services/auth.service';
-import {FixedEncodeURIComponent} from './string-utils';
 import {LoggedOutToast} from './default-toasts';
+import {AuthService} from "../services/auth.service";
 import {i18n} from "../services/i18n.service";
+import {ToastService} from "../services/toast.service";
 
 export const GetDomain = () => {
   return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
@@ -20,62 +19,42 @@ export const IsLoggedInGuard = () => {
 }
 
 
-export const RouterNavigate = async (path, direction: RouterDirection = 'forward') => {
-  const ionRouterElement: HTMLIonRouterElement = document.querySelector('ion-router');
+export const RouterNavigate = async (path:string, direction: RouterDirection = 'forward') => {
+  const ionRouterElement: HTMLIonRouterElement|null = document.querySelector('ion-router');
   if (ionRouterElement) {
     return ionRouterElement.push(path, direction)
   } else {
-    location.href = path;
+    window.location.href = path;
+    return null;
   }
 };
 
-export const OpenUrl = (event) => {
-  event.preventDefault();
-  event.stopPropagation();
-  const href = event.currentTarget.querySelector('a').getAttribute("href");
-  RouterNavigate(href, 'forward').then();
-}
-
 export const RouterBack = () => {
-  const ionRouterElement: HTMLIonRouterElement = document.querySelector('ion-router');
+  const ionRouterElement: HTMLIonRouterElement|null = document.querySelector('ion-router');
   if (ionRouterElement) {
     return ionRouterElement.back();
   } else {
     history.back();
+    return null;
   }
 };
 
 export const RouterCanNavGoBackThenGo = async () => {
-  const nav: HTMLIonNavElement = document.querySelector('ion-nav');
+  const nav: HTMLIonNavElement|null = document.querySelector('ion-nav');
   if (nav && await nav.canGoBack()) {
     return nav.pop({skipIfBusy: true});
   }
   return RouterNavigate("/", 'back').then();
 };
 
-export const RouterOpenNotification = (event?) => {
+export const RouterOpenNotification = (event:Event) => {
   if (event) {
     event.preventDefault();
   }
   RouterNavigate('/notification').then()
 };
 
-export const RouterOpenChat = (event?) => {
-  if (event) {
-    event.preventDefault();
-  }
-  RouterNavigate('/chat').then()
-};
-
-export const RouterOpenPayment = (event?) => {
-  if (event) {
-    event.preventDefault();
-  }
-  const successUrl = location.href.split('?')[0];
-  RouterNavigate('/payment/' + btoa(FixedEncodeURIComponent(successUrl))).then();
-};
-
-export const RouterGetUriParam = (name) => {
+export const RouterGetUriParam = (name:string) => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   if (urlParams.has(name)) {
@@ -85,24 +64,23 @@ export const RouterGetUriParam = (name) => {
   }
 };
 
-export const LogoutErrorHandling = (error => {
+export const LogoutErrorHandling = async (error:any) => {
   switch (error?.systemCode) {
     case "authenticationheaderisinvalid":
     case "authenticationhasfailed":
-      LoggedOutToast().then(
-        () => {
-          AuthService.logout().then(() => {
-            location.href = '/login';
-          }, () => {
-            location.href = '/login';
-          });
-        });
+      try{
+        await LoggedOutToast();
+        await AuthService.logout();
+        location.href = '/login';
+      }catch (e) {
+        location.href = '/login';
+      }
       break;
   }
-});
+};
 
 
-export const RouterErrorHandling = (error, handler = () => {
+export const RouterErrorHandling = async (error:any, handler = () => {
   location.reload();
 }) => {
   switch (error?.systemCode) {
@@ -111,17 +89,16 @@ export const RouterErrorHandling = (error, handler = () => {
       break
     case "authenticationheaderisinvalid":
     case "authenticationhasfailed":
-      LoggedOutToast().then(
-        () => {
-          AuthService.logout().then(() => {
-            location.href = '/login';
-          }, () => {
-            location.href = '/login';
-          });
-        });
+      try{
+        await LoggedOutToast();
+        await AuthService.logout();
+        location.href = '/login';
+      }catch (e) {
+        location.href = '/login';
+      }
       break;
     default:
-      ToastService.presentToastWithButtons(
+      await ToastService.presentToastWithButtons(
         'Problem',
         (error?.systemCode) ? i18n(':message (:systemCode)').get(null, {
           ':systemCode': error?.systemCode,
@@ -132,8 +109,6 @@ export const RouterErrorHandling = (error, handler = () => {
             text: i18n('refresh')
               .t('de', 'aktualisieren').get(),
             handler
-          }], null, 'bottom', 'secondary').then()
+          }], null, 'bottom', 'secondary');
   }
-
-
 };

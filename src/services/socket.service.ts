@@ -5,7 +5,7 @@ import {environment} from "./environment.service";
 
 class SocketServiceController {
 
-  socket: Socket;
+  socket: Socket|null = null;
   subscriptions = [];
   private messages$: Subject<any> = new Subject<any>();
   public messages = this.messages$.asObservable();
@@ -27,6 +27,7 @@ class SocketServiceController {
       return this;
     }else{
       console.error('no socket server set')
+      return null;
     }
   }
 
@@ -45,27 +46,31 @@ class SocketServiceController {
     );
   }
 
-  subscribe(id) {
+  subscribe(id:never) {
     if (id) {
       if (this.subscriptions.indexOf(id) === -1) {
         this.subscriptions.push(id);
       }
-      this.socket.on('connect', () => {
-        this.subscriptions.map(id => {
-          this.socket.emit('subscribe', id);
+      if(this.socket) {
+        this.socket.on('connect', () => {
+          this.subscriptions.map(id => {
+            if(this.socket) {
+              this.socket.emit('subscribe', id);
+            }
+          });
         });
-      });
+      }
     }
   }
 
-  unSubscribe(id) {
+  unSubscribe(id:never) {
     console.log('unSubscribe', this.socket)
-    if (this.socket.connected) {
+    if (this.socket && this.socket.connected) {
       this.socket.emit('unsubscribe', id);
     }
   }
 
-  onMessage(event) {
+  onMessage(event:any) {
     this.messages$.next(JSON.parse(event));
   }
 }

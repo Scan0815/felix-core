@@ -16,12 +16,12 @@ export class StackAvatar {
   @Prop() color: any = '#ffffff';
   @Prop() width: number = 200;
   @Prop() height: number = 200;
-  @Prop() placeholder: string = null;
+  @Prop() placeholder: string|null = null;
   @Prop() ext: string = 'jpg';
-  @Prop() link: string;
-  @Prop() avatar: IAvatar = null;
+  @Prop() link: string|undefined;
+  @Prop() avatar: IAvatar|null = null;
 
-  renderAvatar(styleNoAvatar, styleAvatar, fontSize) {
+  renderAvatar(styleNoAvatar:any, styleAvatar:any, fontSize:any) {
     const fileStackSize = [{size: (this.width * 2 + 'x' + this.height * 2), pixelRatio: '1x'}]
     return (
       <ion-avatar style={(!this.avatar && !this.placeholder) ? styleNoAvatar : styleAvatar} class="avatar">
@@ -41,7 +41,7 @@ export class StackAvatar {
     )
   }
 
-  renderAvatarLink(avatarRender) {
+  renderAvatarLink(avatarRender:any) {
     return (
       <ion-router-link href={this.link}>
         {avatarRender}

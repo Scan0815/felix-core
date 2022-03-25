@@ -2,13 +2,13 @@ import {Deserializable} from './deserialize';
 
 
 export interface ICredentials {
-  token: string;
-  resource: string;
+  token: string|null;
+  resource: string|null;
 }
 
 export class Credentials implements ICredentials, Deserializable {
-  token: string;
-  resource: string;
+  token: string|null = null;
+  resource: string|null = null;
 
   deserialize(input: any) {
     Object.assign(this, input);

@@ -7,18 +7,18 @@
 
 ## Properties
 
-| Property      | Attribute     | Description | Type      | Default                               |
-| ------------- | ------------- | ----------- | --------- | ------------------------------------- |
-| `avatar`      | --            |             | `IAvatar` | `null`                                |
-| `background`  | `background`  |             | `any`     | `'var(--ion-color-primary, #3880ff)'` |
-| `color`       | `color`       |             | `any`     | `'#ffffff'`                           |
-| `ext`         | `ext`         |             | `string`  | `'jpg'`                               |
-| `height`      | `height`      |             | `number`  | `200`                                 |
-| `imgTitle`    | `img-title`   |             | `string`  | `''`                                  |
-| `link`        | `link`        |             | `string`  | `undefined`                           |
-| `name`        | `name`        |             | `string`  | `''`                                  |
-| `placeholder` | `placeholder` |             | `string`  | `null`                                |
-| `width`       | `width`       |             | `number`  | `200`                                 |
+| Property      | Attribute     | Description | Type                  | Default                               |
+| ------------- | ------------- | ----------- | --------------------- | ------------------------------------- |
+| `avatar`      | --            |             | `IAvatar \| null`     | `null`                                |
+| `background`  | `background`  |             | `any`                 | `'var(--ion-color-primary, #3880ff)'` |
+| `color`       | `color`       |             | `any`                 | `'#ffffff'`                           |
+| `ext`         | `ext`         |             | `string`              | `'jpg'`                               |
+| `height`      | `height`      |             | `number`              | `200`                                 |
+| `imgTitle`    | `img-title`   |             | `string`              | `''`                                  |
+| `link`        | `link`        |             | `string \| undefined` | `undefined`                           |
+| `name`        | `name`        |             | `string`              | `''`                                  |
+| `placeholder` | `placeholder` |             | `null \| string`      | `null`                                |
+| `width`       | `width`       |             | `number`              | `200`                                 |
 
 
 ## Dependencies

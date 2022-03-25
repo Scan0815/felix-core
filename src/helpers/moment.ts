@@ -1,7 +1,7 @@
 import moment, {MomentBuiltinFormat} from 'moment';
 // @ts-ignore
 const processRelativeTime = (number, withoutSuffix, key, isFuture) => {
-  const format = {
+  const format:any = {
     m: ['eine Minute', 'einer Minute'],
     h: ['eine Stunde', 'einer Stunde'],
     d: ['ein Tag', 'einem Tag'],
@@ -71,50 +71,50 @@ moment.defineLocale('de', {
 });
 
 
-export const Calender = (date) => {
+export const Calender = (date:string) => {
   const stillUtc = moment.utc(date);
   return stillUtc.local().calendar();
 };
 
-export const Ago = (date) => {
+export const Ago = (date:string) => {
   const stillUtc = moment.utc(date);
   return stillUtc.local().fromNow();
 };
 
 
-export const AddDays = (date, toDateFormat = 'YYYY-MM-DD', addValue, unit = "days") => {
+export const AddDays = (date:string, toDateFormat = 'YYYY-MM-DD', addValue:any, unit = "days") => {
   const stillUtc = moment.utc(date, toDateFormat);
   return stillUtc.local().add(addValue, unit).format(toDateFormat);
 };
 
-export const GetStartOf = (unitOfTime, date?, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
+export const GetStartOf = (unitOfTime: moment.unitOfTime.StartOf, date:moment.MomentInput, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
   const stillUtc = moment.utc(date);
   return stillUtc.startOf(unitOfTime).format(toDateFormat);
 };
 
-export const GetEndOf = (unitOfTime, date?, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
+export const GetEndOf = (unitOfTime:moment.unitOfTime.StartOf, date:moment.MomentInput, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
   return moment(date).endOf(unitOfTime).format(toDateFormat);
 };
 
-export const GetDateStartFormatSubtract = (amount, unit, unitOfTime, date?, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
+export const GetDateStartFormatSubtract = (amount:moment.DurationInputArg1, unit:moment.DurationInputArg2, unitOfTime:moment.unitOfTime.StartOf, date:moment.MomentInput, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
   return moment(date).subtract(amount, unit).startOf(unitOfTime).format(toDateFormat);
 };
 
-export const GetDateFormat = (date?, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
+export const GetDateFormat = (date:moment.MomentInput, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
   const stillUtc = moment.utc(date);
   return stillUtc.local().format(toDateFormat);
 };
 
-export const GetDateToUnix = (date?) => {
+export const GetDateToUnix = (date:moment.MomentInput) => {
   const stillUtc = moment.utc(date);
   return stillUtc.unix();
 };
 
-export const ConvertDateFormat = (date, fromDateFormat: string | MomentBuiltinFormat = 'YYYY:MM:DD HH:mm:ss', toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
+export const ConvertDateFormat = (date:moment.MomentInput, fromDateFormat: string | MomentBuiltinFormat = 'YYYY:MM:DD HH:mm:ss', toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
   const stillUtc = moment.utc(date, fromDateFormat);
   return stillUtc.local().format(toDateFormat);
 };
 
-export const ConvertToIso = (date) => {
+export const ConvertToIso = (date:moment.MomentInput) => {
   return moment(date).toISOString()
 }
