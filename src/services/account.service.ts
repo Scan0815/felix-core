@@ -8,7 +8,7 @@ import {ToastService} from './toast.service';
 import {AlertConfirm} from '../helpers/alert-utils';
 import {ObjectCompare} from '../helpers/object-utils';
 import {getCurrentLocale, i18n} from './i18n.service';
-import {LogoutErrorHandling} from '../helpers/router.utils';
+import {LogoutErrorHandling} from '../helpers/router-utils';
 import {environment} from "./environment.service";
 
 class AccountServiceController extends RestService {

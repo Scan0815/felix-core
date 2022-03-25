@@ -1,5 +1,5 @@
 import {AlertConfirm} from './alert-utils';
-import {RouterNavigate} from './router.utils';
+import {RouterNavigate} from './router-utils';
 import {i18n} from "../services/i18n.service";
 
 export const NotLoggedInAlert = () => {
