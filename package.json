@@ -15,7 +15,7 @@
     "url": "git+https://github.com/Scan0815/felix-core.git"
   },
   "files": [
-    "components/",
+    "custom-element/",
     "dist/",
     "hydrate/",
     "loader/"
