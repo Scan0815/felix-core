@@ -5,7 +5,7 @@ export {NotLoggedInAlert} from './helpers/default-alerts';
 export {IsLoggedInGuard,RouterNavigate,RouterCanNavGoBackThenGo,RouterErrorHandling,RouterGetUriParam} from './helpers/router-utils';
 
 //Services
-export {environment} from "./services/environment.service";
+export {SetupService} from "./services/environment.service";
 export {AccountService} from "./services/account.service";
 export {StorageService} from "./services/storage.service";
 export {ToastService} from "./services/toast.service";
