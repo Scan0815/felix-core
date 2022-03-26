@@ -235,14 +235,14 @@ export class SignUp implements ComponentInterface {
                    class="input-field" required/>
             <label class="input-label">{this.i18n.name.label}</label>
           </div>
-          <flx-form-info-item icon="information-circle-outline" color="danger"
+          <flx-auth-info-item icon="information-circle-outline" color="danger"
                           infos={ConvertServerError(this.errors?.name, this.i18n.name.errors)}/>
           <div class="input">
             <input name="email" onInput={(event) => this.handleInput(event)} type="email" value={this.data.identifier}
                    class="input-field" required/>
             <label class="input-label">{this.i18n.identifier.label}</label>
           </div>
-          <flx-form-info-item icon="information-circle-outline" color="danger"
+          <flx-auth-info-item icon="information-circle-outline" color="danger"
                           infos={ConvertServerError(this.errors?.identifier, this.i18n.identifier.errors)}/>
           <div class="input">
             <input name="password" ref={ref => this.passwordEl = ref} onInput={(event) => this.handleInput(event)}
@@ -270,7 +270,7 @@ export class SignUp implements ComponentInterface {
               </ion-button>
             </ion-buttons>
           </div>
-          <flx-form-info-item icon="information-circle-outline" color="danger"
+          <flx-auth-info-item icon="information-circle-outline" color="danger"
                           infos={ConvertServerError(this.errors?.password, this.i18n.password.errors)}/>
         </div>
       </ion-list>
