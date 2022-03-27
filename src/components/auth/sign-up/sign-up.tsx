@@ -150,12 +150,8 @@ export class SignUp implements ComponentInterface {
     ).pipe(first()).subscribe({
       next: async (authResponse) => {
         setTimeout(async () => {
-          if(this.signUpSuccess) {
-            this.signUpSuccess.emit(true);
-          }
-          if(this.signUpProgress) {
-            this.signUpProgress.emit(false);
-          }
+            this.signUpSuccess?.emit(true);
+            this.signUpProgress?.emit(false);
           await ToastService.presentToast(
             this.i18n.identifier.confirm.message,
             this.i18n.identifier.confirm.button,
@@ -182,14 +178,10 @@ export class SignUp implements ComponentInterface {
             });
         }
       }, error: (error) => {
-        if(this.signUpSuccess) {
-          this.signUpSuccess.emit(false);
-        }
-        if(this.signUpProgress) {
-          this.signUpProgress.emit(false);
-        }
-        this.loadingByIndicator = [];
-        this.errors = error?.errors;
+          this.signUpSuccess?.emit(false);
+          this.signUpProgress?.emit(false);
+          this.loadingByIndicator = [];
+          this.errors = error?.errors;
       }
     }));
   }

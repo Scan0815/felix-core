@@ -67,20 +67,12 @@ export class ResetPassword implements ComponentInterface {
     ).pipe(first()).subscribe({
       next: async () => {
         await SuccessToast('We changed your password!');
-        if(this.resetSuccess) {
-          this.resetSuccess.emit(true);
-        }
-        if(this.resetSubmit) {
-          this.resetSubmit.emit(false);
-        }
+        this.resetSuccess?.emit(true);
+        this.resetSubmit?.emit(false);
       }, error: (error) => {
         this.errors = error.errors;
-        if(this.resetSuccess) {
-          this.resetSuccess.emit(false);
-        }
-        if(this.resetSubmit) {
-          this.resetSubmit.emit(false);
-        }
+        this.resetSuccess?.emit(false);
+        this.resetSubmit?.emit(false);
       }
     });
   }

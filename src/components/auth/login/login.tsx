@@ -79,26 +79,18 @@ export class Login implements ComponentInterface {
     ).pipe(first()).subscribe({
       next: () => {
         setTimeout(() => {
-          if(this.loginSuccess) {
-            this.loginSuccess.emit(true);
-          }
-          if(this.loginProgress) {
-            this.loginProgress.emit(false);
-          }
-        }, 200);
+            this.loginSuccess?.emit(true);
+            this.loginProgress?.emit(false);
+        }, 500);
         setTimeout(() => {
           this.loadingByIndicator = [];
         }, 1000);
       },
       error: (error) => {
-        if(this.loginSuccess) {
-          this.loginSuccess.emit(false);
-        }
-        if(this.loginProgress) {
-          this.loginProgress.emit(false);
-        }
-        this.loadingByIndicator = [];
-        this.errors = error.errors;
+          this.loginSuccess?.emit(false);
+          this.loginProgress?.emit(false);
+          this.loadingByIndicator = [];
+          this.errors = error.errors;
         if (this.errors?.identifier?.noaccountfound) {
           if (this.signUp) {
             this.signUp.emit(Object.assign({
@@ -121,22 +113,14 @@ export class Login implements ComponentInterface {
       this.data.identifier?.trim()
     ).pipe(first()).subscribe({
       next: () => {
-        if(this.loginReset) {
-          this.loginReset.emit(true);
-        }
-        if(this.loginProgress) {
-          this.loginProgress.emit(false);
-        }
+        this.loginReset?.emit(true);
+        this.loginProgress?.emit(false);
         this.loadingByIndicator = [];
       }, error: (error) => {
-        if(this.loginReset) {
-          this.loginReset.emit(false);
-        }
-        if(this.loginProgress) {
-          this.loginProgress.emit(false);
-        }
-        this.errors = error?.errors;
-        this.loadingByIndicator = [];
+          this.loginReset?.emit(false);
+          this.loginProgress?.emit(false);
+          this.errors = error?.errors;
+          this.loadingByIndicator = [];
       }
     });
   }
