@@ -5,7 +5,8 @@ export {NotLoggedInAlert} from './helpers/default-alerts';
 export {IsLoggedInGuard,RouterNavigate,RouterCanNavGoBackThenGo,RouterErrorHandling,RouterGetUriParam} from './helpers/router-utils';
 export {AlertConfirm,Alert} from './helpers/alert-utils';
 export {FileStackToPreviewUrl, GetThumbnailFromVideo,FileStackToUrl,FileStackToVideoUrl,BlobToImageDimension, FileStackCropper,FileStackGenerateFileFromExternalUrl} from './helpers/file-stack-utils';
-
+export {FileStack} from './interfaces/filestack';
+export {UserStatus,User} from './interfaces/user';
 //Services
 export {SetupService} from "./services/environment.service";
 export {AccountService} from "./services/account.service";
