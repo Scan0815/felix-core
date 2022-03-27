@@ -8,6 +8,12 @@ export {FileStackToPreviewUrl, GetThumbnailFromVideo,FileStackToUrl,FileStackToV
 export {i18n,Locale, SetAllowedLanguage} from "./services/i18n.service";
 export {FileStack} from './interfaces/filestack';
 export {UserStatus,User} from './interfaces/user';
+export {Avatar} from './interfaces/avatar';
+export {MenuOption} from './interfaces/menu-option';
+export {MenuHeader} from './interfaces/menu-header';
+export {Transfer} from './interfaces/transfer';
+export {Role} from './interfaces/role';
+
 //Services
 export {SetupService} from "./services/environment.service";
 export {AccountService} from "./services/account.service";

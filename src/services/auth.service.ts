@@ -124,7 +124,6 @@ class AuthServiceController extends RestService {
       {resource}
     );
     this.credentials$.next(credentials);
-    StorageService.remove('chat');
     StorageService.set('credentials', credentials);
     this.setAuthHeader(credentials);
     this.isLoggedIn$.next(false);
