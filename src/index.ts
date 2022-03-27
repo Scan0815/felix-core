@@ -3,7 +3,7 @@ export {setupFelixCore} from './config/config';
 export {SuccessToast,ErrorToast,LoggedOutToast} from './helpers/default-toasts';
 export {NotLoggedInAlert} from './helpers/default-alerts';
 export {IsLoggedInGuard,RouterNavigate,RouterCanNavGoBackThenGo,RouterErrorHandling,RouterGetUriParam} from './helpers/router-utils';
-
+export {AlertConfirm} from './helpers/alert-utils';
 //Services
 export {SetupService} from "./services/environment.service";
 export {AccountService} from "./services/account.service";
