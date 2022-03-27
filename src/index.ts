@@ -3,7 +3,9 @@ export {setupFelixCore} from './config/config';
 export {SuccessToast,ErrorToast,LoggedOutToast} from './helpers/default-toasts';
 export {NotLoggedInAlert} from './helpers/default-alerts';
 export {IsLoggedInGuard,RouterNavigate,RouterCanNavGoBackThenGo,RouterErrorHandling,RouterGetUriParam} from './helpers/router-utils';
-export {AlertConfirm} from './helpers/alert-utils';
+export {AlertConfirm,Alert} from './helpers/alert-utils';
+export {FileStackToPreviewUrl, GetThumbnailFromVideo,FileStackToUrl,FileStackToVideoUrl,BlobToImageDimension, FileStackCropper,FileStackGenerateFileFromExternalUrl} from './helpers/file-stack-utils';
+
 //Services
 export {SetupService} from "./services/environment.service";
 export {AccountService} from "./services/account.service";
