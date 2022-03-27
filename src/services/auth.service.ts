@@ -42,6 +42,7 @@ class AuthServiceController extends RestService {
   public login(identifier: string, password: string): Observable<AuthResponse> {
     return this.create('/auth/login', {identifier, password, locale: getCurrentLocale()}).pipe(
       map((response: AuthResponse) => {
+        console.log('login',response)
         this.setCredentials(response);
         return response;
       })

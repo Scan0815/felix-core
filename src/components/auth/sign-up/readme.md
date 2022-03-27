@@ -47,6 +47,7 @@ Type: `Promise<void>`
 - ion-button
 - ion-spinner
 - ion-icon
+- [flx-auth-info-item](../info-item)
 - ion-buttons
 - ion-toggle
 - ion-label
@@ -62,6 +63,7 @@ graph TD;
   flx-auth-sign-up --> ion-button
   flx-auth-sign-up --> ion-spinner
   flx-auth-sign-up --> ion-icon
+  flx-auth-sign-up --> flx-auth-info-item
   flx-auth-sign-up --> ion-buttons
   flx-auth-sign-up --> ion-toggle
   flx-auth-sign-up --> ion-label
@@ -73,6 +75,9 @@ graph TD;
   flx-file-stack-avatar --> ion-text
   flx-file-stack-avatar --> ion-router-link
   ion-button --> ion-ripple-effect
+  flx-auth-info-item --> ion-item
+  flx-auth-info-item --> ion-icon
+  flx-auth-info-item --> ion-label
   ion-alert --> ion-ripple-effect
   ion-alert --> ion-backdrop
   style flx-auth-sign-up fill:#f9f,stroke:#333,stroke-width:4px

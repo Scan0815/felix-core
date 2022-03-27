@@ -20,6 +20,7 @@
 
  - [flx-auth-login](../login)
  - [flx-auth-reset-password](../reset-password)
+ - [flx-auth-sign-up](../sign-up)
 
 ### Depends on
 
@@ -38,6 +39,7 @@ graph TD;
   ion-item --> ion-note
   flx-auth-login --> flx-auth-info-item
   flx-auth-reset-password --> flx-auth-info-item
+  flx-auth-sign-up --> flx-auth-info-item
   style flx-auth-info-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
