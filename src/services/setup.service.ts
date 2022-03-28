@@ -15,22 +15,28 @@ class SetupServiceController{
 
   constructor() {
     let win:any = (window as any);
-    let Felix = win.Felix || {};
+    let Felix = win.Felix = win.Felix || {};
     this._config = Felix?.config || {};
     if (Felix?.config) {
       return;
     }
     this._config = this.defaultConfig;
+    win.Felix = {
+      config: this._config
+    };
+
+    console.log('win.Felix',win.Felix);
   }
 
   public init(config: IEnv){
     let win:any = (window as any);
-    const Felix = win.Felix;
     this._config = {
-      ...Felix?.config || {},
+      ...win.Felix?.config || {},
       ...config
     };
-    Felix.config = this._config;
+    win.Felix = {
+      config: this._config
+    };
   }
 
   get config(): IEnv| undefined{
