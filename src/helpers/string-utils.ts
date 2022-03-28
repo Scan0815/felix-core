@@ -1,15 +1,15 @@
 export const FixedEncodeURI = (str: string) => {
-  return encodeURI(str).replace(/%5B/g, '[').replace(/%5D/g, ']');
+  return encodeURI(str)?.replace(/%5B/g, '[')?.replace(/%5D/g, ']');
 };
 
 export const UserMentionToLink = (string:string, link= '/profile/$1') => {
     const regex = /(?:^|\s)(?:@)([a-zA-Z0-9_\-\.]+)/gm;
-    return string.replace(regex, ' <ion-router-link style="--color:#ED4C27" href="'+link+'">@$1</ion-router-link>');
+    return string?.replace(regex, ' <ion-router-link style="--color:#ED4C27" href="'+link+'">@$1</ion-router-link>');
 }
 
 export const FixedEncodeURIComponent = (str:string) => {
-  return encodeURIComponent(str).replace(/[!'()*]/g, (c) => {
-    return '%' + c.charCodeAt(0).toString(16)
+  return encodeURIComponent(str)?.replace(/[!'()*]/g, (c) => {
+    return '%' + c?.charCodeAt(0).toString(16)
   })
 };
 
@@ -31,7 +31,7 @@ export const SnakeToCamel = (str:string) => {
 
 
 export const GeneratePassword = () => {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  return Math.random()?.toString(36)?.substring(2, 15) + Math.random()?.toString(36)?.substring(2, 15);
 };
 
 export const ConvertServerError = (error:string, validationMessages:any) => {
@@ -60,13 +60,13 @@ export const UniqueID = () => {
 };
 
 export const LCFirst = (str:string) => {
-  return str.replace(/^\w/, c => c.toLowerCase());
+  return str?.replace(/^\w/, c => c.toLowerCase());
 };
 
 export const EscapeRegExp = (string:string) => {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  return string?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
 
 export const ReplaceAll = (string:string, find:string, replace:string) => {
-  return string.replace(new RegExp(EscapeRegExp(find), 'g'), replace);
+  return string?.replace(new RegExp(EscapeRegExp(find), 'g'), replace);
 }
