@@ -1,6 +1,5 @@
 import {Component, ComponentInterface, Event, h, Method, Prop, State} from '@stencil/core';
 import {ConvertServerError} from '../../../helpers/string-utils';
-import {first} from "rxjs/operators";
 import {EventLoginSuccess} from "../../../events/login-success-event";
 import {EventLoginReset} from "../../../events/login-reset-event";
 import {EventLoginSignUp} from "../../../events/login-sign-up-event";
@@ -76,7 +75,7 @@ export class Login implements ComponentInterface {
     AuthService.login(
       this.data.identifier?.trim(),
       this.data.password?.trim()
-    ).pipe(first()).subscribe({
+    ).subscribe({
       next: () => {
         setTimeout(() => {
             this.loginSuccess?.emit(true);
@@ -111,7 +110,7 @@ export class Login implements ComponentInterface {
     this.setLoginByType('resetPassword');
     AuthService.resetPassword(
       this.data.identifier?.trim()
-    ).pipe(first()).subscribe({
+    ).subscribe({
       next: () => {
         this.loginReset?.emit(true);
         this.loginProgress?.emit(false);

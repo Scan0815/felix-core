@@ -1,4 +1,4 @@
-import {BehaviorSubject, lastValueFrom, Observable} from 'rxjs';
+import {BehaviorSubject, first, lastValueFrom, Observable} from 'rxjs';
 import {RestService} from './rest.service';
 import {catchError, map} from 'rxjs/operators';
 import {AuthResponse} from '../interfaces/auth-response';
@@ -36,6 +36,7 @@ class AuthServiceController extends RestService {
 
   public login(identifier: string, password: string): Observable<AuthResponse> {
     return this.create('/auth/login', {identifier, password, locale: getCurrentLocale()}).pipe(
+      first(),
       map((response: AuthResponse) => {
         console.log('login',response)
         this.setCredentials(response);
@@ -53,6 +54,7 @@ class AuthServiceController extends RestService {
       ext_id,
       locale: getCurrentLocale()
     }).pipe(
+      first(),
       map((response: AuthResponse) => {
         this.setCredentials(response);
         return response;
@@ -71,6 +73,7 @@ class AuthServiceController extends RestService {
 
   public resetPassword(identifier: string): Observable<any> {
     return this.create('/auth/resetPassword', {identifier, locale: getCurrentLocale()}).pipe(
+      first(),
       map((response: AuthResponse) => {
         return response;
       })
@@ -80,6 +83,7 @@ class AuthServiceController extends RestService {
   public changePassword(reset: IAuthReset, confirmationCode: string, id: string): Observable<any> {
     const data = Object.assign(reset, {locale: getCurrentLocale()})
     return this.create(`/auth/changePassword/${confirmationCode}/${id}`, data).pipe(
+      first(),
       map((response: AuthResponse) => {
         this.setCredentials(response);
         return response;
@@ -89,6 +93,7 @@ class AuthServiceController extends RestService {
 
   public logout() {
     const observer = this.create(`/logout`, null).pipe(
+      first(),
       map(() => {
         this.removeCredentials();
       }),
@@ -128,11 +133,10 @@ class AuthServiceController extends RestService {
   private setCredentials(auth: AuthResponse) {
     this.setAuthHeader(auth.credentials);
     this.credentials$.next(auth.credentials);
+    AccountService.set(auth.user);
     StorageService.set('credentials', auth.credentials);
     this.isLoggedIn$.next(true);
-    AccountService.set(auth.user);
   }
-
 
 }
 
