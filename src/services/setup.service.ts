@@ -15,7 +15,7 @@ class SetupServiceController{
 
   constructor() {
     let win:any = (window as any);
-    const Felix = win.Felix || {}
+    let Felix = win.Felix || {};
     this._config = Felix.config || {};
     if (Felix.config) {
       return;
@@ -25,7 +25,7 @@ class SetupServiceController{
 
   public init(config: IEnv){
     let win:any = (window as any);
-    const Felix = win.Felix || {}
+    const Felix = win.Felix;
     this._config = {
       ...Felix.config || {},
       ...config
