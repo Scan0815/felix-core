@@ -18,7 +18,7 @@ export const FixedDecodeURIComponent = (str:string) => {
 };
 
 export const FirstLetter = (value:string) => {
-    return value.charAt(0).toUpperCase();
+    return value?.charAt(0)?.toUpperCase();
 };
 
 export const SnakeToCamel = (str:string) => {
