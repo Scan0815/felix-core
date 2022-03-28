@@ -24,7 +24,6 @@ class SetupServiceController{
     win.Felix = {
       config: this._config
     };
-
     console.log('win.Felix',win.Felix);
   }
 
