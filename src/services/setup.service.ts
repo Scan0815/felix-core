@@ -16,8 +16,8 @@ class SetupServiceController{
   constructor() {
     let win:any = (window as any);
     let Felix = win.Felix || {};
-    this._config = Felix.config || {};
-    if (Felix.config) {
+    this._config = Felix?.config || {};
+    if (Felix?.config) {
       return;
     }
     this._config = this.defaultConfig;
@@ -27,7 +27,7 @@ class SetupServiceController{
     let win:any = (window as any);
     const Felix = win.Felix;
     this._config = {
-      ...Felix.config || {},
+      ...Felix?.config || {},
       ...config
     };
     Felix.config = this._config;
