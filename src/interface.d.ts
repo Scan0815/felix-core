@@ -1,6 +1,6 @@
 //Interfaces
-export * from './components';
 export * from './index';
+export * from './components';
 export {IUser,IRegister} from './interfaces/user';
 export {IAvatar} from './interfaces/avatar';
 export {IFileStack} from './interfaces/filestack';
