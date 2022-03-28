@@ -61,10 +61,10 @@ class AccountServiceController extends RestService {
       }
     }
     const user$ = new User().deserialize(user);
+    StorageService.set('account', user$);
     if (!ObjectCompare(this.account$.getValue(), user$)) {
       this.account$.next(user$);
     }
-    StorageService.set('account', user$);
   }
 
   public remove() {
