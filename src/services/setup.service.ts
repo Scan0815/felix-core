@@ -1,5 +1,7 @@
 import {IEnv} from "../interfaces/env";
 
+let configStorage:IEnv|undefined;
+
 class SetupServiceController{
 
   private defaultConfig: IEnv = {
@@ -11,31 +13,25 @@ class SetupServiceController{
     REST_API: null
   }
 
+  private _config:IEnv|undefined;
+
   constructor() {
-    const win = window as any;
-    const Felix = win.Felix;
-    if (Felix && Felix.config && Felix.config.constructor.name !== 'Object') {
+    if (configStorage) {
       return;
     }
-    win.Felix = win.Felix || {};
-    win.Felix.config = {
-      ...win.Felix.config,
-      ...this.defaultConfig
-    };
-    console.log(win.Felix);
+    this._config = configStorage || this.defaultConfig;
   }
 
   public init(config: IEnv){
-    const win = window as any;
-    return win.Felix.config = {
-      ...win.Felix.config,
+    this._config = {
+      ...this._config,
       ...config
     };
+    return configStorage = this._config;
   }
 
-  get config(): IEnv{
-    const win = window as any;
-    return win.Felix.config;
+  get config(): IEnv| undefined{
+    return this._config;
   }
 
 }
