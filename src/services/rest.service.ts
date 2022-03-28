@@ -1,6 +1,7 @@
 import {Observable, Subject} from 'rxjs';
 import {Credentials, ICredentials} from '../interfaces/credentials';
 import {StorageService} from './storage.service';
+import {SetupService} from "./setup.service";
 
 export type RestCache = "reload" | "no-store" | "no-cache" | "force-cache" | "default";
 
@@ -84,6 +85,10 @@ export abstract class RestService {
   private request(endPoint: string, method: string, data: any, cache: RestCache = "default", requestCredentials: RequestCredentials = 'include') {
 
     method = method.toUpperCase();
+
+    if(!this.api && SetupService.config?.REST_API) {
+      this.api = SetupService.config?.REST_API;
+    }
 
     if (!this.api) {
       throw new Error('no api is set');
