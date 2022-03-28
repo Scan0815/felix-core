@@ -7,7 +7,7 @@ import {Credentials, ICredentials} from '../interfaces/credentials';
 import {AccountService} from './account.service';
 import {IAuthReset} from '../interfaces/auth';
 import {getCurrentLocale} from './i18n.service';
-import {SetupService} from "./environment.service";
+import {SetupService} from "./setup.service";
 
 class AuthServiceController extends RestService {
 
@@ -21,9 +21,9 @@ class AuthServiceController extends RestService {
   constructor() {
     super();
     const credentials = new Credentials().deserialize(StorageService.get('credentials'));
-    console.log('auth environment', SetupService.restApi)
-    if(SetupService.restApi) {
-      this.setApi(SetupService.restApi);
+    console.log('environment',SetupService.config);
+    if(SetupService.config.REST_API) {
+      this.setApi(SetupService.config.REST_API);
     }
     this.credentials$.next(credentials);
     if (credentials

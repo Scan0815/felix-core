@@ -6,7 +6,7 @@ import {FileStack, IFileStack} from '../../../interfaces/filestack';
 import {IUser} from '../../../interfaces/user';
 import {lastValueFrom, Observable} from 'rxjs';
 import {TransferService} from "../../../services/transfer.service";
-import {SetupService} from "../../../services/environment.service";
+import {SetupService} from "../../../services/setup.service";
 import {i18n} from "../../../services/i18n.service";
 import {AccountService} from "../../../services/account.service";
 import {ModalService} from "../../../services/modal.service";
@@ -72,7 +72,7 @@ export class StackTransfer implements ComponentInterface {
     this.transfer = [...this.transfer];
     this.uploadFinishedCount = this.transfer.length;
     await InitChunkUpload(
-      `${SetupService.restApi}/user/${this.account?._id}/file-stack`,
+      `${SetupService.config.REST_API}/user/${this.account?._id}/file-stack`,
       new Credentials().deserialize(StorageService.get('credentials')),
       transfer,
       (response:any) => {

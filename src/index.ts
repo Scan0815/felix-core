@@ -15,7 +15,7 @@ export {Transfer} from './interfaces/transfer';
 export {Role} from './interfaces/role';
 
 //Services
-export {SetupService} from "./services/environment.service";
+export {SetupService} from "./services/setup.service";
 export {AccountService} from "./services/account.service";
 export {StorageService} from "./services/storage.service";
 export {ToastService} from "./services/toast.service";
