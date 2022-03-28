@@ -163,7 +163,7 @@ export class SignUp implements ComponentInterface {
         }, 1000);
         if (this.files.size > 0) {
           await InitChunkUpload(
-            `${SetupService.config.REST_API}/user/${authResponse.user._id}/avatar`,
+            `${SetupService.config?.REST_API}/user/${authResponse.user._id}/avatar`,
             new Credentials().deserialize(StorageService.get('credentials')),
             Array.from(this.files),
             (response:any) => {

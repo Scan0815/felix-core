@@ -152,7 +152,7 @@ export const FileStackBlobToFile = (theBlob: Blob, name: string): File => {
 };
 
 export const FileStackServer = (fileStack: IFileStack) => {
-  return (fileStack.price && fileStack.price > 0) ? SetupService.config.FILE_SERVER_PURCHASED : SetupService.config.FILE_SERVER;
+  return (fileStack.price && fileStack.price > 0) ? SetupService.config?.FILE_SERVER_PURCHASED : SetupService.config?.FILE_SERVER;
 };
 
 export const FileStackCropper = async (file: Blob, orientation: number|null = null): Promise<any> => {

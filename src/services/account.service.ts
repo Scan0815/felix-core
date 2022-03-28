@@ -20,9 +20,9 @@ class AccountServiceController extends RestService {
 
   constructor() {
     super();
-    console.log('environment',SetupService.config,SetupService.config.REST_API);
-    if(SetupService.config.REST_API) {
-      this.setApi(SetupService.config.REST_API);
+    console.log('environment',SetupService.config);
+    if(SetupService.config?.REST_API) {
+      this.setApi(SetupService.config?.REST_API);
     }
     let account = StorageService.get('account');
     account = (account) ? new User().deserialize(account) : null;

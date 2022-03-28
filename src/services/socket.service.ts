@@ -12,9 +12,9 @@ class SocketServiceController {
 
   connect() {
     console.log('environment',SetupService.config);
-    if(SetupService.config.SOCKET_SERVER) {
+    if(SetupService.config?.SOCKET_SERVER) {
       if (!this.socket) {
-        this.socket = io(SetupService.config.SOCKET_SERVER, {
+        this.socket = io(SetupService.config?.SOCKET_SERVER, {
           forceNew: true,
           withCredentials: true,
           transports: ['websocket']

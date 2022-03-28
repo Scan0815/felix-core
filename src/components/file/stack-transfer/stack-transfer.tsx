@@ -72,7 +72,7 @@ export class StackTransfer implements ComponentInterface {
     this.transfer = [...this.transfer];
     this.uploadFinishedCount = this.transfer.length;
     await InitChunkUpload(
-      `${SetupService.config.REST_API}/user/${this.account?._id}/file-stack`,
+      `${SetupService.config?.REST_API}/user/${this.account?._id}/file-stack`,
       new Credentials().deserialize(StorageService.get('credentials')),
       transfer,
       (response:any) => {

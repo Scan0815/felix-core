@@ -9,8 +9,8 @@ class TransferServiceController extends RestService {
   constructor() {
     super();
     console.log('environment',SetupService.config);
-    if(SetupService.config.REST_API) {
-      this.setApi(SetupService.config.REST_API);
+    if(SetupService.config?.REST_API) {
+      this.setApi(SetupService.config?.REST_API);
     }
   }
 
