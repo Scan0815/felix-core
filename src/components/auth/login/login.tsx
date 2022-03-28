@@ -81,7 +81,7 @@ export class Login implements ComponentInterface {
         setTimeout(() => {
             this.loginSuccess?.emit(true);
             this.loginProgress?.emit(false);
-        }, 500);
+        }, 200);
         setTimeout(() => {
           this.loadingByIndicator = [];
         }, 1000);

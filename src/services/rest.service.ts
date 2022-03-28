@@ -27,10 +27,8 @@ export abstract class RestService {
   public setAuthHeader(credentials: ICredentials, ownHeaders?:{name : string, value:any}[]) {
     if (credentials) {
       if (credentials.hasOwnProperty('token') && credentials.token != null) {
-        this.setHeaders([
-          {name: 'x-auth-resource', value: credentials.resource},
-          {name: 'x-auth-token', value: credentials.token}
-        ]);
+        this.setHeader('x-auth-resource', credentials.resource);
+        this.setHeader('x-auth-token',credentials.token);
       } else {
         if (credentials.hasOwnProperty('resource') && credentials.resource != null) {
           this.setHeader('x-auth-resource', credentials.resource);
