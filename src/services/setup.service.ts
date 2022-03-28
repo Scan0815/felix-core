@@ -40,7 +40,8 @@ class SetupServiceController{
   }
 
   get config(): IEnv| undefined{
-    return this._config;
+    let win:any = (window as any);
+    return win.Felix.config;
   }
 
 }
