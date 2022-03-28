@@ -2,27 +2,40 @@ import {IEnv} from "../interfaces/env";
 
 class SetupServiceController{
 
-  private win = window as any;
-  readonly Felix: any;
+  private defaultConfig: IEnv = {
+    production:  false,
+    externalDebug: false,
+    FILE_SERVER: null,
+    FILE_SERVER_PURCHASED: null,
+    SOCKET_SERVER:  null,
+    REST_API: null
+  }
 
   constructor() {
-    this.Felix = this.win.Felix;
-    if (this.Felix && this.Felix.config && this.Felix.config.constructor.name !== 'Object') {
+    const win = window as any;
+    const Felix = win.Felix;
+    if (Felix && Felix.config && Felix.config.constructor.name !== 'Object') {
       return;
     }
-    this.Felix = this.Felix || {};
-
+    win.Felix = win.Felix || {};
+    win.Felix.config = {
+      ...win.Felix.config,
+      ...this.defaultConfig
+    };
+    console.log(win.Felix);
   }
 
   public init(config: IEnv){
-    this.Felix.config = {
-      ...this.win.Felix.config,
+    const win = window as any;
+    return win.Felix.config = {
+      ...win.Felix.config,
       ...config
     };
   }
 
   get config(): IEnv{
-    return this.Felix.config;
+    const win = window as any;
+    return win.Felix.config;
   }
 
 }
