@@ -2,6 +2,7 @@ import {Component, ComponentInterface, Event, h, Method, Prop, State} from '@ste
 import {ConvertServerError} from '../../../helpers/string-utils';
 import {EventLoginSuccess} from "../../../events/login-success-event";
 import {EventLoginReset} from "../../../events/login-reset-event";
+import {EventLoginError} from "../../../events/login-error-event";
 import {EventLoginSignUp} from "../../../events/login-sign-up-event";
 import {EventLoginProgress} from "../../../events/login-progress-event";
 import {ILogin, UserLoginAllowedKeys} from "../../../interfaces/user";
@@ -53,6 +54,7 @@ export class Login implements ComponentInterface {
 
   @Event() loginSuccess: EventLoginSuccess | undefined;
   @Event() loginReset: EventLoginReset | undefined;
+  @Event() loginError: EventLoginError | undefined;
   @Event() signUp: EventLoginSignUp | undefined;
   @Event() loginProgress: EventLoginProgress | undefined;
 
@@ -77,10 +79,8 @@ export class Login implements ComponentInterface {
       this.data.password?.trim()
     ).subscribe({
       next: () => {
-        setTimeout(() => {
-            this.loginSuccess?.emit(true);
-            this.loginProgress?.emit(false);
-        }, 200);
+        this.loginSuccess?.emit(true);
+        this.loginProgress?.emit(false);
         setTimeout(() => {
           this.loadingByIndicator = [];
         }, 1000);
@@ -88,17 +88,9 @@ export class Login implements ComponentInterface {
       error: (error) => {
           this.loginSuccess?.emit(false);
           this.loginProgress?.emit(false);
+          this.loginError?.emit(this.data);
           this.loadingByIndicator = [];
           this.errors = error.errors;
-        if (this.errors?.identifier?.noaccountfound) {
-          if (this.signUp) {
-            this.signUp.emit(Object.assign({
-              name: '',
-              identifier: '',
-              password: ''
-            }, this.data));
-          }
-        }
       }
     });
   }

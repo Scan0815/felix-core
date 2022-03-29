@@ -132,9 +132,9 @@ class AuthServiceController extends RestService {
 
   private setCredentials(auth: AuthResponse) {
     this.setAuthHeader(auth.credentials);
-    this.credentials$.next(auth.credentials);
     AccountService.set(auth.user);
     StorageService.set('credentials', auth.credentials);
+    this.credentials$.next(auth.credentials);
     this.isLoggedIn$.next(true);
   }
 

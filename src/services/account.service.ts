@@ -54,17 +54,17 @@ class AccountServiceController extends RestService {
   }
 
   public set(user: IUser, assign = false) {
-    if (assign) {
-      const oldUser = this.account$.getValue();
-      if (oldUser) {
-        user = Object.assign(oldUser, user);
+      if (assign) {
+        const oldUser = this.account$.getValue();
+        if (oldUser) {
+          user = Object.assign(oldUser, user);
+        }
       }
-    }
-    const user$ = new User().deserialize(user);
-    StorageService.set('account', user$);
-    if (!ObjectCompare(this.account$.getValue(), user$)) {
-      this.account$.next(user$);
-    }
+      const user$ = new User().deserialize(user);
+      StorageService.set('account', user$);
+      if (!ObjectCompare(this.account$.getValue(), user$)) {
+        this.account$.next(user$);
+      }
   }
 
   public remove() {
