@@ -9,12 +9,12 @@ export const GetDomain = () => {
 }
 
 
-export const IsLoggedInGuard = () => {
+export const IsLoggedInGuard = (redirect = "/not-logged-in") => {
   const isLoggedIn = AuthService.isLoggedInValue(); // Replace this with actual login validation
   if (isLoggedIn) {
     return true;
   } else {
-    return {redirect: '/not-logged-in'}; // If a user is not logged in, they will be redirected to the /login page
+    return {redirect};
   }
 }
 
