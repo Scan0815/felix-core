@@ -156,7 +156,7 @@ export const FileStackServer = (fileStack: IFileStack) => {
 };
 
 export const FileStackCropper = async (file: Blob, orientation: number|null = null): Promise<any> => {
-  return ModalService.openModal('image-cropper', {
+  return ModalService.openModal('flx-image-cropper', {
     file,
     orientation
   });
