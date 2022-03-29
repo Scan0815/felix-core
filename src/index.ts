@@ -9,6 +9,8 @@ export {i18n,Locale, SetAllowedLanguage} from "./services/i18n.service";
 export {ObjectClean,ObjectArrayKeysJoin,ObjectCompare,ObjectIsEmpty,ObjectToUrlParamString} from "./helpers/object-utils";
 export {InitChunkUpload,UploadChunk} from "./helpers/upload-utils";
 export {Compress} from './helpers/image-utils';
+export {ConvertServerError, UniqueID, GeneratePassword,SnakeToCamel,FirstLetter} from './helpers/string-utils';
+
 
 export {Credentials} from './interfaces/credentials';
 export {FileStack} from './interfaces/filestack';
