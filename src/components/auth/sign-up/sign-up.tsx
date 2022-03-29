@@ -9,21 +9,16 @@ import {
   Prop,
   State
 } from '@stencil/core';
-import {FileStackCropper} from '../../../helpers/file-stack-utils';
-import {OverlayEventDetail} from '@ionic/core';
-import {ITransfer, Transfer} from '../../../interfaces/transfer';
+import {ITransfer} from '../../../interfaces/transfer';
 import {IRegister, User, UserRegisterAllowedKeys} from '../../../interfaces/user';
-import {Credentials} from '../../../interfaces/credentials';
-import {InitChunkUpload} from '../../../helpers/upload-utils';
-import {Compress} from '../../../helpers/image-utils';
 import {ConvertServerError} from '../../../helpers/string-utils';
 import {Subscription} from "rxjs";
-import {SetupService} from "../../../services/setup.service";
 import {first} from "rxjs/operators";
 import {AuthService} from "../../../services/auth.service";
 import {StorageService} from "../../../services/storage.service";
 import {ToastService} from "../../../services/toast.service";
 import {AccountService} from "../../../services/account.service";
+import {IFileStack} from "../../../interfaces/filestack";
 
 const i18n = {
   "signUp": "Create account",
@@ -116,22 +111,8 @@ export class SignUp implements ComponentInterface {
   }
 
   async selected(event:CustomEvent) {
-    const file = event.detail[0];
     this.spinner = true;
-    const avatarFile = await Compress(file, null, 1024);
-    if(avatarFile) {
-      const data: OverlayEventDetail = await FileStackCropper(avatarFile);
-      if (data) {
-        this.placeholder = URL.createObjectURL(data.data.blob);
-        this.files.add(new Transfer().deserialize({
-          file: avatarFile,
-          exIf: {
-            crop: data.data.cropperPosition,
-            categories: ['avatar']
-          }
-        }));
-      }
-    }
+    this.files = await AccountService.prepareAvatarUpload(event);
     this.spinner = false;
   }
 
@@ -149,7 +130,6 @@ export class SignUp implements ComponentInterface {
       StorageService.get("ext_id")
     ).pipe(first()).subscribe({
       next: async (authResponse) => {
-        setTimeout(async () => {
             this.signUpSuccess?.emit(true);
             this.signUpProgress?.emit(false);
           await ToastService.presentToast(
@@ -157,25 +137,18 @@ export class SignUp implements ComponentInterface {
             this.i18n.identifier.confirm.button,
             null,
             'success');
-        }, 200);
         setTimeout(() => {
           this.loadingByIndicator = [];
         }, 1000);
         if (this.files.size > 0) {
-          await InitChunkUpload(
-            `${SetupService.config?.REST_API}/user/${authResponse.user._id}/avatar`,
-            new Credentials().deserialize(StorageService.get('credentials')),
-            Array.from(this.files),
-            (response:any) => {
-              if (response.complete) {
-                const accountWithAvatar = new User().deserialize(
-                  Object.assign(authResponse.user, {
-                    avatar: response
-                  }));
-                AccountService.set(accountWithAvatar, true);
-                this.files.clear();
-              }
-            });
+         await AccountService.addToStorage("avatar", Array.from(this.files), (response: IFileStack) => {
+            const accountWithAvatar = new User().deserialize(
+              Object.assign(authResponse.user, {
+                avatar: response
+              }));
+            AccountService.set(accountWithAvatar, true);
+            this.files.clear();
+          })
         }
       }, error: (error) => {
           this.signUpSuccess?.emit(false);

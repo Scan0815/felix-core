@@ -4,11 +4,20 @@ import {BehaviorSubject, first, Observable, Subject} from 'rxjs';
 import {IUser, User, UserStatus} from '../interfaces/user';
 import {map} from 'rxjs/operators';
 import {AuthResponse} from '../interfaces/auth-response';
-import {ToastService} from './toast.service';
-import {AlertConfirm} from '../helpers/alert-utils';
 import {ObjectCompare} from '../helpers/object-utils';
 import {getCurrentLocale, i18n} from './i18n.service';
 import {LogoutErrorHandling} from '../helpers/router-utils';
+import {Compress} from "../helpers/image-utils";
+import {FileStackCropper} from "../helpers/file-stack-utils";
+import {ITransfer, Transfer} from "../interfaces/transfer";
+import {InitChunkUpload} from "../helpers/upload-utils";
+import {SetupService} from "./setup.service";
+import {Credentials} from "../interfaces/credentials";
+import {AlertConfirm} from "../helpers/alert-utils";
+import {ToastService} from "./toast.service";
+
+
+type StorageType = 'avatar'|'file-stack';
 
 class AccountServiceController extends RestService {
   public modalOpened = false;
@@ -89,6 +98,45 @@ class AccountServiceController extends RestService {
         });
     } else {
       return null;
+    }
+  }
+
+  public async prepareAvatarUpload(event: CustomEvent) : Promise<Set<ITransfer>>{
+    const file = event.detail[0];
+    const files: Set<ITransfer> = new Set();
+    const avatarFile = await Compress(file, null, 1024)
+          if(avatarFile) {
+            const data = await FileStackCropper(avatarFile);
+            if (data) {
+              files.add(new Transfer().deserialize({
+                file: avatarFile,
+                exIf: {
+                  crop: data.data.cropperPosition,
+                  categories: ['avatar']
+                }
+              }));
+            }
+          }
+    return files;
+  }
+
+
+
+  public async addToStorage(type:StorageType,transfer:ITransfer[] , complete?: any | undefined, progress?: any | undefined, error?: any | undefined){
+    if (transfer && transfer.length > 0) {
+      await InitChunkUpload(
+        `${SetupService.config?.REST_API}/user/${this.id()}/${type}`,
+        new Credentials().deserialize(StorageService.get('credentials')),
+        transfer,
+        (response) => {
+          if (response.complete) {
+            complete(response);
+          }
+        },(loaded:number, total:number) => {
+          progress(loaded / total);
+        }, (_error) => {
+          error(_error);
+        })
     }
   }
 

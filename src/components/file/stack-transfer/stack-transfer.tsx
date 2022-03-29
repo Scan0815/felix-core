@@ -1,16 +1,12 @@
 import {Component, ComponentInterface, Element, Event, EventEmitter, h, Method, Prop, State} from '@stencil/core';
 import {ITransfer} from '../../../interfaces/transfer';
-import {InitChunkUpload} from '../../../helpers/upload-utils';
-import {Credentials} from '../../../interfaces/credentials';
 import {FileStack, IFileStack} from '../../../interfaces/filestack';
 import {IUser} from '../../../interfaces/user';
 import {lastValueFrom, Observable} from 'rxjs';
 import {TransferService} from "../../../services/transfer.service";
-import {SetupService} from "../../../services/setup.service";
 import {i18n} from "../../../services/i18n.service";
 import {AccountService} from "../../../services/account.service";
 import {ModalService} from "../../../services/modal.service";
-import {StorageService} from "../../../services/storage.service";
 
 @Component({
   tag: 'flx-file-stack-transfer',
@@ -71,11 +67,7 @@ export class StackTransfer implements ComponentInterface {
     this.transfer = this.transfer.concat(transfer);
     this.transfer = [...this.transfer];
     this.uploadFinishedCount = this.transfer.length;
-    await InitChunkUpload(
-      `${SetupService.config?.REST_API}/user/${this.account?._id}/file-stack`,
-      new Credentials().deserialize(StorageService.get('credentials')),
-      transfer,
-      (response:any) => {
+    await AccountService.addToStorage("file-stack", transfer, (response:any) => {
         this.uploadResponseHandler(response)
       },
       (loaded:number, total:number) => {
