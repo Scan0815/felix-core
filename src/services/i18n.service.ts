@@ -6,11 +6,11 @@ let currentLocale = StorageService.get('locale');
 
 class I18n {
   translation:any= {};
-  d = (text:string) => {
+  d = (text:any) => {
     this.translation[allowedLanguage[0]] = text;
     return this;
   }
-  t = (lang:string, text:string) => {
+  t = (lang:string, text:any) => {
     this.translation[lang] = text;
     return this;
   }
@@ -64,6 +64,6 @@ export const getCurrentLocale = () => {
   return currentLocale;
 }
 
-export const i18n = (d:string) => {
+export const i18n = (d:any) => {
   return new I18n().d(d);
 }
