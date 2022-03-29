@@ -10,6 +10,7 @@ export {ObjectClean,ObjectArrayKeysJoin,ObjectCompare,ObjectIsEmpty,ObjectToUrlP
 export {InitChunkUpload,UploadChunk} from "./helpers/upload-utils";
 export {Compress} from './helpers/image-utils';
 
+export {Credentials} from './interfaces/credentials';
 export {FileStack} from './interfaces/filestack';
 export {UserStatus,User} from './interfaces/user';
 export {Avatar} from './interfaces/avatar';
