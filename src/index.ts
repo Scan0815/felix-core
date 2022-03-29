@@ -8,6 +8,7 @@ export {FileStackBlobToArrayBuffer,FileStackToPreviewUrl, GetThumbnailFromVideo,
 export {i18n,Locale, SetAllowedLanguage} from "./services/i18n.service";
 export {ObjectClean,ObjectArrayKeysJoin,ObjectCompare,ObjectIsEmpty,ObjectToUrlParamString} from "./helpers/object-utils";
 export {InitChunkUpload,UploadChunk} from "./helpers/upload-utils";
+export {Compress} from './helpers/image-utils';
 
 export {FileStack} from './interfaces/filestack';
 export {UserStatus,User} from './interfaces/user';

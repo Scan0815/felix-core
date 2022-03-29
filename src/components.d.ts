@@ -10,6 +10,7 @@ import { IRegister, IUser } from "./interfaces/user";
 import { IAvatar } from "./interfaces/avatar";
 import { IFilter } from "./interfaces/filter";
 import { IFileStack } from "./interfaces/filestack";
+import { CropType } from "croppie";
 export namespace Components {
     interface FlxAuthInfoItem {
         "color": IonicColor| undefined;
@@ -87,6 +88,20 @@ export namespace Components {
         "accept": string;
         "iconName"?: string;
     }
+    interface FlxImageCropper {
+        "boundary": null;
+        "displayFooter": boolean;
+        "displayHeader": boolean;
+        "displayIonContent": boolean;
+        "enableResize": boolean;
+        "enableZoom": boolean;
+        "enforceBoundary": boolean;
+        "file": Blob | undefined;
+        "getBlob": () => Promise<void>;
+        "minZoomImageWidth": boolean;
+        "orientation": number| undefined;
+        "viewPort": {width: number; height: number; type?: CropType};
+    }
 }
 declare global {
     interface HTMLFlxAuthInfoItemElement extends Components.FlxAuthInfoItem, HTMLStencilElement {
@@ -155,6 +170,12 @@ declare global {
         prototype: HTMLFlxFileUploadDraggableElement;
         new (): HTMLFlxFileUploadDraggableElement;
     };
+    interface HTMLFlxImageCropperElement extends Components.FlxImageCropper, HTMLStencilElement {
+    }
+    var HTMLFlxImageCropperElement: {
+        prototype: HTMLFlxImageCropperElement;
+        new (): HTMLFlxImageCropperElement;
+    };
     interface HTMLElementTagNameMap {
         "flx-auth-info-item": HTMLFlxAuthInfoItemElement;
         "flx-auth-login": HTMLFlxAuthLoginElement;
@@ -167,6 +188,7 @@ declare global {
         "flx-file-stack-video": HTMLFlxFileStackVideoElement;
         "flx-file-upload": HTMLFlxFileUploadElement;
         "flx-file-upload-draggable": HTMLFlxFileUploadDraggableElement;
+        "flx-image-cropper": HTMLFlxImageCropperElement;
     }
 }
 declare namespace LocalJSX {
@@ -178,6 +200,7 @@ declare namespace LocalJSX {
     interface FlxAuthLogin {
         "i18n"?: { login: string; identifier: { label: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; password: { label: string; forgot: string; errors: { required: string; minlen: string; email: string; exists: string; identical: string; noaccountfound: string; notvalid: string; }; }; };
         "mode"?: "md" | "ios";
+        "onLoginError"?: (event: CustomEvent<any>) => void;
         "onLoginProgress"?: (event: CustomEvent<any>) => void;
         "onLoginReset"?: (event: CustomEvent<any>) => void;
         "onLoginSuccess"?: (event: CustomEvent<any>) => void;
@@ -257,6 +280,20 @@ declare namespace LocalJSX {
         "onErrorAccepted"?: (event: CustomEvent<any>) => void;
         "onSelected"?: (event: CustomEvent<any>) => void;
     }
+    interface FlxImageCropper {
+        "boundary"?: null;
+        "displayFooter"?: boolean;
+        "displayHeader"?: boolean;
+        "displayIonContent"?: boolean;
+        "enableResize"?: boolean;
+        "enableZoom"?: boolean;
+        "enforceBoundary"?: boolean;
+        "file"?: Blob | undefined;
+        "minZoomImageWidth"?: boolean;
+        "onUpdateCrop"?: (event: CustomEvent<any>) => void;
+        "orientation"?: number| undefined;
+        "viewPort"?: {width: number; height: number; type?: CropType};
+    }
     interface IntrinsicElements {
         "flx-auth-info-item": FlxAuthInfoItem;
         "flx-auth-login": FlxAuthLogin;
@@ -269,6 +306,7 @@ declare namespace LocalJSX {
         "flx-file-stack-video": FlxFileStackVideo;
         "flx-file-upload": FlxFileUpload;
         "flx-file-upload-draggable": FlxFileUploadDraggable;
+        "flx-image-cropper": FlxImageCropper;
     }
 }
 export { LocalJSX as JSX };
@@ -286,6 +324,7 @@ declare module "@stencil/core" {
             "flx-file-stack-video": LocalJSX.FlxFileStackVideo & JSXBase.HTMLAttributes<HTMLFlxFileStackVideoElement>;
             "flx-file-upload": LocalJSX.FlxFileUpload & JSXBase.HTMLAttributes<HTMLFlxFileUploadElement>;
             "flx-file-upload-draggable": LocalJSX.FlxFileUploadDraggable & JSXBase.HTMLAttributes<HTMLFlxFileUploadDraggableElement>;
+            "flx-image-cropper": LocalJSX.FlxImageCropper & JSXBase.HTMLAttributes<HTMLFlxImageCropperElement>;
         }
     }
 }

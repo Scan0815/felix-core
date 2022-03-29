@@ -17,6 +17,7 @@
 
 | Event           | Description | Type               |
 | --------------- | ----------- | ------------------ |
+| `loginError`    |             | `CustomEvent<any>` |
 | `loginProgress` |             | `CustomEvent<any>` |
 | `loginReset`    |             | `CustomEvent<any>` |
 | `loginSuccess`  |             | `CustomEvent<any>` |
