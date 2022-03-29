@@ -62,15 +62,6 @@ class AuthServiceController extends RestService {
     );
   }
 
-  isLoggedInGuard = async (redirect = "/login") => {
-    const isLoggedIn = await lastValueFrom(AuthService.isLoggedIn); // Replace this with actual login validation
-    if (isLoggedIn) {
-      return true;
-    } else {
-      return { redirect }; // If a user is not logged in, they will be redirected to the /login page
-    }
-  }
-
   public resetPassword(identifier: string): Observable<any> {
     return this.create('/auth/resetPassword', {identifier, locale: getCurrentLocale()}).pipe(
       first(),
