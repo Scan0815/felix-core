@@ -14,7 +14,7 @@ class I18n {
     this.translation[lang] = text;
     return this;
   }
-  get = (key = null, replace?:{[key:string]:string}) => {
+  get = (key:string|null = null, replace?:{[key:string]:string}) => {
     let result: string;
     if (key) {
       result = this.translation[currentLocale][key]
