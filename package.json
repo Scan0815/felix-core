@@ -10,6 +10,9 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/felix-auth/felix-auth.esm.js",
+  "exports": {
+    "./config": "./dist/felix-auth/config/config.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Scan0815/felix-core.git"
