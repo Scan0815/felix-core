@@ -31,9 +31,6 @@ class AccountServiceController extends RestService {
     let account = StorageService.get('account');
     account = (account) ? new User().deserialize(account) : null;
     this.account$.next(account);
-    if (this.id()) {
-      this.sync();
-    }
   }
 
   public getAccount() {
