@@ -31,6 +31,5 @@ export const config: Config = {
     {
       type: 'dist-hydrate-script'
     },
-  ],
-  globalScript: 'src/global/felix-global.ts',
+  ]
 };
