@@ -10,8 +10,14 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/felix-auth/felix-auth.esm.js",
+  "typesVersions": {
+    "*": {
+      "config": ["dist/types/config/config.d.ts"],
+      "core": ["dist/types/interface.d.ts"]
+    }
+  },
   "exports": {
-    "./config": "./dist/felix-auth/config/config.js"
+    "./config": "./dist/config/config.js"
   },
   "repository": {
     "type": "git",
