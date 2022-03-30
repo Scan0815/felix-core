@@ -1,5 +1,6 @@
 //Helpers
 export {SuccessToast,ErrorToast,LoggedOutToast} from './helpers/default-toasts';
+export {initialize} from './global/felix-global';
 export {NotLoggedInAlert} from './helpers/default-alerts';
 export {IsLoggedInGuard,RouterNavigate,RouterCanNavGoBackThenGo,RouterErrorHandling,RouterGetUriParam} from './helpers/router-utils';
 export {AlertConfirm,Alert} from './helpers/alert-utils';
