@@ -1,4 +1,6 @@
 //Interfaces
+
+export {config} from './config/config';
 export * from './index';
 export * from './components';
 export {IUser,IRegister} from './interfaces/user';
