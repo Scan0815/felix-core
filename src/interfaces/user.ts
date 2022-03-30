@@ -47,6 +47,7 @@ export interface IUser {
   following_count?: number|undefined;
   activity_count?: number|undefined;
   follow_user_ids?: string[]|undefined;
+  notification_settings?: string[];
   bank_details?: IBankDetails|undefined;
   paypal?: IPayPal|undefined;
   personal_data?: IPersonalData|undefined;
@@ -72,6 +73,7 @@ export class User implements IUser, Deserializable {
   verification_status: UserVerificationStatus|undefined;
   fileStackWithPriceCount: number|undefined;
   file_stack_count?: number;
+  notification_settings?: string[];
   follower_count?: number;
   following_count?: number;
   activity_count?: number;
