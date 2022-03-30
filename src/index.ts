@@ -1,5 +1,11 @@
 //Helpers
-export {setupFelixCore} from './config/config';
+
+import {IEnv} from "./interfaces/env";
+export const setupFelixCore = (env:IEnv) => {
+  console.log('setUpFelixCore',env);
+  (window as any).Felix = {config: env};
+}
+
 export {SuccessToast,ErrorToast,LoggedOutToast} from './helpers/default-toasts';
 export {NotLoggedInAlert} from './helpers/default-alerts';
 export {IsLoggedInGuard,RouterNavigate,RouterCanNavGoBackThenGo,RouterErrorHandling,RouterGetUriParam} from './helpers/router-utils';
