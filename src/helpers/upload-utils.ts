@@ -37,6 +37,7 @@ export const CreateFileUpload = async (transfer: ITransfer) => {
 
   async function UploadOneFile(event: CustomEvent, transfer: ITransfer) {
     transfer.file = event.detail;
+    console.log('UploadOneFile',transfer);
     await AccountService.addToStorage('file-stack', [transfer]);
   }
 
