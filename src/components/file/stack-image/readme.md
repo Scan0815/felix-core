@@ -7,15 +7,15 @@
 
 ## Properties
 
-| Property           | Attribute           | Description | Type                                      | Default                                |
-| ------------------ | ------------------- | ----------- | ----------------------------------------- | -------------------------------------- |
-| `autoAspectRatio`  | `auto-aspect-ratio` |             | `boolean`                                 | `true`                                 |
-| `ext`              | `ext`               |             | `string`                                  | `'jpg'`                                |
-| `fileStack`        | --                  |             | `IFileStack \| undefined`                 | `undefined`                            |
-| `fileStackSize`    | --                  |             | `{ size: string; pixelRatio: string; }[]` | `[{size: '340xxx', pixelRatio: '1x'}]` |
-| `placeholder`      | `placeholder`       |             | `string \| undefined`                     | `undefined`                            |
-| `rootElement`      | --                  |             | `HTMLElement \| undefined`                | `undefined`                            |
-| `trackViewTimeout` | --                  |             | `null`                                    | `null`                                 |
+| Property           | Attribute            | Description | Type                                      | Default                                |
+| ------------------ | -------------------- | ----------- | ----------------------------------------- | -------------------------------------- |
+| `autoAspectRatio`  | `auto-aspect-ratio`  |             | `boolean`                                 | `true`                                 |
+| `ext`              | `ext`                |             | `string`                                  | `'jpg'`                                |
+| `fileStack`        | --                   |             | `IFileStack \| undefined`                 | `undefined`                            |
+| `fileStackSize`    | --                   |             | `{ size: string; pixelRatio: string; }[]` | `[{size: '340xxx', pixelRatio: '1x'}]` |
+| `placeholder`      | `placeholder`        |             | `string \| undefined`                     | `undefined`                            |
+| `rootElement`      | --                   |             | `HTMLElement \| undefined`                | `undefined`                            |
+| `trackViewTimeout` | `track-view-timeout` |             | `null \| number`                          | `null`                                 |
 
 
 ## Events

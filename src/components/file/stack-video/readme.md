@@ -21,7 +21,7 @@
 | `rootElement`      | --                   |             | `HTMLElement \| undefined` | `undefined`  |
 | `showControls`     | `show-controls`      |             | `boolean`                  | `false`      |
 | `srcVideo`         | `src-video`          |             | `string \| undefined`      | `undefined`  |
-| `trackViewTimeout` | --                   |             | `null`                     | `null`       |
+| `trackViewTimeout` | `track-view-timeout` |             | `null \| number`           | `null`       |
 | `volume`           | `volume`             |             | `number`                   | `0.7`        |
 
 

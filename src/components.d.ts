@@ -56,7 +56,7 @@ export namespace Components {
         "fileStackSize": { size: string, pixelRatio: string }[];
         "placeholder": string|undefined;
         "rootElement": HTMLElement | undefined;
-        "trackViewTimeout": null;
+        "trackViewTimeout": number|null;
     }
     interface FlxFileStackTransfer {
         "account": IUser|undefined;
@@ -76,7 +76,7 @@ export namespace Components {
         "showControls": boolean;
         "srcVideo": string|undefined;
         "switchMuteState": () => Promise<void>;
-        "trackViewTimeout": null;
+        "trackViewTimeout": number|null;
         "volume": number;
     }
     interface FlxFileUpload {
@@ -246,7 +246,7 @@ declare namespace LocalJSX {
         "onTrackViewImage"?: (event: CustomEvent<any>) => void;
         "placeholder"?: string|undefined;
         "rootElement"?: HTMLElement | undefined;
-        "trackViewTimeout"?: null;
+        "trackViewTimeout"?: number|null;
     }
     interface FlxFileStackTransfer {
         "account"?: IUser|undefined;
@@ -266,7 +266,7 @@ declare namespace LocalJSX {
         "rootElement"?: HTMLElement|undefined;
         "showControls"?: boolean;
         "srcVideo"?: string|undefined;
-        "trackViewTimeout"?: null;
+        "trackViewTimeout"?: number|null;
         "volume"?: number;
     }
     interface FlxFileUpload {
