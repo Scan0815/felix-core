@@ -35,10 +35,10 @@ export const CreateFileUpload = async (transfer: ITransfer) => {
   }
 }
 
-export async function UploadOneFile(event: CustomEvent, transfer: ITransfer) {
-  transfer.file = event.detail;
-  await AccountService.addToStorage('file-stack', [transfer]);
-}
+  async function UploadOneFile(event: CustomEvent, transfer: ITransfer) {
+    transfer.file = event.detail;
+    await AccountService.addToStorage('file-stack', [transfer]);
+  }
 
 export async function UploadChunk(url: string, credentials: Credentials, formData: FormData, chunkId: string, progressHandler: any) {
   return new Promise((resolve, reject) => {

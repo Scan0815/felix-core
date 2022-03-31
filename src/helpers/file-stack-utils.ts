@@ -50,7 +50,7 @@ export const GetThumbnailFromVideo = (videoSrc:string) => {
   return lastValueFrom(observer);
 };
 
-export const FileStackToPreviewUrl = (fileStack: IFileStack | IAvatar, size: string = '200x200', ext: string = 'jpg', placeholder: string = '') => {
+export const FileStackToPreviewUrl = (fileStack: IFileStack | IAvatar, size: string = '200x200', ext: string = 'jpg', placeholder: string = '', with_deleted: boolean  = false) => {
   if (fileStack && typeof fileStack !== 'undefined') {
     const params:any = [];
     if (fileStack.hasOwnProperty('purchased') && fileStack.purchased) {
@@ -64,6 +64,9 @@ export const FileStackToPreviewUrl = (fileStack: IFileStack | IAvatar, size: str
       && fileStack.hasOwnProperty('token')
       && fileStack.token.hasOwnProperty(size)) {
       params['token'] = fileStack.token[size];
+    }
+    if (with_deleted) {
+      params['with_deleted'] = true;
     }
     if (fileStack.hasOwnProperty('collectionId')) {
       return FileStackServer(fileStack) + '/preview/' + fileStack.collectionId + '/' + fileStack.code + '/' + fileStack._id + '/' + size + '.' + ext + ObjectToUrlParamString(params);
