@@ -15,15 +15,15 @@ export class StackVideo {
   @Prop() onlyPreview: boolean = false;
   @Prop({mutable: true}) mutedVideo: boolean = true;
   @Prop() showControls: boolean = false;
-  @Prop() trackViewTimeout = null;
+  @Prop() trackViewTimeout:number|null = null;
   @Prop() muteButton = false;
   @Prop() fullScreenButton = true;
   @Prop() autoAspectRatio = true;
-  @Prop() volume = 0.7;
+  @Prop() volume:number = 0.7;
   @Prop() rootElement: HTMLElement|undefined;
   @Prop({mutable: true}) preload = 'metadata';
   @State() progressBarValue = 0;
-  @State() addPlayButton = false;
+  @State() addPlayButton:boolean = false;
   @State() loading = false;
   @Element() el!: HTMLElement;
   @Event() trackViewVideo: EventEmitter|undefined;

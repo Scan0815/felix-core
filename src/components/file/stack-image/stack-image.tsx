@@ -9,8 +9,8 @@ import {IFileStack} from '../../../interfaces/filestack';
 })
 export class StackImage implements ComponentInterface {
 
-  @Prop() trackViewTimeout = null;
-  @Prop() autoAspectRatio = true;
+  @Prop() trackViewTimeout:number|null = null;
+  @Prop() autoAspectRatio:boolean = true;
   @Prop() fileStack: IFileStack | undefined;
   @Prop() rootElement: HTMLElement | undefined;
   @Prop() fileStackSize: { size: string, pixelRatio: string }[] = [{size: '340xxx', pixelRatio: '1x'}];
