@@ -21,7 +21,7 @@ export const CreateFileUpload = async (transfer: ITransfer) => {
       if (resolvedEl) {
         Object.assign(resolvedEl, {
           'accept': '*',
-          'multiple': true,
+          'multiple': false,
           'hidden': true
         });
         resolvedEl.addEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer))
