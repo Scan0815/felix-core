@@ -87,13 +87,14 @@ export const AddDays = (date:string, toDateFormat = 'YYYY-MM-DD', addValue:any, 
   return stillUtc.local().add(addValue, unit).format(toDateFormat);
 };
 
-export const GetStartOf = (unitOfTime: moment.unitOfTime.StartOf, date:moment.MomentInput, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
+export const GetStartOf = (unitOfTime: moment.unitOfTime.StartOf, date?:moment.MomentInput, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
   const stillUtc = moment.utc(date);
   return stillUtc.startOf(unitOfTime).format(toDateFormat);
 };
 
-export const GetEndOf = (unitOfTime:moment.unitOfTime.StartOf, date:moment.MomentInput, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
-  return moment(date).endOf(unitOfTime).format(toDateFormat);
+export const GetEndOf = (unitOfTime:moment.unitOfTime.StartOf, date?:moment.MomentInput, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
+  const stillUtc = moment.utc(date);
+  return stillUtc.endOf(unitOfTime).format(toDateFormat);
 };
 
 export const GetDateStartFormatSubtract = (amount:moment.DurationInputArg1, unit:moment.DurationInputArg2, unitOfTime:moment.unitOfTime.StartOf, date:moment.MomentInput, toDateFormat = 'YYYY-MM-DD HH:mm:ss') => {
