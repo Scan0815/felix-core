@@ -32,7 +32,7 @@ class I18n {
   }
 }
 
-export const SetAllowedLanguage = (allowed = []) => {
+export const SetAllowedLanguage = (allowed:string[] = []) => {
   allowedLanguage = [];
   allowed.forEach((lang) => {
     allowedLanguage.push(lang);
