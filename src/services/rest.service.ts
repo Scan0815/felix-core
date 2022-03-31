@@ -8,6 +8,7 @@ export type RestCache = "reload" | "no-store" | "no-cache" | "force-cache" | "de
 export abstract class RestService {
 
   private ownHeaders:{name : string, value:any}[] = [];
+  private totalCount: number|null = null;
 
   private headers: Headers = new Headers({
     'Content-Type': 'application/json',
@@ -22,6 +23,10 @@ export abstract class RestService {
 
   public setHeaders(ownHeaders:{name:string, value:any}[]){
     this.ownHeaders = ownHeaders;
+  }
+
+  public getTotalCount(){
+    return this.totalCount;
   }
 
   public setAuthHeader(credentials: ICredentials, ownHeaders?:{name : string, value:any}[]) {
@@ -115,6 +120,10 @@ export abstract class RestService {
   private fetch(request:any) {
     return new Observable(observable => {
       fetch(request).then(response => {
+        const totalCount = response.headers.get('X-Total-Count');
+        if(totalCount) {
+          this.totalCount = +totalCount;
+        }
         response.text().then(text => {
             let data;
             try {
