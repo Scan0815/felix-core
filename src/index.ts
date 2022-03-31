@@ -4,7 +4,7 @@ export {SuccessToast,ErrorToast,LoggedOutToast} from './helpers/default-toasts';
 export {NotLoggedInAlert} from './helpers/default-alerts';
 export {IsLoggedInGuard,RouterNavigate,RouterCanNavGoBackThenGo,RouterErrorHandling,RouterGetUriParam} from './helpers/router-utils';
 export {AlertConfirm,Alert} from './helpers/alert-utils';
-export {FileStackBlobToArrayBuffer,FileStackToPreviewUrl, GetThumbnailFromVideo,FileStackToUrl,FileStackToVideoUrl,BlobToImageDimension, FileStackCropper,FileStackGenerateFileFromExternalUrl} from './helpers/file-stack-utils';
+export {FileStackSec2human,FileStackBlobToArrayBuffer,FileStackToPreviewUrl, GetThumbnailFromVideo,FileStackToUrl,FileStackToVideoUrl,BlobToImageDimension, FileStackCropper,FileStackGenerateFileFromExternalUrl} from './helpers/file-stack-utils';
 export {i18n,Locale,getCurrentLocale, SetAllowedLanguage} from "./services/i18n.service";
 export {ObjectClean,ObjectArrayKeysJoin,ObjectCompare,ObjectIsEmpty,ObjectToUrlParamString} from "./helpers/object-utils";
 export {CreateFileUpload,InitChunkUpload,UploadChunk} from "./helpers/upload-utils";

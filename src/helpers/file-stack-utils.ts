@@ -5,6 +5,17 @@ import {IAvatar} from '../interfaces/avatar';
 import {ObjectToUrlParamString} from './object-utils';
 import {SetupService} from "../services/setup.service";
 
+export const FileStackSec2human = (seconds:number) => {
+  const dateObj = new Date(seconds * 1000);
+  //const hours = dateObj.getUTCHours();
+  const minutes = dateObj.getUTCMinutes();
+  seconds = dateObj.getSeconds();
+  //hours.toString().padStart(2, '0') + ':' +
+  return minutes.toString().padStart(2, '0') + ':' +
+    seconds.toString().padStart(2, '0');
+};
+
+
 export const GetThumbnailFromVideo = (videoSrc:string) => {
   const observer = new Observable<any>((observer) => {
     const video: any = document.createElement('video');
