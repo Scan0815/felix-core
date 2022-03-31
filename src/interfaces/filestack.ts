@@ -79,7 +79,9 @@ export interface IFileStack {
   height: number;
   extension?: string;
   user: IUser|null;
+  description?: string;
   crop?: ICrop;
+  categories?: string[];
   size?: number;
   base_price?: number;
   price_modification?: string;
@@ -116,7 +118,9 @@ export class FileStack implements Deserializable, IFileStack {
   width: number = 0;
   height: number = 0;
   extension?: string;
+  description?: string;
   crop?: ICrop;
+  categories?: string[];
   user: IUser|null = null;
   price?: number;
   size?: number;
