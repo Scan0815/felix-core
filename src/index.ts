@@ -10,6 +10,7 @@ export {ObjectClean,ObjectArrayKeysJoin,ObjectCompare,ObjectIsEmpty,ObjectToUrlP
 export {CreateFileUpload,InitChunkUpload,UploadChunk} from "./helpers/upload-utils";
 export {Compress} from './helpers/image-utils';
 export {ConvertServerError, UniqueID, GeneratePassword,SnakeToCamel,FirstLetter} from './helpers/string-utils';
+export {CssRgb,createIonColorClasses,CssInjectStyle,StringToColour} from './helpers/css-utils'
 
 export {Credentials} from './interfaces/credentials';
 export {FileStack} from './interfaces/filestack';
