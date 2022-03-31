@@ -45,6 +45,7 @@ Type: `Promise<void>`
 - ion-button
 - ion-label
 - ion-spinner
+- [flx-file-upload](../../file/upload)
 - ion-alert
 
 ### Graph
@@ -54,6 +55,7 @@ graph TD;
   flx-auth-login --> ion-button
   flx-auth-login --> ion-label
   flx-auth-login --> ion-spinner
+  flx-auth-login --> flx-file-upload
   flx-auth-login --> ion-alert
   flx-auth-info-item --> ion-item
   flx-auth-info-item --> ion-icon

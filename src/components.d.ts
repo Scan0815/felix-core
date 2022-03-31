@@ -83,6 +83,7 @@ export namespace Components {
         "accept": string;
         "capture": null;
         "multiple": boolean;
+        "select": () => Promise<void>;
     }
     interface FlxFileUploadDraggable {
         "accept": string;

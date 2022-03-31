@@ -1,4 +1,4 @@
-import {Component, Element, Event, EventEmitter, h, Host, Listen, Prop} from '@stencil/core';
+import {Component, Element, Event, EventEmitter, h, Host, Listen, Method, Prop} from '@stencil/core';
 
 @Component({
   tag: 'flx-file-upload',
@@ -13,6 +13,13 @@ export class Upload {
   @Event() selected: EventEmitter | undefined;
   @Element() el?: HTMLElement | undefined;
   private uploadElement: HTMLInputElement | undefined | null;
+
+  @Method()
+  async select(){
+    if(this.uploadElement) {
+      await this.uploadElement.click();
+    }
+  }
 
   @Listen('click', {passive: false})
   click(ev:Event) {

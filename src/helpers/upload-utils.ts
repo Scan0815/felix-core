@@ -1,20 +1,51 @@
 import {Credentials} from '../interfaces/credentials';
 import {ITransfer} from '../interfaces/transfer';
 import {UniqueID} from './string-utils';
+import {AccountService} from "../services/account.service";
 
-const ActiveUploadConnections:any = {};
+const ActiveUploadConnections: any = {};
 const BYTES_PER_CHUNK = 1024 * 1024 * 4;
 
 //const WAIT_TIME_TO_UPLOAD_AGAIN = 2000;
 let Loaded = 0;
 let Total = 0;
 
-export async function UploadChunk(url:string, credentials: Credentials, formData:FormData, chunkId:string, progressHandler:any) {
+export const CreateFileUpload = async (transfer: ITransfer) => {
+  let fileUpload: HTMLFlxFileUploadElement | null = document.querySelector('flx-file-upload');
+  if (!fileUpload) {
+    fileUpload = document.createElement('flx-file-upload');
+    const root = document.querySelector('app-root');
+    if (root && fileUpload) {
+      root.appendChild(fileUpload);
+      const resolvedEl = await fileUpload.componentOnReady();
+      if (resolvedEl) {
+        Object.assign(resolvedEl, {
+          'accept': '*',
+          'multiple': true,
+          'hidden': true
+        });
+        resolvedEl.addEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer))
+        await resolvedEl?.select();
+      }
+    }
+  } else {
+    fileUpload.removeEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer));
+    fileUpload.addEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer))
+    await fileUpload.select();
+  }
+}
+
+export async function UploadOneFile(event: CustomEvent, transfer: ITransfer) {
+  transfer.file = event.detail;
+  await AccountService.addToStorage('file-stack', [transfer]);
+}
+
+export async function UploadChunk(url: string, credentials: Credentials, formData: FormData, chunkId: string, progressHandler: any) {
   return new Promise((resolve, reject) => {
     const xhr = ActiveUploadConnections[chunkId] = new XMLHttpRequest();
     xhr.open("POST", url);
     xhr.setRequestHeader('Accept', 'application/json');
-    if(credentials.resource && credentials.token) {
+    if (credentials.resource && credentials.token) {
       xhr.setRequestHeader('x-auth-resource', credentials.resource);
       xhr.setRequestHeader('x-auth-token', credentials.token);
     }
@@ -57,7 +88,7 @@ export async function UploadChunk(url:string, credentials: Credentials, formData
   });
 }
 
-export async function InitChunkUpload(url:string,
+export async function InitChunkUpload(url: string,
                                       credentials: Credentials,
                                       transfers: ITransfer[],
                                       responseHandler: (response: any) => void | undefined,
@@ -66,10 +97,10 @@ export async function InitChunkUpload(url:string,
   Loaded = 0;
   Total = 0;
   let chunkCountOverAll = 0;
-  const chunkQueue:any = [];
+  const chunkQueue: any = [];
   const transfersArray = transfers;
   transfersArray.forEach((transfer, transferKey) => {
-    const blob:any = transfer.file;
+    const blob: any = transfer.file;
     const SIZE = blob.size;
     const chunkCount = Math.ceil(SIZE / BYTES_PER_CHUNK);
     for (let index = 0; index < chunkCount; index++) {
@@ -96,9 +127,9 @@ export async function InitChunkUpload(url:string,
     errorHandler);
 }
 
-export async function ProcessNextChunk(url:string,
+export async function ProcessNextChunk(url: string,
                                        credentials: Credentials,
-                                       chunkQueue:any,
+                                       chunkQueue: any,
                                        transfers: ITransfer[],
                                        responseHandler?: (response: any) => void | undefined,
                                        progressHandler?: (loaded: any, total: any) => void | undefined,
@@ -117,50 +148,50 @@ export async function ProcessNextChunk(url:string,
   const chunkQueueItem = chunkQueue.pop();
   const transferFile = transfers[chunkQueueItem.transferKey];
 
-  if(transferFile) {
+  if (transferFile) {
     const isFile = transferFile.hasOwnProperty('name');
     const chunk = transferFile.file && transferFile.file.slice(chunkQueueItem.start, chunkQueueItem.end);
     const formData: FormData = new FormData();
-    if(chunk) {
+    if (chunk) {
       formData.append('chunk', chunk, (isFile) ? transferFile?.file?.name : UniqueID());
     }
     formData.append('chunkSizeStart', chunkQueueItem.start.toString());
     formData.append('chunkSizeEnd', chunkQueueItem.end.toString());
     formData.append('chunkCount', chunkQueueItem.chunkCount.toString());
     formData.append('fileSize', chunkQueueItem.size.toString());
-    if(transferFile?.file?.type) {
+    if (transferFile?.file?.type) {
       formData.append('fileType', transferFile.file.type.toString());
     }
-    if(transferFile?.guid) {
+    if (transferFile?.guid) {
       formData.append('guid', transferFile.guid);
     }
-    if(transferFile?.transferId) {
+    if (transferFile?.transferId) {
       formData.append('transferId', transferFile.transferId);
     }
     if (transferFile?.exIf) {
       formData.append('exIf', JSON.stringify(transferFile.exIf));
     }
 
-  await UploadChunk(url, credentials, formData, chunkQueueItem.id, progressHandler)
-    .then((response: any) => {
-      ++Loaded;
-      if (responseHandler) {
-        responseHandler(response);
-      }
-      delete transferFile.exIf;
-    }).catch((error) => {
-      if (error?.hasOwnProperty('systemCode') && (
-        error.systemCode === 'inputdatanotvalid'
-        || error.systemCode === 'uploadexception')) {
-        if (errorHandler) {
-          errorHandler(error);
+    await UploadChunk(url, credentials, formData, chunkQueueItem.id, progressHandler)
+      .then((response: any) => {
+        ++Loaded;
+        if (responseHandler) {
+          responseHandler(response);
         }
-      } else {
-        if (errorHandler) {
-          errorHandler(null);
+        delete transferFile.exIf;
+      }).catch((error) => {
+        if (error?.hasOwnProperty('systemCode') && (
+          error.systemCode === 'inputdatanotvalid'
+          || error.systemCode === 'uploadexception')) {
+          if (errorHandler) {
+            errorHandler(error);
+          }
+        } else {
+          if (errorHandler) {
+            errorHandler(null);
+          }
         }
-      }
-    });
+      });
 
   }
   await ProcessNextChunk(url, credentials, chunkQueue, transfers, responseHandler, progressHandler, errorHandler);

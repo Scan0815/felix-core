@@ -45,6 +45,7 @@ Type: `Promise<void>`
 - ion-input
 - [flx-auth-info-item](../info-item)
 - ion-button
+- [flx-file-upload](../../file/upload)
 - ion-alert
 
 ### Graph
@@ -56,6 +57,7 @@ graph TD;
   flx-auth-reset-password --> ion-input
   flx-auth-reset-password --> flx-auth-info-item
   flx-auth-reset-password --> ion-button
+  flx-auth-reset-password --> flx-file-upload
   flx-auth-reset-password --> ion-alert
   ion-item --> ion-icon
   ion-item --> ion-ripple-effect

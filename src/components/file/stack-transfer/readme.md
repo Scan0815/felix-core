@@ -42,6 +42,7 @@ Type: `Promise<any>`
 - ion-icon
 - ion-progress-bar
 - ion-label
+- [flx-file-upload](../upload)
 - ion-alert
 
 ### Graph
@@ -53,6 +54,7 @@ graph TD;
   flx-file-stack-transfer --> ion-icon
   flx-file-stack-transfer --> ion-progress-bar
   flx-file-stack-transfer --> ion-label
+  flx-file-stack-transfer --> flx-file-upload
   flx-file-stack-transfer --> ion-alert
   ion-item --> ion-icon
   ion-item --> ion-ripple-effect
