@@ -22,6 +22,7 @@ export {MenuOption} from './interfaces/menu-option';
 export {MenuHeader} from './interfaces/menu-header';
 export {Transfer} from './interfaces/transfer';
 export {Role} from './interfaces/role';
+export {Icon} from './interfaces/icon';
 //Services
 export {SetupService} from "./services/setup.service";
 export {AccountService} from "./services/account.service";

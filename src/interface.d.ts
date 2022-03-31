@@ -8,7 +8,7 @@ export {IRole} from './interfaces/role';
 export {IEnv} from './interfaces/env';
 export {IMenuHeader} from './interfaces/menu-header';
 export {IMenuOption} from './interfaces/menu-option';
-export {Icon,IIcon} from './interfaces/icon';
+export {IIcon} from './interfaces/icon';
 export {IonicColor} from './interfaces/IonicColor';
 export {ITransfer} from './interfaces/transfer';
 export {ICredentials} from './interfaces/credentials';
