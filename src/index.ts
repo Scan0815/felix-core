@@ -32,5 +32,6 @@ export {AuthService} from "./services/auth.service";
 export {RestService, RestCache} from "./services/rest.service";
 export {ModalService} from "./services/modal.service";
 export {ModalMenuService} from "./services/modalMenu.service";
+export {PageProcessService} from "./services/pageProcess.service";
 
 export { Components, JSX } from './components';
