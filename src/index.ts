@@ -7,7 +7,7 @@ export {AlertConfirm,Alert} from './helpers/alert-utils';
 export {FileStackBlobToArrayBuffer,FileStackToPreviewUrl, GetThumbnailFromVideo,FileStackToUrl,FileStackToVideoUrl,BlobToImageDimension, FileStackCropper,FileStackGenerateFileFromExternalUrl} from './helpers/file-stack-utils';
 export {i18n,Locale,getCurrentLocale, SetAllowedLanguage} from "./services/i18n.service";
 export {ObjectClean,ObjectArrayKeysJoin,ObjectCompare,ObjectIsEmpty,ObjectToUrlParamString} from "./helpers/object-utils";
-export {InitChunkUpload,UploadChunk} from "./helpers/upload-utils";
+export {CreateFileUpload,InitChunkUpload,UploadChunk} from "./helpers/upload-utils";
 export {Compress} from './helpers/image-utils';
 export {ConvertServerError, UniqueID, GeneratePassword,SnakeToCamel,FirstLetter} from './helpers/string-utils';
 
