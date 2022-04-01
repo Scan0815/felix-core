@@ -126,14 +126,12 @@ class AccountServiceController extends RestService {
         new Credentials().deserialize(StorageService.get('credentials')),
         transfer,
         (response) => {
-          if (response.complete) {
+          if (response.complete && complete) {
             complete(response);
           }
-        },(loaded:number, total:number) => {
-          progress(loaded / total);
-        }, (_error) => {
-          error(_error);
-        })
+        },
+        progress,
+        error)
     }
   }
 
