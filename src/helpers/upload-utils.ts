@@ -1,5 +1,5 @@
 import {Credentials} from '../interfaces/credentials';
-import {ITransfer} from '../interfaces/transfer';
+import {ITransfer, Transfer} from '../interfaces/transfer';
 import {UniqueID} from './string-utils';
 import {AccountService} from "../services/account.service";
 
@@ -21,7 +21,7 @@ export const CreateFileUpload = async (transfer: ITransfer) => {
       if (resolvedEl) {
         Object.assign(resolvedEl, {
           'accept': '*',
-          'multiple': false,
+          'multiple': true,
           'hidden': true
         });
         resolvedEl.addEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer))
@@ -36,9 +36,13 @@ export const CreateFileUpload = async (transfer: ITransfer) => {
 }
 
   async function UploadOneFile(event: CustomEvent, transfer: ITransfer) {
-    transfer.file = event.detail;
-    console.log('UploadOneFile',transfer);
-    await AccountService.addToStorage('file-stack', [transfer]);
+    const files: FileList = event.detail;
+    const transfers = [];
+    for (let i = 0; i < files.length; i++) {
+      transfers.push(new Transfer().deserialize(Object.assign({file:files[i]},transfer)))
+    }
+    console.log('UploadOneFile',transfers);
+    await AccountService.addToStorage('file-stack', transfers);
   }
 
 export async function UploadChunk(url: string, credentials: Credentials, formData: FormData, chunkId: string, progressHandler: any) {
