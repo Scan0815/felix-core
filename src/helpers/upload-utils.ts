@@ -11,7 +11,7 @@ const BYTES_PER_CHUNK = 1024 * 1024 * 4;
 let Loaded = 0;
 let Total = 0;
 
-export const CreateFileUpload = async (transfer: ITransfer) => {
+export const CreateFileUpload = async (transfer: ITransfer, api: string|null|undefined = SetupService.config?.REST_API) => {
   let fileUpload: HTMLFlxFileUploadElement | null = document.querySelector('flx-file-upload.file-stack');
   if (!fileUpload) {
     fileUpload = document.createElement('flx-file-upload');
@@ -26,13 +26,13 @@ export const CreateFileUpload = async (transfer: ITransfer) => {
           'multiple': true,
           'hidden': true
         });
-        resolvedEl.addEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer))
+        resolvedEl.addEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer, api))
         await resolvedEl?.select();
       }
     }
   } else {
-    fileUpload.removeEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer));
-    fileUpload.addEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer))
+    fileUpload.removeEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer, api));
+    fileUpload.addEventListener('selected', event => UploadOneFile((event as CustomEvent), transfer, api))
     await fileUpload.select();
   }
 }
