@@ -7,6 +7,7 @@ import {TransferService} from "../../../services/transfer.service";
 import {i18n} from "../../../services/i18n.service";
 import {AccountService} from "../../../services/account.service";
 import {ModalService} from "../../../services/modal.service";
+import {SetupService} from "../../../services/setup.service";
 
 @Component({
   tag: 'flx-file-stack-transfer',
@@ -67,7 +68,9 @@ export class StackTransfer implements ComponentInterface {
     this.transfer = this.transfer.concat(transfer);
     this.transfer = [...this.transfer];
     this.uploadFinishedCount = this.transfer.length;
-    await AccountService.addToStorage("file-stack", transfer, (response:any) => {
+    await AccountService.addToStorage("file-stack", transfer,
+      SetupService.config?.REST_API,
+      (response:any) => {
         this.uploadResponseHandler(response)
       },
       (loaded:number, total:number) => {

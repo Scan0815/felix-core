@@ -2,6 +2,7 @@ import {Credentials} from '../interfaces/credentials';
 import {ITransfer, Transfer} from '../interfaces/transfer';
 import {UniqueID} from './string-utils';
 import {AccountService} from "../services/account.service";
+import {SetupService} from "../services/setup.service";
 
 const ActiveUploadConnections: any = {};
 const BYTES_PER_CHUNK = 1024 * 1024 * 4;
@@ -36,14 +37,13 @@ export const CreateFileUpload = async (transfer: ITransfer) => {
   }
 }
 
-  async function UploadOneFile(event: CustomEvent, transfer: ITransfer) {
+  async function UploadOneFile(event: CustomEvent, transfer: ITransfer, api: string|null|undefined = SetupService.config?.REST_API) {
     const files: FileList = event.detail;
     const transfers = [];
     for (let i = 0; i < files.length; i++) {
       transfers.push(new Transfer().deserialize(Object.assign({file:files[i]},transfer)))
     }
-    console.log('UploadOneFile',transfers);
-    await AccountService.addToStorage('file-stack', transfers);
+    await AccountService.addToStorage('file-stack', transfers, api);
   }
 
 export async function UploadChunk(url: string, credentials: Credentials, formData: FormData, chunkId: string, progressHandler: any) {

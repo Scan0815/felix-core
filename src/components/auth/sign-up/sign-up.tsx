@@ -19,6 +19,7 @@ import {StorageService} from "../../../services/storage.service";
 import {ToastService} from "../../../services/toast.service";
 import {AccountService} from "../../../services/account.service";
 import {IFileStack} from "../../../interfaces/filestack";
+import {SetupService} from "../../../services/setup.service";
 
 const i18n = {
   "signUp": "Create account",
@@ -141,7 +142,11 @@ export class SignUp implements ComponentInterface {
           this.loadingByIndicator = [];
         }, 1000);
         if (this.files.size > 0) {
-         await AccountService.addToStorage("avatar", Array.from(this.files), (response: IFileStack) => {
+         await AccountService.addToStorage(
+           "avatar",
+           Array.from(this.files),
+           SetupService.config?.REST_API,
+           (response: IFileStack) => {
             const accountWithAvatar = new User().deserialize(
               Object.assign(authResponse.user, {
                 avatar: response

@@ -11,10 +11,10 @@ import {Compress} from "../helpers/image-utils";
 import {FileStackCropper} from "../helpers/file-stack-utils";
 import {ITransfer, Transfer} from "../interfaces/transfer";
 import {InitChunkUpload} from "../helpers/upload-utils";
-import {SetupService} from "./setup.service";
 import {Credentials} from "../interfaces/credentials";
 import {AlertConfirm} from "../helpers/alert-utils";
 import {ToastService} from "./toast.service";
+import {SetupService} from "./setup.service";
 
 
 type StorageType = 'avatar'|'file-stack';
@@ -120,13 +120,14 @@ class AccountServiceController extends RestService {
 
 
   public async addToStorage(type:StorageType,
-                            transfer:ITransfer[] ,
+                            transfer:ITransfer[],
+                            api: string|null|undefined = SetupService.config?.REST_API,
                             complete?: any | undefined,
                             progress?: any | undefined,
                             error?: any | undefined){
     if (transfer && transfer.length > 0) {
       await InitChunkUpload(
-        `${SetupService.config?.REST_API}/user/${this.id()}/${type}`,
+        `${api}/user/${this.id()}/${type}`,
         new Credentials().deserialize(StorageService.get('credentials')),
         transfer,
         (response) => {
