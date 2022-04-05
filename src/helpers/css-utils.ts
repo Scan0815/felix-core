@@ -1,7 +1,7 @@
 import {IonicColor} from '../interfaces/IonicColor';
 
 export const CssRgb = (values:string[]|number[]) => {
-    return 'rgb(' + values.join(', ') + ')';
+    return 'rgb(' + values?.join(', ') + ')';
 };
 
 export const CssInjectStyle = (styleID:string, className:string, styleString: string) => {
