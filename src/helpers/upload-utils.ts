@@ -11,11 +11,12 @@ let Loaded = 0;
 let Total = 0;
 
 export const CreateFileUpload = async (transfer: ITransfer) => {
-  let fileUpload: HTMLFlxFileUploadElement | null = document.querySelector('flx-file-upload');
+  let fileUpload: HTMLFlxFileUploadElement | null = document.querySelector('flx-file-upload.file-stack');
   if (!fileUpload) {
     fileUpload = document.createElement('flx-file-upload');
     const root = document.querySelector('app-root');
     if (root && fileUpload) {
+      fileUpload.className="file-stack";
       root.appendChild(fileUpload);
       const resolvedEl = await fileUpload.componentOnReady();
       if (resolvedEl) {
