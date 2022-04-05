@@ -12,3 +12,4 @@ export {IIcon} from './interfaces/icon';
 export {IonicColor} from './interfaces/IonicColor';
 export {ITransfer} from './interfaces/transfer';
 export {ICredentials} from './interfaces/credentials';
+export {Deserializable} from './interfaces/deserialize';
