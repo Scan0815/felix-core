@@ -16,10 +16,10 @@ export class StackAvatar {
   @Prop() color: any = '#ffffff';
   @Prop() width: number = 200;
   @Prop() height: number = 200;
-  @Prop() placeholder: string|null = null;
+  @Prop() placeholder: string|undefined;
   @Prop() ext: string = 'jpg';
   @Prop() link: string|undefined;
-  @Prop() avatar: IAvatar|null = null;
+  @Prop() avatar: IAvatar|undefined;
 
   renderAvatar(styleNoAvatar:any, styleAvatar:any, fontSize:any) {
     const fileStackSize = [{size: (this.width * 2 + 'x' + this.height * 2), pixelRatio: '1x'}]
@@ -30,11 +30,11 @@ export class StackAvatar {
             <h2 class="ion-align-self-center">{FirstLetter(this.name)}</h2>
           </ion-text>
           : <div class="content-aspect">
-            <file-stack-image fileStack={this.avatar}
+            <flx-file-stack-image fileStack={this.avatar}
                               fileStackSize={fileStackSize}
                               ext={this.ext}
                               placeholder={this.placeholder}>
-            </file-stack-image>
+            </flx-file-stack-image>
           </div>
         }
       </ion-avatar>

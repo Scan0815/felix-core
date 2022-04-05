@@ -119,7 +119,11 @@ class AccountServiceController extends RestService {
 
 
 
-  public async addToStorage(type:StorageType,transfer:ITransfer[] , complete?: any | undefined, progress?: any | undefined, error?: any | undefined){
+  public async addToStorage(type:StorageType,
+                            transfer:ITransfer[] ,
+                            complete?: any | undefined,
+                            progress?: any | undefined,
+                            error?: any | undefined){
     if (transfer && transfer.length > 0) {
       await InitChunkUpload(
         `${SetupService.config?.REST_API}/user/${this.id()}/${type}`,

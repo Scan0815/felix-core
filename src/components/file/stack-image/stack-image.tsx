@@ -1,6 +1,7 @@
 import {Component, ComponentInterface, Element, Event, EventEmitter, h, Host, Prop, State, Watch} from '@stencil/core';
 import {FileStackToPreviewUrl} from '../../../helpers/file-stack-utils';
 import {IFileStack} from '../../../interfaces/filestack';
+import {IAvatar} from "../../../interfaces/avatar";
 
 @Component({
   tag: 'flx-file-stack-image',
@@ -11,7 +12,7 @@ export class StackImage implements ComponentInterface {
 
   @Prop() trackViewTimeout:number|null = null;
   @Prop() autoAspectRatio:boolean = true;
-  @Prop() fileStack: IFileStack | undefined;
+  @Prop() fileStack: IFileStack| IAvatar | undefined;
   @Prop() rootElement: HTMLElement | undefined;
   @Prop() fileStackSize: { size: string, pixelRatio: string }[] = [{size: '340xxx', pixelRatio: '1x'}];
   @Prop() placeholder: string|undefined;
