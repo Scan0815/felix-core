@@ -35,7 +35,7 @@ export namespace Components {
         "resetErrors": () => Promise<void>;
     }
     interface FlxFileStackAvatar {
-        "avatar": IAvatar|null;
+        "avatar": IAvatar|undefined;
         "background": any;
         "color": any;
         "ext": string;
@@ -43,7 +43,7 @@ export namespace Components {
         "imgTitle": string;
         "link": string|undefined;
         "name": string;
-        "placeholder": string|null;
+        "placeholder": string|undefined;
         "width": number;
     }
     interface FlxFileStackFilter {
@@ -52,7 +52,7 @@ export namespace Components {
     interface FlxFileStackImage {
         "autoAspectRatio": boolean;
         "ext": string;
-        "fileStack": IFileStack | undefined;
+        "fileStack": IFileStack| IAvatar | undefined;
         "fileStackSize": { size: string, pixelRatio: string }[];
         "placeholder": string|undefined;
         "rootElement": HTMLElement | undefined;
@@ -223,7 +223,7 @@ declare namespace LocalJSX {
         "onSignUpSuccess"?: (event: CustomEvent<any>) => void;
     }
     interface FlxFileStackAvatar {
-        "avatar"?: IAvatar|null;
+        "avatar"?: IAvatar|undefined;
         "background"?: any;
         "color"?: any;
         "ext"?: string;
@@ -231,7 +231,7 @@ declare namespace LocalJSX {
         "imgTitle"?: string;
         "link"?: string|undefined;
         "name"?: string;
-        "placeholder"?: string|null;
+        "placeholder"?: string|undefined;
         "width"?: number;
     }
     interface FlxFileStackFilter {
@@ -241,7 +241,7 @@ declare namespace LocalJSX {
     interface FlxFileStackImage {
         "autoAspectRatio"?: boolean;
         "ext"?: string;
-        "fileStack"?: IFileStack | undefined;
+        "fileStack"?: IFileStack| IAvatar | undefined;
         "fileStackSize"?: { size: string, pixelRatio: string }[];
         "onTrackViewImage"?: (event: CustomEvent<any>) => void;
         "placeholder"?: string|undefined;

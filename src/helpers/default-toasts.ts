@@ -9,21 +9,23 @@ export const LoggedOutToast = (message = 'You have been logged out because your 
     'danger');
 }
 
-export const SuccessToast = (message:string, duration:number|null = null) => {
+export const SuccessToast = (message:string, duration:number|null = null, position: 'top' | 'bottom' | 'middle' = 'top') => {
   return ToastService.presentToast(
     message,
     "Okay",
     duration,
-    'success'
+    'success',
+    position
   );
 }
 
-export const ErrorToast = (message:string, duration:number|null = null) => {
+export const ErrorToast = (message:string, duration:number|null = null, position: 'top' | 'bottom' | 'middle' = 'top') => {
   return ToastService.presentToast(
     message,
     'Okay',
     duration,
-    'danger'
+    'danger',
+    position
   );
 }
 
